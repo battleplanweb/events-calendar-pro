@@ -3,7 +3,7 @@
  * The Front End Countdown Widget View.
  *
  * @package Tribe\Events\Views\V2\Views\Widgets
- * @since TBD
+ * @since 5.3.0
  */
 
 namespace Tribe\Events\Pro\Views\V2\Views\Widgets;
@@ -16,7 +16,7 @@ use Tribe__Date_Utils as Dates;
 /**
  * Class Countdown_View
  *
- * @since   TBD
+ * @since   5.3.0
  *
  * @package Tribe\Events\Pro\Views\V2\Views\Widgets
  */
@@ -25,7 +25,7 @@ class Countdown_View extends \Tribe\Events\Views\V2\Views\Widgets\Widget_View {
 	/**
 	 * The slug for this view.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @var string
 	 */
@@ -34,7 +34,7 @@ class Countdown_View extends \Tribe\Events\Views\V2\Views\Widgets\Widget_View {
 	/**
 	 * Sets up the View repository arguments from the View context or a provided Context object.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param  Context|null $context A context to use to setup the args, or `null` to use the View Context.
 	 *
@@ -51,7 +51,7 @@ class Countdown_View extends \Tribe\Events\Views\V2\Views\Widgets\Widget_View {
 	/**
 	 * Overrides the base View method.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @return array<string,mixed> The Widget Countdown View template vars, modified if required.
 	 */
@@ -76,7 +76,7 @@ class Countdown_View extends \Tribe\Events\Views\V2\Views\Widgets\Widget_View {
 	/**
 	 * Calculates countdown data based on a provided event.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param WP_Post $event The event we're calculating for.
 	 *
@@ -124,7 +124,7 @@ class Countdown_View extends \Tribe\Events\Views\V2\Views\Widgets\Widget_View {
 	/**
 	 * Overrides the base method to return an empty array, since the widget will not use breadcrumbs.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @return array<array<string,string>> An empty array, the widget will not use breadcrumbs.
 	 */

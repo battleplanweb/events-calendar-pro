@@ -2,7 +2,7 @@
 /**
  * Countdown Widget
  *
- * @since   TBD
+ * @since   5.3.0
  *
  * @package Tribe\Events\Views\V2\Widgets
  */
@@ -17,7 +17,7 @@ use Tribe__Date_Utils as Dates;
 /**
  * Class for the Countdown Widget.
  *
- * @since   TBD
+ * @since   5.3.0
  *
  * @package Tribe\Events\Views\V2\Widgets
  */
@@ -238,7 +238,7 @@ class Widget_Countdown extends Widget_Abstract {
 	/**
 	 * Add full events countdown widget stylesheets to customizer styles array to check.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param array<string> $sheets Array of sheets to search for.
 	 *
@@ -261,6 +261,8 @@ class Widget_Countdown extends Widget_Abstract {
 		if ( tribe( Assets::class )->should_enqueue_full_styles() ) {
 			tribe_asset_enqueue( 'tribe-events-pro-widgets-v2-countdown-full' );
 		}
+
+		tribe_asset_enqueue( 'tribe-events-views-v2-manager' );
 	}
 
 	/**
@@ -302,7 +304,6 @@ class Widget_Countdown extends Widget_Abstract {
 	 */
 	protected function args_to_context( array $arguments, Context $context ) {
 		$alterations                      = parent::args_to_context( $arguments, $context );
-		$alterations['widget_tax_filter'] = false;
 		$alterations['widget_title']      = ! empty( $arguments['title'] ) ? $arguments['title'] : '';
 		$alterations['jsonld_enable']     = (int) tribe_is_truthy( $arguments['jsonld_enable'] );
 		$alterations['show_seconds']      = tribe_is_truthy( $arguments['show_seconds'] );
@@ -317,7 +318,7 @@ class Widget_Countdown extends Widget_Abstract {
 		/**
 		 * Applies a filter to the args to context.
 		 *
-		 * @since TBD
+		 * @since 5.3.0
 		 *
 		 * @param array<string,mixed> $alterations The alterations to make to the context.
 		 * @param array<string,mixed> $arguments   Current set of arguments.
@@ -330,7 +331,7 @@ class Widget_Countdown extends Widget_Abstract {
 	 * If none is passed it first looks for the next upcoming event
 	 * if no upcoming event is found, the last (most recent) event.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param null|int|WP_Post $event  The event ID or post object or `null` to use the global one.
 	 *

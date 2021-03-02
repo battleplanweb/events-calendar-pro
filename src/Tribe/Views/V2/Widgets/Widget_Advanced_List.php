@@ -225,9 +225,11 @@ class Widget_Advanced_List {
 	 * @return array<string,mixed> $alterations The alterations to make to the context.
 	 */
 	public function filter_args_to_context( $alterations, $arguments ) {
+		/* @var \Tribe\Events\Pro\Views\V2\Widgets\Taxonomy_Filter $taxonomy_filters */
+		$taxonomy_filters = tribe( 'pro.views.v2.widgets.taxonomy' );
+
 		$alterations['event_display']     = 'list';
 		$alterations['view']              = 'list';
-		$alterations['widget_tax_filter'] = true;
 
 		$alterations['widget_list_display'] = [
 			'cost'      => tribe_is_truthy( $arguments['cost'] ),
@@ -243,7 +245,7 @@ class Widget_Advanced_List {
 
 		// Handle tax filters.
 		if ( ! empty( $arguments['filters'] ) ) {
-			$alterations            = array_merge( $alterations, tribe( 'pro.views.v2.widgets.taxonomy' )->set_taxonomy_args( $arguments['filters'], $arguments['operand'] ) );
+			$alterations            = array_merge( $alterations, $taxonomy_filters->set_taxonomy_args( $arguments['filters'], $arguments['operand'] ) );
 			$alterations['operand'] = $arguments['operand'];
 		}
 

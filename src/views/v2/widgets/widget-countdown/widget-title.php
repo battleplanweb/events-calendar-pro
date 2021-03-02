@@ -9,13 +9,13 @@
  *
  * @link https://evnt.is/1aiy
  *
- * @version TBD
+ * @version 5.3.0
  *
  * @var string $widget_title The User-supplied widget title.
  */
 ?>
 <header class="tribe-events-widget-countdown__header">
-	<h3 class="tribe-events-widget-countdown__header-title tribe-common-h6 tribe-common-h--alt">
+	<h2 class="tribe-events-widget-countdown__header-title tribe-common-h6 tribe-common-h--alt">
 		<?php echo esc_html( $widget_title ); ?>
-	</h3>
+	</h2>
 </header>

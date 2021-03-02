@@ -71,7 +71,7 @@ $venue = $event->venues[0];
 				|| ( ! empty( $venue->zip ) && ! empty( $display['zip'] ) )
 			) :
 			?>
-				<div class="tribe-events-widget-events-list__event-venue-address-">
+				<div class="tribe-events-widget-events-list__event-venue-address-larger-areas">
 					<?php if ( ! empty( $venue->city ) && ! empty( $display['city'] ) ) : ?>
 						<span class="tribe-events-widget-events-list__event-venue-address-city">
 							<?php echo esc_html( $venue->city ); ?>

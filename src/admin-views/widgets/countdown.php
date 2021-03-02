@@ -2,19 +2,19 @@
 /**
  * Admin View: Countdown Widget
  *
- * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/admin-views/widgets/countdown.php
+ * Administration Views cannot be overwritten by default from your theme.
  *
  * See more documentation about our views templating system.
  *
  * @link    http://m.tri.be/1aiy
  *
- * @var Widget_Abstract $widget_obj   An instance of the widget abstract.
- * @var array<array,mixed>    $admin_fields An array of admin fields to display in the widget form.
+ * @var \Tribe__Template $this Instance of the template including this file.
  *
- * @version TBD
+ * @since 5.2.0 Introduced.
+ * @since 5.3.0 Makes use of common form component.
+ *
+ * @version 5.3.0
+ *
  */
 
-foreach ( $admin_fields as $field ) {
-	$this->template( "widgets/components/{$field['type']}", $field );
-}
+$this->template( 'widgets/components/form' );

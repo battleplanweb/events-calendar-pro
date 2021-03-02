@@ -39,7 +39,7 @@ class Featured_Title {
 		if ( $context->is( 'featured' ) ) {
 			return sprintf(
 				/* translators: %s: events label plural */
-				_x( 'Featured %s', 'featured events title', 'the-events-calendar' ),
+				_x( 'Featured %s', 'featured events title', 'tribe-events-calendar-pro' ),
 				$label
 			);
 		}

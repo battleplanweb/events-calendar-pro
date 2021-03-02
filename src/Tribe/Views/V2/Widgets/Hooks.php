@@ -19,6 +19,9 @@ namespace Tribe\Events\Pro\Views\V2\Widgets;
 
 use \Tribe\Events\Pro\Views\V2\Widgets\Admin_Template as Admin_Template;
 use Tribe\Events\Views\V2\View_Interface;
+use Tribe\Events\Views\V2\Views\Widgets\Widget_View;
+use Tribe\Events\Views\V2\Widgets\Widget_Abstract;
+
 /**
  * Class Hooks.
  *
@@ -110,6 +113,11 @@ class Hooks extends \tad_DI52_ServiceProvider {
 			'wp_ajax_tribe_widget_dropdown_events',
 			[ $this, 'ajax_get_events' ]
 		);
+
+		add_action(
+			'wp_ajax_tribe_widget_dropdown_venues',
+			[ $this, 'ajax_get_venues' ]
+		);
 	}
 
 	/**
@@ -119,7 +127,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 */
 	protected function add_filters() {
 		// Setup the Advanced List Widget by filtering the The Events Calendar List Widget.
-		add_filter( 'tribe_events_views_v2_view_widget-events-list_repository_args', [ $this, 'filter_list_widget_repository_args' ], 10, 2 );
+		add_filter( 'tribe_events_views_v2_view_repository_args', [ $this, 'filter_widget_recurrence_repository_args' ], 10, 2 );
 		add_filter( 'tribe_widget_tribe_events_list_widget_default_arguments', [ $this, 'filter_list_widget_default_arguments' ] );
 		add_filter( 'tribe_widget_tribe_events_list_widget_admin_fields', [ $this, 'filter_list_widget_admin_fields' ] );
 		add_filter( 'tribe_widget_tribe_events_list_widget_updated_instance', [ $this, 'filter_list_widget_updated_instance' ], 10, 2 );
@@ -127,9 +135,10 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		add_filter( 'tribe_events_views_v2_list_widget_template_vars', [ $this, 'filter_list_widget_template_vars' ], 10, 2 );
 		add_filter( 'tribe_events_views_v2_view_widget-events-list_template_vars', [ $this, 'filter_list_widget_template_vars' ], 10, 2 );
 		add_filter( 'tribe_events_views_v2_widget_field_data', [ $this, 'filter_taxonomy_filters_field_data' ], 10, 3 );
-		add_filter( 'tribe_events_views_v2_widget_repository_args', [ $this, 'filter_repository_taxonomy_args' ], 10, 2 );
-		add_filter( 'tribe_repository_events_query_args', [ $this, 'filter_repository_query_taxonomy_args' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_widget_repository_args', [ $this, 'filter_repository_taxonomy_args' ], 10, 3 );
 		add_filter( 'tribe_customizer_inline_stylesheets', [ $this, 'filter_add_full_stylesheet_to_customizer' ], 12, 2 );
+		// We don't use icons on the countdown widget, so no VE styles necessary.
+		add_filter( 'tribe-events-virtual-widgets-v2-widget-countdown-should-enqueue-assets', '__return_false' );
 	}
 
 	/**
@@ -144,6 +153,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	public function deregister_v1_widgets( $widgets ) {
 		unset( $widgets['Tribe__Events__Pro__Advanced_List_Widget'] );
 		unset( $widgets['Tribe__Events__Pro__Countdown_Widget'] );
+		unset( $widgets['Tribe__Events__Pro__Venue_Widget'] );
 
 		return $widgets;
 	}
@@ -160,6 +170,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	public function unregister_v1_widgets( $widgets ) {
 		$widgets[] = 'Tribe__Events__Pro__Advanced_List_Widget';
 		$widgets[] = 'Tribe__Events__Pro__Countdown_Widget';
+		$widgets[] = 'Tribe__Events__Pro__Venue_Widget';
 
 		return $widgets;
 	}
@@ -167,12 +178,23 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	/**
 	 * Creates the select2 event dropdown for widgets.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @return string The HTML to display.
 	 */
 	public function ajax_get_events() {
 		return $this->container->make( Ajax::class )->get_events();
+	}
+
+	/**
+	 * Creates the select2 venue dropdown for widgets.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @return array The array of venues.
+	 */
+	public function ajax_get_venues() {
+		return $this->container->make( Ajax::class )->get_venues();
 	}
 
 	/* ADVANCED LIST WIDGET HOOKS */
@@ -181,9 +203,9 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string        $file      Complete path to include the PHP File.
-	 * @param array<string> $name      Template name.
-	 * @param self          $template  Current instance of the Tribe__Template.
+	 * @param string             $file      Complete path to include the PHP File.
+	 * @param array<string>      $name      Template name.
+	 * @param \Tribe__Template   $template  Current instance of the Tribe__Template.
 	 */
 	public function widget_events_list_event_meta_cost( $file, $name, $template ) {
 		$this->container->make( Widget_Advanced_List::class )->render_event_cost( $template );
@@ -194,9 +216,9 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string        $file      Complete path to include the PHP File.
-	 * @param array<string> $name      Template name.
-	 * @param self          $template  Current instance of the Tribe__Template.
+	 * @param string             $file      Complete path to include the PHP File.
+	 * @param array<string>      $name      Template name.
+	 * @param \Tribe__Template   $template  Current instance of the Tribe__Template.
 	 */
 	public function widget_events_list_event_meta_venue( $file, $name, $template ) {
 		$this->container->make( Widget_Advanced_List::class )->render_event_venue( $template );
@@ -207,9 +229,9 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string        $file      Complete path to include the PHP File.
-	 * @param array<string> $name      Template name.
-	 * @param self          $template  Current instance of the Tribe__Template.
+	 * @param string             $file      Complete path to include the PHP File.
+	 * @param array<string>      $name      Template name.
+	 * @param \Tribe__Template   $template  Current instance of the Tribe__Template.
 	 */
 	public function widget_events_list_event_meta_organizers( $file, $name, $template ) {
 		$this->container->make( Widget_Advanced_List::class )->render_event_organizers( $template );
@@ -220,9 +242,9 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string $file      Complete path to include the PHP File.
-	 * @param array  $name      Template name.
-	 * @param self   $template  Current instance of the Tribe__Template.
+	 * @param string             $file      Complete path to include the PHP File.
+	 * @param array<string>      $name      Template name.
+	 * @param \Tribe__Template   $template  Current instance of the Tribe__Template.
 	 */
 	public function widget_events_list_event_recurring_icon( $file, $name, $template ) {
 		$this->container->make( Widget_Advanced_List::class )->render_event_recurring_icon( $template );
@@ -251,7 +273,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @param View_Interface  $view           Which view we are using the template on.
 	 */
 	public function widget_events_countdown_after_enqueue_assets( $should_enqueue, $context, $view ) {
-		$this->container->make( Widget_Countdown::class )->enqueue_assets( $should_enqueue, $context, $view );
+		$this->container->make( Widget_Countdown::class )->enqueue_assets( $context, $view );
 	}
 
 	/**
@@ -313,7 +335,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param array<string,mixed> $template_vars The updated instance of the widget.
+	 * @param array<string,mixed> $template_vars  The updated instance of the widget.
 	 * @param View_Interface      $view_interface The current view template.
 	 *
 	 * @return array<string,mixed> $template_vars The updated instance of the widget.
@@ -327,45 +349,56 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param array<string,mixed> $args The unmodified arguments.
-	 * @param Tribe_Context        $context The context.
+	 * @deprecated 5.3.0 Deprecated in favor of one function for all widgets.
+	 * @see        filter_widget_recurrence_repository_args()
+	 *
+	 * @param array<string,mixed> $args    The unmodified arguments.
+	 * @param \Tribe__Context     $context The context.
 	 *
 	 * @return array<string,mixed> The arguments, ready to be set on the View repository instance.
 	 */
    public function filter_list_widget_repository_args( $args, $context ) {
-	   $hide_recurring = tribe_is_truthy( tribe_get_option( 'hideSubsequentRecurrencesDefault', false ) );
+		_deprecated_function( __METHOD__, '5.3.0', 'filter_widget_recurrence_repository_args' );
 
-	   $args['hide_subsequent_recurrences'] = $hide_recurring;
-
-	   if ( $hide_recurring ) {
-		   add_filter( 'tribe_repository_events_collapse_recurring_event_instances', '__return_true' );
-	   }
-
-	   return $args;
+		return $this->filter_widget_recurrence_repository_args( $args, $context );
 	}
 
 	/**
-	 * Adds the "chosen terms" display to the widget admin form.
+	 * Adds the (hide) Recurring event instances setting to the widget args.
 	 *
 	 * @since 5.2.0
+	 * @since 5.3.0   Apply to all widgets.
 	 *
-	 * @param array<string,mixed> $field      The info for the field we're rendering.
-	 * @param obj                 $widget_obj The widget object.
+	 * @param array<string,mixed> $args    The unmodified arguments.
+	 * @param \Tribe__Context     $context The context.
+	 *
+	 * @return array<string,mixed> The arguments, ready to be set on the View repository instance.
 	 */
-	public function add_taxonomy_filters( $field, $widget_obj ) {
-		$this->container->make( Admin_Template::class )->template( 'widgets/components/taxonomy-filters', $field );
-	}
+	public function filter_widget_recurrence_repository_args( $args, $context ) {
+		if ( ! $context->get( 'widget' ) ) {
+			return $args;
+		}
 
-	/**
-	 * Adds the taxonomy input to the widget admin form.
-	 *
-	 * @since 5.2.0
-	 *
-	 * @param array<string,mixed> $field      The info for the field we're rendering.
-	 * @param obj                 $widget_obj The widget object.
-	 */
-	public function add_taxonomy_input( $field, $widget_obj ) {
-		$this->container->make( Taxonomy_Filter::class )->add_taxonomy_input( $field, $widget_obj, $this->container );
+		$hide_recurring = tribe_is_truthy( tribe_get_option( 'hideSubsequentRecurrencesDefault', false ) );
+
+		/**
+		 * Allows filtering recurrence display rules for widgets.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param boolean             $hide_recurring Whether to hide (true) or show (false) the subsequent recurrences of events.
+		 * @param array<string,mixed> $args           The unmodified arguments.
+		 * @param \Tribe__Context     $context        The context.
+		 */
+		$hide_recurring = apply_filters( 'tribe_widget_hide_subsequent_recurring_events', $hide_recurring, $args, $context );
+
+		$args['hide_subsequent_recurrences'] = $hide_recurring;
+
+		if ( $hide_recurring ) {
+			add_filter( 'tribe_repository_events_collapse_recurring_event_instances', '__return_true' );
+		}
+
+		return $args;
 	}
 
 	/**
@@ -375,7 +408,9 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @param array<string,mixed> $data       The field data we're editing.
 	 * @param array<string,mixed> $field_name The info for the field we're rendering.
-	 * @param obj                 $widget_obj The widget object.
+	 * @param Widget_Abstract     $widget_obj The widget object.
+	 *
+	 * @return array<string,mixed>
 	 */
 	public function filter_taxonomy_filters_field_data( $data, $field_name, $widget_obj ) {
 		return $this->container->make( Taxonomy_Filter::class )->add_taxonomy_filters_field_data( $data, $field_name, $widget_obj );
@@ -385,30 +420,16 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * Add some repository args pre-query.
 	 *
 	 * @since 5.1.1
+	 * @since 5.3.0 Include $widget_view param.
 	 *
-	 * @param array<string,mixed> $args        The arguments, ready to be set on the View repository instance.
-	 * @param Tribe_Context       $context The context to use to setup the args.
+	 * @param array<string,mixed> $args        The arguments to be set on the View repository instance.
+	 * @param \Tribe__Context     $context     The context to use to setup the args.
+	 * @param Widget_View         $widget_view Widget View being filtered.
 	 *
 	 * @return array<string,mixed> $args       The arguments, ready to be set on the View repository instance.
 	 */
-	public function filter_repository_taxonomy_args( $args, $context ) {
-		return $this->container->make( Taxonomy_Filter::class )->add_taxonomy_filters_repository_args( $args, $context );
-	}
-
-	/**
-	 * Undocumented function
-	 *
-	 * @since 5.1.1
-	 *
-	 * @param array<string,mixed> $query_args An array of the query arguments the query will be
-	 *                                         initialized with.
-	 * @param WP_Query            $query      The query object, the query arguments have not been parsed yet.
-	 * @param Tribe__Repository   $repository The repository instance.
-	 *
-	 * @return array<string,mixed> $query_args The array of the query arguments.
-	 */
-	public function filter_repository_query_taxonomy_args( $query_args, $query, $repository ) {
-		return $this->container->make( Taxonomy_Filter::class )->add_taxonomy_filters_repository_data( $query_args, $query, $repository );
+	public function filter_repository_taxonomy_args( $args, $context, $widget_view ) {
+		return $this->container->make( Taxonomy_Filter::class )->add_taxonomy_filters_repository_args( $args, $context, $widget_view );
 	}
 
 	/**

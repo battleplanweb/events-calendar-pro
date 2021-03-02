@@ -71,7 +71,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '5.2.2';
+		const VERSION = '5.3.0';
 
 		/**
 		 * The Events Calendar Required Version
@@ -219,29 +219,29 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		}
 
 		/**
-		 * AJAX handler for the Widget Term Select2
+		 * AJAX handler for the Widget Term Select2.
 		 *
 		 * @todo   We need to move this to use Tribe__Ajax__Dropdown class
 		 *
 		 * @return void
 		 */
 		public function ajax_widget_get_terms() {
-			$disabled = isset( $_POST['disabled'] ) ? $_POST['disabled'] : array();
-			$search = tribe_get_request_var( [ 'search', 'term' ], false );
+			$disabled = (array) tribe_get_request_var( 'disabled', [] );
+			$search   = tribe_get_request_var( [ 'search', 'term' ], false );
 
 			$taxonomies = get_object_taxonomies( Tribe__Events__Main::POSTTYPE, 'objects' );
 			$taxonomies = array_reverse( $taxonomies );
 
 			$results = [];
 			foreach ( $taxonomies as $tax ) {
-				$group = array(
+				$group = [
 					'text' => esc_attr( $tax->labels->name ),
-					'children' => array(),
+					'children' => [],
 					'tax' => $tax,
-				);
+				];
 
 				// echo sprintf( "<optgroup id='%s' label='%s'>", esc_attr( $tax->name ), esc_attr( $tax->labels->name ) );
-				$terms = get_terms( $tax->name, array( 'hide_empty' => false ) );
+				$terms = get_terms( $tax->name, [ 'hide_empty' => false ] );
 				if ( empty( $terms ) ) {
 					continue;
 				}
@@ -252,18 +252,18 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 						continue;
 					}
 
-					$group['children'][] = array(
+					$group['children'][] = [
 						'id' => esc_attr( $term->term_id ),
 						'text' => esc_html( $term->name ),
 						'taxonomy' => $tax,
 						'disabled' => in_array( $term->term_id, $disabled ),
-					);
+					];
 				}
 
 				$results[] = $group;
 			}
 
-			wp_send_json_success( array( 'results' => $results ) );
+			wp_send_json_success( [ 'results' => $results ] );
 		}
 
 		/**

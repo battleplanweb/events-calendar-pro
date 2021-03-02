@@ -9,19 +9,18 @@
  *
  * @link https://evnt.is/1aiy
  *
- * @version TBD
+ * @version 5.3.0
  *
  * @var WP_Post $event The event post object with properties added by the `tribe_get_event` function.
  *
  * @see tribe_get_event() For the format of the event object.
  */
 ?>
-<h4 class="tribe-common-h6 tribe-events-widget-countdown__event-title">
+<h3 class="tribe-common-h6 tribe-events-widget-countdown__event-title">
 	<a
 		class="tribe-common-anchor-thin tribe-events-widget-countdown__event-title-link"
 		href="<?php echo esc_url( $event->permalink ); ?>"
 	>
 		<?php echo esc_html( $event->title ); ?>
 	</a>
-</h4>
-
+</h3>

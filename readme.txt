@@ -4,8 +4,8 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, modern tribe, tribe, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 4.9.14
-Tested up to: 5.6.0
-Stable tag: 5.2.2
+Tested up to: 5.7.0
+Stable tag: 5.3.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -131,21 +131,24 @@ The plugin is produced by <a href="https://evnt.is/45">The Events Calendar</a>.
 = Current Contributors =
 
 <a href="https://profiles.wordpress.org/brianjessee">Brian Jessee</a>
+<a href="https://profiles.wordpress.org/mitogh">Crisoforo Gaspar</a>
 <a href="https://profiles.wordpress.org/geoffgraham">Geoff Graham</a>
 <a href="https://profiles.wordpress.org/bordoni">Gustavo Bordoni</a>
 <a href="https://profiles.wordpress.org/leahkoerper">Leah Koerper</a>
 <a href="https://profiles.wordpress.org/lucatume">Luca Tumedei</a>
 <a href="https://profiles.wordpress.org/borkweb">Matthew Batchelder</a>
 <a href="https://profiles.wordpress.org/neillmcshea">Neill McShea</a>
-<a href="https://profiles.wordpress.org/peterchester">Peter Chester</a>
-<a href="https://profiles.wordpress.org/roblagatta">Rob La Gatta</a>
-<a href="https://profiles.wordpress.org/reid.peifer">Reid Peifer</a>
-<a href="https://profiles.wordpress.org/shane.pearlman">Shane Pearlman</a>
-<a href="https://profiles.wordpress.org/camwyn">Stephen Page</a>
+<a href="https://profiles.wordpress.org/paulskim">Paul Kim</a>
+<a href="https://profiles.wordpress.org/camwynsp">Stephen Page</a>
+<a href="https://profiles.wordpress.org/vicskf">Victor Zarranz</a>
 <a href="https://profiles.wordpress.org/zbtirrell">Zachary Tirrell</a>
 
 = Past Contributors =
 
+<a href="https://profiles.wordpress.org/peterchester">Peter Chester</a>
+<a href="https://profiles.wordpress.org/roblagatta">Rob La Gatta</a>
+<a href="https://profiles.wordpress.org/reid.peifer">Reid Peifer</a>
+<a href="https://profiles.wordpress.org/shane.pearlman">Shane Pearlman</a>
 <a href="https://profiles.wordpress.org/barryhughes">Barry Hughes</a>
 <a href="https://profiles.wordpress.org/brook-tribe">Brook Harding</a>
 <a href="https://profiles.wordpress.org/cliffpaulick">Clifford Paulick</a>
@@ -205,8 +208,25 @@ Our Premium Plugins:
 
 == Changelog ==
 
+= [5.3.0] 2021-02-24 =
+
+* Version - Events Calendar PRO 5.3.0 is only compatible with The Events Calendar 5.4.0 and higher
+* Feature - Update the Featured Venue widget with a new template and styles. [ECP-530]
+* Fix - Compatibility with WordPress 5.7 and jQuery 3.5.X
+* Fix - Correct countdown widget event title being off to left when using Twenty Twenty theme. [ECP-487]
+* Fix - Recurring event instances setting was impacting all views when it should only limit instances in List, Day, Photo, and Map Views. [ECP-604]
+* Fix - Front-end recurring event instances toggle option was adding a toggle to Week View, but the toggle should only show on List, Day, Photo, and Map Views. [ECP-604]
+* Fix - Filter reset pagination params to include `hide_subsequent_recurrences` to prevent pagination from failing the first time [FBAR-222]
+* Fix - Countdown and Advanced List Widgets properly respect the Match All option for the updated Widgets. [ECP-486]
+* Fix - Prevent duplicated Taxonomy filters and field from showing up on Widgets Admin forms. [ECP-486]
+* Fix - PHP fixes around usage of `round()` on Distances to the Venue based on Search [FBAR-224]
+* Tweak - Add compatibility container to widgets to allow for a non-body target for compatibility classes.
+* Tweak - Move Administration views for Widget form fields, from `/src/admin-views/widgets/components` to `/src/admin-views/widgets/components/fields`. [ECP-486]
+* Tweak - Simplify `Views\V2\Widgets\Taxonomy_Filters` class to prevent complexity around the Taxonomy data and templates.
+
 = [5.2.2] 2021-01-28 =
 
+* Feature - Update the Countdown widget with a new template and styles. [ECP-530]
 * Feature - Add customizer support for custom location pins on map view when Views V2 is active. [TEC-3276]
 * Tweak - Change Hide Location Search helper text for v2 only. [ECP-488]
 * Fix - Correct override folder location in some week view template files

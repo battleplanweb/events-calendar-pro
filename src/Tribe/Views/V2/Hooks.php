@@ -108,12 +108,14 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		add_filter( 'tribe_events_pro_geocode_rewrite_rules', [ $this, 'filter_geocode_rewrite_rules' ], 10, 3 );
 		add_filter( 'tribe_context_locations', [ $this, 'filter_context_locations' ] );
 		add_filter( 'tribe_events_views_v2_view_all_breadcrumbs', [ $this, 'filter_view_all_breadcrumbs' ], 10, 2 );
+		add_filter( 'tribe_events_views_v2_view_page_reset_ignored_params', [ $this, 'filter_page_reset_ignored_params' ], 10, 2 );
 		add_filter( 'tribe_events_views_v2_view_repository_args', [ $this, 'filter_view_repository_args' ], 10, 2 );
 		add_filter( 'tribe_events_views_v2_view_venue_breadcrumbs', [ $this, 'filter_view_venue_breadcrumbs' ], 10, 2 );
 		add_filter( 'tribe_events_views_v2_view_organizer_breadcrumbs', [ $this, 'filter_view_organizer_breadcrumbs' ], 10, 2 );
 		add_filter( 'redirect_canonical', [ $this, 'filter_prevent_canonical_redirect' ] );
 
 		add_filter( 'tribe_events_views_v2_rest_params', [ $this, 'filter_rest_request_view_slug' ], 10, 2 );
+
 
 		add_filter( 'tribe_events_views_v2_view_url', [ $this, 'filter_shortcode_view_url' ], 10, 3 );
 		add_filter( 'tribe_events_views_v2_view_next_url', [ $this, 'filter_shortcode_view_url' ], 10, 3 );
@@ -387,6 +389,22 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		$view_filters = $this->container->make( View_Filters::class );
 
 		return $view_filters->filter_repository_args( $repository_args, $context );
+	}
+	/**
+	 * Filters the ignored params to add the `hide_subsequent_recurrences` item.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param array<string>      $arguments Which arguments we are ignoring.
+	 * @param View|null  $view      Current view that we are filtering.
+	 *
+	 * @return array Array of params with the hide_subsequent_recurrences added.
+	 */
+	public function filter_page_reset_ignored_params( array $arguments = [], View $view = null ) {
+		/** @var View_Filters $view_filters */
+		$view_filters = $this->container->make( View_Filters::class );
+
+		return $view_filters->add_recurrence_hide_to_page_reset_ignored_params( $arguments, $view );
 	}
 
 	/**
@@ -1034,7 +1052,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	/**
 	 * Filters the location pin on the map view.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param array          $template_vars The View template variables.
 	 * @param View_Interface $view          The current View instance.

@@ -54,20 +54,27 @@ class Tribe__Events__Pro__Shortcodes__Event_Countdown {
 		/**
 		 * Allows hot-swapping the countdown widget class for different versions of the widget.
 		 *
-		 * @since TBD
+		 * @since 5.3.0
 		 *
 		 * @param string              $widget_class The widget class name we want to implement.
 		 * @param array<string,mixed> $arguments    The widget arguments.
 		 */
 		$widget_class = apply_filters( 'tribe_events_pro_shortcodes_countdown_widget_class', Tribe__Events__Pro__Countdown_Widget::class, $this->arguments );
 
-		if ( Tribe__Events__Pro__Countdown_Widget::class === $widget_class ) {
+		$using_legacy_widget = Tribe__Events__Pro__Countdown_Widget::class === $widget_class;
+		if ( $using_legacy_widget ) {
 			Tribe__Events__Pro__Widgets::enqueue_calendar_widget_styles();
 		}
 
 		ob_start();
 
-		the_widget( $widget_class, $this->arguments, $this->arguments );
+		if ( ! $using_legacy_widget ) {
+			the_widget( $widget_class, $this->arguments, $this->arguments );
+		} else { ?>
+			<div class="widget-content">
+				<?php the_widget( $widget_class, $this->arguments, $this->arguments ); ?>
+			</div>
+		<?php }
 
 		$this->output = ob_get_clean();
 	}

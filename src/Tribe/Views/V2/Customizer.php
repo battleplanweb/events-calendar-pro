@@ -155,6 +155,13 @@ class Customizer {
 			';
 		}
 
+		if ( $customizer->has_option( $section->ID, 'accent_color' ) ) {
+			$css_template .= '
+			.tribe-events-widget .tribe-events-widget-featured-venue__view-more-link {
+				color: <%= global_elements.accent_color %>;
+			}';
+		}
+
 		if (
 			$customizer->has_option( $section->ID, 'background_color_choice' )
 			&& 'custom' === $customizer->get_option( [ $section->ID, 'background_color_choice' ] )

@@ -464,7 +464,7 @@ class Map_View extends View {
 	/**
 	 * Filters the location pin on the map view.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param array<string,mixed> $template_vars The View template variables.
 	 * @param View_Interface      $view          The current View instance.

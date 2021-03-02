@@ -165,7 +165,7 @@ class Tribe__Events__Pro__Geo_Loc {
 	 * Inject the GeoLoc settings into the general TEC settings screen
 	 *
 	 * @since 3.0
-	 * @since TBD Change tooltip text.
+	 * @since 5.3.0 Change tooltip text.
 	 *
 	 * @param $args
 	 * @param $id

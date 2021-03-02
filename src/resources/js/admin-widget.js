@@ -29,7 +29,7 @@
 		var $hidden = $wrapper.find( '.calendar-widget-added-filters' );
 
 		if ( $hidden.length ) {
-			var calendar_filters = $hidden.val() ? jQuery.parseJSON( $hidden.val() ) : new Object();
+			var calendar_filters = $hidden.val() ? JSON.parse( $hidden.val() ) : new Object();
 
 			var count = 0;
 			for ( var tax in calendar_filters ) {
@@ -310,19 +310,19 @@
 		}
 	};
 
-	$( document )
 	// Configure the Widgets by default
-		.ready( function ( event ) {
-			// Prevents problems on Customizer
-			if ( $( 'body' ).hasClass( 'wp-customizer' ) ) {
-				return;
-			}
+	$( function ( event ) {
+		// Prevents problems on Customizer
+		if ( $( 'body' ).hasClass( 'wp-customizer' ) ) {
+			return;
+		}
 
-			tribeWidget.showFilters;
+		tribeWidget.showFilters;
 
-			// This ensures that we set up the widgets that are already in place correctly
-			$( '.widget[id*="tribe-"]' ).each( tribeWidget.setup );
-		} )
+		// This ensures that we set up the widgets that are already in place correctly
+		$( '.widget[id*="tribe-"]' ).each( tribeWidget.setup );
+	} );
+	$( document )
 		.on( {
 			// On the Widget Actions, try to re-configure.
 			'widget-added widget-updated': function ( e, widget ) {
@@ -337,7 +337,7 @@
 			var $widget = $select.parents( '.widget[id*="tribe-"]' );
 			var $list = $widget.find( '.calendar-widget-filter-list' );
 			var $field = $widget.find( '.calendar-widget-added-filters' );
-			var values = $field.val() ? $.parseJSON( $field.val() ) : {};
+			var values = $field.val() ? JSON.parse( $field.val() ) : {};
 			var term = $select.val();
 			var disabled = $select.data( 'disabled' ) ? $select.data( 'disabled' ) : [];
 			var options = $select.data( 'lastOptions' );
@@ -422,7 +422,7 @@
 				$filters = $widget.find( '.calendar-widget-filters-container' ),
 				$list = $widget.find( '.calendar-widget-filter-list' ),
 				$field = $widget.find( '.calendar-widget-added-filters' ),
-				values = $field.val() ? $.parseJSON( $field.val() ) : {},
+				values = $field.val() ? JSON.parse( $field.val() ) : {},
 				termId = $link.data( 'term' ),
 				taxonomy = $link.data( 'tax' ),
 				disabled = $select.data( 'disabled' ) ? $select.data( 'disabled' ) : [];

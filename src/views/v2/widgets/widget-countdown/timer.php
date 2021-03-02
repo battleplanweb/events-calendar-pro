@@ -9,7 +9,7 @@
  *
  * @link https://evnt.is/1aiy
  *
- * @version TBD
+ * @version 5.3.0
  *
  * @var boolean $event_done     A boolean of whether the event has already started.
  * @var boolean $show_seconds   Whether the widget should display seconds in the countdown.

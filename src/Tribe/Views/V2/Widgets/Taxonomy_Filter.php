@@ -9,6 +9,10 @@
 
 namespace Tribe\Events\Pro\Views\V2\Widgets;
 
+use Tribe\Events\Views\V2\Views\Widgets\Widget_View;
+use Tribe\Events\Views\V2\Widgets\Widget_Abstract;
+use Tribe__Events__Main as TEC;
+
 /**
  * Class Taxonomy_Filter
  *
@@ -17,6 +21,33 @@ namespace Tribe\Events\Pro\Views\V2\Widgets;
  * @package Tribe\Events\Pro\Views\V2\Widgets
  */
 class Taxonomy_Filter {
+	/**
+	 * Match any operand.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @var string
+	 */
+	const OPERAND_OR = 'OR';
+
+	/**
+	 * Match all operand.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @var string
+	 */
+	const OPERAND_AND = 'AND';
+
+	/**
+	 * Default operand for taxonomy filters.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @var string
+	 */
+	const DEFAULT_OPERAND = self::OPERAND_OR;
+
 	/**
 	 * Get the admin structure for a widget taxonomy filter.
 	 *
@@ -43,12 +74,12 @@ class Taxonomy_Filter {
 							[
 								'type'         => 'radio',
 								'label'        => 'Match all',
-								'button_value' => 'AND',
+								'button_value' => static::OPERAND_AND,
 							],
 							[
 								'type'         => 'radio',
 								'label'        => 'Match any',
-								'button_value' => 'OR',
+								'button_value' => static::OPERAND_OR,
 							],
 						],
 					],
@@ -67,14 +98,14 @@ class Taxonomy_Filter {
 	 * Decodes and sets the taxonomy args in a format that WP can use.
 	 *
 	 * @since 5.2.0
-	 * @since TBD    Add $operand to handle Matching all.
+	 * @since 5.3.0    Add $operand to handle Matching all.
 	 *
 	 * @param string|array<string,mixed> $filters The current 'filter' arguments.
 	 * @param string                     $operand The current Operand that we will use to determine how to build the classes.
 	 *
 	 * @return array<string,mixed> $filters The clean and ready filters argument.
 	 */
-	public function set_taxonomy_args( $filters, $operand = 'OR' ) {
+	public function set_taxonomy_args( $filters, $operand = self::DEFAULT_OPERAND ) {
 		$filters = maybe_unserialize( $filters );
 
 		if ( is_string( $filters ) ) {
@@ -84,11 +115,9 @@ class Taxonomy_Filter {
 		// Remove empty elements from each sub-array, then from the top-level one.
 		$filters = array_filter( array_map( 'array_filter', (array) $filters ) );
 
-		if ( 'OR' === strtoupper( $operand ) ) {
+		if ( static::OPERAND_OR === strtoupper( $operand ) ) {
 			return $filters;
 		}
-
-
 
 		return $filters;
 	}
@@ -121,60 +150,38 @@ class Taxonomy_Filter {
 	/**
 	 * Parse and format the data for select2 fields.
 	 *
-	 * @since 5.2.0
+	 * @since 5.3.0
 	 *
-	 * @param array<string,mixed> $field      The data for the field we're rendering.
-	 * @param \WP_Widget          $widget_obj The widget object.
+	 * @param Widget_Abstract     $widget_obj The widget object.
 	 *
-	 * @return array<string,mixed> The modified field data.
+	 * @return string  Which terms are disabled for this widget.
 	 */
-	public function format_tax_data( $field, $widget_obj ) {
-		$field['widget_obj'] = $widget_obj;
-		$field['disabled']   = null;
+	public function get_disabled_terms_on_widget( $widget_obj ) {
 		$disabled            = [];
 
 		if ( ! ( isset( $widget_obj->number, $widget_obj->option_name ) && is_numeric( $widget_obj->number ) ) ) {
 			// Trust no one.
-			return $field;
+			return '';
 		}
 
 		// Hunt down the widget options.
 		$widgets_options = get_option( $widget_obj->option_name );
 
 		if ( ! isset( $widgets_options[ $widget_obj->number ]['filters'] ) ) {
-			return $field;
+			return '';
 		}
 
 		$tax_filters = json_decode( $widgets_options[ $widget_obj->number ]['filters'], true );
 
-		if ( empty( $tax_filters ) ) {
-			$field['disabled'] = $disabled;
-			return $field;
+		// Avoids warnings around array_values.
+		if ( ! is_array( $tax_filters ) ) {
+			return '';
 		}
 
 		// Populate the disables terms IDs.
 		$disabled = array_filter( array_merge( $disabled, ...array_values( $tax_filters ) ) );
 
-		// Convert to string for select2.
-		$disabled = '[' . implode( ',', $disabled ) . ']';
-
-		$field['disabled'] = $disabled;
-
-		return $field;
-	}
-
-	/**
-	 * Adds the taxonomy multiselect
-	 *
-	 * @since 5.2.0
-	 *
-	 * @param array<string,mixed> $field      The data for the field we're rendering.
-	 * @param \WP_Widget           $widget_obj The widget object.
-	 * @param \Tribe__Container    $container  The DI container.
-	 */
-	public function add_taxonomy_input( $field, $widget_obj, $container ) {
-		$data = $this->format_tax_data( $field, $widget_obj );
-		$container->make( Admin_Template::class )->template( 'widgets/components/taxonomy', $data );
+		return wp_json_encode( $disabled );
 	}
 
 	/**
@@ -184,7 +191,7 @@ class Taxonomy_Filter {
 	 *
 	 * @param array<string,mixed> $data The data for the field we're rendering.
 	 * @param string              $field_name The slug for the field.
-	 * @param obj                 $widget_obj The widget object.
+	 * @param Widget_Abstract     $widget_obj The widget object.
 	 *
 	 * @return array<string,mixed> The modified field data.
 	 */
@@ -254,58 +261,47 @@ class Taxonomy_Filter {
 	 * Add args before hading them off to the repository.
 	 *
 	 * @since 5.1.1
+	 * @since 5.3.0 Include $widget_view param.
 	 *
-	 * @param array<string,mixed> $args    The arguments to be set on the View repository instance.
-	 * @param Tribe_Context       $context The context to use to setup the args.
+	 * @param array<string,mixed> $args        The arguments to be set on the View repository instance.
+	 * @param \Tribe__Context     $context     The context to use to setup the args.
+	 * @param Widget_View         $widget_view Widget View being filtered.
 	 *
 	 * @return array<string,mixed> $args The arguments, ready to be set on the View repository instance.
 	 */
-	public function add_taxonomy_filters_repository_args( $args, $context ) {
-		if ( ! $context->get( 'widget_tax_filter' ) ) {
-			return $args;
-		}
+	public function add_taxonomy_filters_repository_args( $args, $context, $widget_view ) {
+		$args['operand'] = $context->get( 'operand', static::DEFAULT_OPERAND );
 
 		if ( ! empty( $context->get( 'post_tag' ) ) ) {
 			$args['post_tag'] = $context->get( 'post_tag' );
 		}
 
-		if ( ! empty( $context->get( 'operand' ) ) ) {
-			$args['operand'] = $context->get( 'operand' );
+		// Sets the relationship by default.
+		$tax_query = [
+			'relation' => $args['operand'],
+		];
+
+		// If we are dealing with a AND query we build manually.
+		if ( static::OPERAND_AND === $args['operand'] ) {
+			foreach( [ 'post_tag', TEC::TAXONOMY ] as $taxonomy ) {
+				if ( empty( $args[ $taxonomy ] ) ) {
+					continue;
+				}
+
+				foreach ( (array) $args[ $taxonomy ] as $term ) {
+					$tax_query[] = [
+						'taxonomy' => $taxonomy,
+						'field' => 'id',
+						'terms' => [ $term ],
+					];
+				}
+				unset( $args[ $taxonomy ] );
+			}
 		}
+
+		$args['tax_query'] = $tax_query;
+		unset( $args['operand'] );
 
 		return $args;
-	}
-
-	/**
-	 * Add repository args pre-query.
-	 *
-	 * @since 5.1.1
-	 *
-	 * @param array<string,mixed> $query_args An array of the query arguments the query will be
-	 *                                         initialized with.
-	 * @param WP_Query            $query      The query object, the query arguments have not been parsed yet.
-	 * @param Tribe__Repository   $repository The repository instance.
-	 *
-	 * @return array<string,mixed> $query_args The array of the query arguments.
-	 */
-	public function add_taxonomy_filters_repository_data( $query_args, $query, $repository ) {
-		if ( ! in_array( 'post_tag', $repository->taxonomies ) ) {
-			return $query_args;
-		}
-
-		if ( isset( $query_args['post_tag'] ) ) {
-			$query_args['tax_query']['post_tag_term_id_in'] = [
-				'taxonomy' => 'post_tag',
-				'field'    => 'term_id',
-				'terms'    => $query_args['post_tag'],
-				'operator' => 'IN',
-			];
-		}
-
-		if ( isset( $query_args['operand'] ) ) {
-			$query_args['tax_query']['relation'] = $query_args['operand'];
-		}
-
-		return $query_args;
 	}
 }
