@@ -7,6 +7,7 @@ Author: The Events Calendar
 Author URI: https://evnt.is/20
 Text Domain: tribe-events-calendar-pro
 License: GPLv2 or later
+Github Plugin URI: https://github.com/battleplanweb/events-calendar-pro
 */
 
 /*
