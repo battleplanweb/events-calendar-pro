@@ -348,7 +348,7 @@
 
 			var term_obj;
 
-			if ( null === values ) {
+			if ( null === values || 'object' !== typeof values ) {
 				values = {};
 			}
 
@@ -391,7 +391,6 @@
 				return;
 			}
 
-			tribeWidget.showFilters( e, $widget );
 			values[ term_obj.taxonomy.name ].push( term.id );
 			$field.val( JSON.stringify( values ) );
 
@@ -410,6 +409,7 @@
 
 			disabled.push( term_obj.id );
 			$select.data( 'disabled', disabled );
+			tribeWidget.showFilters( e, $widget );
 
 			// After all that remove the Opt
 			$select.val( '' );

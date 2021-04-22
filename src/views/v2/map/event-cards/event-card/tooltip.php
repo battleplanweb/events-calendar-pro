@@ -41,10 +41,10 @@ $classes['tribe-events-pro-map__event-tooltip--has-slider'] = $has_multiple_even
 	<div <?php tribe_classes( $classes ); ?>>
 		<?php if ( $has_multiple_events ) : ?>
 			<div
-				class="tribe-events-pro-map__event-tooltip-slider-container swiper-container"
+				class="tribe-events-pro-map__event-tooltip-slider-container tribe-swiper-container"
 				data-js="tribe-events-pro-map-event-tooltip-slider"
 			>
-				<div class="tribe-events-pro-map__event-tooltip-slider-wrapper swiper-wrapper tribe-common-g-row">
+				<div class="tribe-events-pro-map__event-tooltip-slider-wrapper tribe-swiper-wrapper tribe-common-g-row">
 
 					<?php $slide_index = 0; ?>
 					<?php foreach( $events as $tooltip_event ) : ?>
@@ -55,7 +55,7 @@ $classes['tribe-events-pro-map__event-tooltip--has-slider'] = $has_multiple_even
 						}
 						?>
 						<div
-							class="tribe-events-pro-map__event-tooltip-slide swiper-slide tribe-common-g-col"
+							class="tribe-events-pro-map__event-tooltip-slide tribe-swiper-slide tribe-common-g-col"
 							data-js="tribe-events-pro-map-event-tooltip-slide"
 							data-event-id="<?php echo esc_attr( $tooltip_event->ID ); ?>"
 							data-slide-index="<?php echo esc_attr( $slide_index ); ?>"

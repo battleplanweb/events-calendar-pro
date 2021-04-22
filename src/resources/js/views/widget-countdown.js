@@ -1,7 +1,7 @@
 /**
  * Makes sure we have all the required levels on the Tribe Object
  *
- * @since  TBD
+ * @since  5.4.0
  *
  * @type   {PlainObject}
  */
@@ -12,7 +12,7 @@ tribe.events.pro.widgets = tribe.events.pro.widgets || {};
 /**
  * Configures Views Object in the Global Tribe variable
  *
- * @since  TBD
+ * @since  5.4.0
  *
  * @type   {PlainObject}
  */
@@ -21,7 +21,7 @@ tribe.events.pro.widgets.countdown = {};
 /**
  * Initializes in a Strict env the code that manages the Event Views
  *
- * @since  TBD
+ * @since  5.4.0
  *
  * @param  {PlainObject} $   jQuery
  * @param  {PlainObject} obj tribe.events.pro.widgets.countdown
@@ -35,7 +35,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Selectors used for configuration and setup
 	 *
-	 * @since TBD
+	 * @since 5.4.0
 	 *
 	 * @type {PlainObject}
 	 */
@@ -53,7 +53,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Constants used for time.
 	 *
-	 * @since TBD
+	 * @since 5.4.0
 	 *
 	 * @type {PlainObject}
 	 */
@@ -66,7 +66,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Adds zero padding.
 	 *
-	 * @since TBD
+	 * @since 5.4.0
 	 *
 	 * @param {string} number Time unit string
 	 *
@@ -83,7 +83,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Decrements a given timer object and renders it to the appropriate div.
 	 *
-	 * @since TBD
+	 * @since 5.4.0
 	 *
 	 * @param {jQuery} $container jQuery object of widget container
 	 * @param {Timer}  timer      Instance of Timer
@@ -115,7 +115,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Set up the timer for the countdown widget.
 	 *
-	 * @since TBD
+	 * @since 5.4.0
 	 *
 	 * @param {jQuery} $container jQuery object of widget container
 	 * @param {Timer}  timer      Instance of Timer
@@ -130,7 +130,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Creates a new timer object.
 	 *
-	 * @since TBD
+	 * @since 5.4.0
 	 *
 	 * @param {number} seconds 	Seconds remaining
 	 * @param {Object} elements Object containing references to the timer's DOM elements
@@ -145,7 +145,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Setup the widget for views management
 	 *
-	 * @since TBD
+	 * @since 5.4.0
 	 *
 	 * @param  {jQuery}  $container jQuery object of widget container
 	 *
@@ -177,7 +177,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Initialize countdown widget JS
 	 *
-	 * @since  TBD
+	 * @since  5.4.0
 	 *
 	 * @param  {Event}   event      event object for 'afterSetup.tribeEvents' event
 	 * @param  {integer} index      jQuery.each index param from 'afterSetup.tribeEvents' event
@@ -197,7 +197,7 @@ tribe.events.pro.widgets.countdown = {};
 	/**
 	 * Handles the initialization of the manager when Document is ready.
 	 *
-	 * @since  TBD
+	 * @since  5.4.0
 	 *
 	 * @return {void}
 	 */

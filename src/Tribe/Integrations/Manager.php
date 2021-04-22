@@ -1,6 +1,7 @@
 <?php
 
 use Tribe\Events\Pro\Integrations\Elementor\Service_Provider as Elementor_Integration;
+use Tribe\Events\Pro\Integrations\Fusion\Service_Provider as Fusion_Integration;
 
 /**
  * Class Tribe__Events__Pro__Integrations__Manager
@@ -91,6 +92,7 @@ class Tribe__Events__Pro__Integrations__Manager {
 		$this->load_wpseo_integration();
 		$this->load_site_origin_integration();
 		$this->load_elementor_integration();
+		$this->load_fusion_integration();
 	}
 
 	/**
@@ -104,5 +106,18 @@ class Tribe__Events__Pro__Integrations__Manager {
 		}
 
 		tribe_register_provider( Elementor_Integration::class );
+	}
+
+	/**
+	 * Loads the Fusion integration if Fusion Core is currently active.
+	 *
+	 * @since 5.5.0
+	 */
+	public function load_fusion_integration() {
+		if ( ! defined( 'FUSION_CORE_VERSION' ) || empty( FUSION_CORE_VERSION ) ) {
+			return;
+		}
+
+		tribe_register_provider( Fusion_Integration::class );
 	}
 }

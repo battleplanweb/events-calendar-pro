@@ -31,21 +31,20 @@ class Ajax {
 		$selected = tribe_get_request_var( 'selected' );
 		$search   = tribe_get_request_var( 'search' );
 		$page     = ! empty( $search['page'] ) ? $search['page'] : 1;
+		$term     = ! empty( $search['term'] ) ? $search['term'] : '';
 
 		/* @var \Tribe__Ajax__Dropdown $dropdown  */
 		$dropdown = tribe( 'ajax.dropdown' );
-
-		$now  = Dates::build_date_object( tribe_context()->get( 'now', 'now' ) );
+		$now      = Dates::build_date_object( tribe_context()->get( 'now', 'now' ) );
 
 		// Determine the query with repository.
 		$events_repo = tribe_events()
 			->by( 'starts_after', $now->format( Dates::DBDATETIMEFORMAT ) )
-			->by( 'search', $search )
+			->by( 'search', $term )
 			->page( $page )
 			->order_by( [ 'event_date_utc' => 'ASC' ] );
 
-		$events = $events_repo->all();
-
+		$events         = $events_repo->all();
 		$has_pagination = count( $events ) < $events_repo->found();
 
 		// Include the formatted title into the object for each event, including the date.
@@ -80,21 +79,20 @@ class Ajax {
 		$selected = tribe_get_request_var( 'selected' );
 		$search   = tribe_get_request_var( 'search' );
 		$page     = ! empty( $search['page'] ) ? $search['page'] : 1;
+		$term     = ! empty( $search['term'] ) ? $search['term'] : '';
 
 		/* @var \Tribe__Ajax__Dropdown $dropdown  */
 		$dropdown = tribe( 'ajax.dropdown' );
 
 		// Determine the query with repository.
 		$venues_repo = tribe_venues()
-			->by( 'search', $search )
+			->by( 'search', $term )
 			->page( $page )
 			->order_by( [ 'post_title' => 'ASC' ] );
 
-		$venues = $venues_repo->all();
-
+		$venues         = $venues_repo->all();
 		$has_pagination = count( $venues ) < $venues_repo->found();
-
-		$results = $dropdown->format_posts_for_dropdown( $venues, $selected, $has_pagination );
+		$results        = $dropdown->format_posts_for_dropdown( $venues, $selected, $has_pagination );
 
 		// If none are selected, default to first one.
 		if ( empty( $selected ) ) {

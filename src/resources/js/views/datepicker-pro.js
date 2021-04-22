@@ -1,9 +1,10 @@
+/* globals tribe, jQuery */
 /**
  * Makes sure we have all the required levels on the Tribe Object
  *
  * @since 4.7.7
  *
- * @type   {PlainObject}
+ * @type   {Object}
  */
 tribe.events = tribe.events || {};
 tribe.events.views = tribe.events.views || {};
@@ -13,7 +14,7 @@ tribe.events.views = tribe.events.views || {};
  *
  * @since 4.7.9
  *
- * @type  {PlainObject}
+ * @type  {Object}
  */
 tribe.events.views.datepickerPro = {};
 
@@ -22,8 +23,8 @@ tribe.events.views.datepickerPro = {};
  *
  * @since 4.7.9
  *
- * @param  {PlainObject} $   jQuery
- * @param  {PlainObject} obj tribe.events.views.manager
+ * @param  {Object} $   jQuery
+ * @param  {Object} obj tribe.events.views.manager
  *
  * @return {void}
  */
@@ -36,7 +37,7 @@ tribe.events.views.datepickerPro = {};
 	 *
 	 * @since 4.7.9
 	 *
-	 * @type {PlainObject}
+	 * @type {Object}
 	 */
 	obj.selectors = {
 		datepickerDays: '.datepicker-days',
@@ -136,7 +137,7 @@ tribe.events.views.datepickerPro = {};
 	 *
 	 * @param  {Event}       event    event object for 'afterDatepickerDeinit.tribeEvents' event
 	 * @param  {jqXHR}       jqXHR    Request object
-	 * @param  {PlainObject} settings Settings that this request was made with
+	 * @param  {Object} settings Settings that this request was made with
 	 *
 	 * @return {void}
 	 */
@@ -155,7 +156,7 @@ tribe.events.views.datepickerPro = {};
 	 * @since  4.7.9
 	 *
 	 * @param  {Event}   event      event object for 'beforeDatepickerInit.tribeEvents' event
-	 * @param  {integer} index      jQuery.each index param from 'beforeDatepickerInit.tribeEvents' event
+	 * @param  {Integer} index      jQuery.each index param from 'beforeDatepickerInit.tribeEvents' event
 	 * @param  {jQuery}  $container jQuery object of view container
 	 * @param  {object}  data       data object passed from 'beforeDatepickerInit.tribeEvents' event
 	 *
@@ -183,7 +184,7 @@ tribe.events.views.datepickerPro = {};
 	 * @since  4.7.9
 	 *
 	 * @param  {Event}   event      event object for 'afterDatepickerInit.tribeEvents' event
-	 * @param  {integer} index      jQuery.each index param from 'afterDatepickerInit.tribeEvents' event
+	 * @param  {Integer} index      jQuery.each index param from 'afterDatepickerInit.tribeEvents' event
 	 * @param  {jQuery}  $container jQuery object of view container
 	 * @param  {object}  data       data object passed from 'afterDatepickerInit.tribeEvents' event
 	 *

@@ -9,11 +9,11 @@
 
 namespace Tribe\Events\Pro\Views\V2\Widgets;
 
-use Tribe\Events\Views\V2\Assets as TEC_Assets;
 use Tribe\Events\Views\V2\View_Interface;
+use Tribe\Events\Views\V2\Widgets\Widget_Abstract;
 use Tribe__Main as Main;
 use Tribe__Utils__Array as Arr;
-use Taxonomy_Filter;
+use Tribe\Events\Pro\Views\V2\Widgets\Taxonomy_Filter;
 
 /**
  * Class for the Advanced List Widget.
@@ -23,6 +23,13 @@ use Taxonomy_Filter;
  * @package Tribe\Events\Pro\Views\V2\Widgets
  */
 class Widget_Advanced_List {
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @var string
+	 */
+	protected static $widget_css_group = 'advanced-list-widget';
 
 	/**
 	 * Default arguments to be merged into final arguments of the widget.
@@ -45,6 +52,17 @@ class Widget_Advanced_List {
 		'operand'   => 'OR',
 		'filters'   => '',
 	];
+
+	/**
+	 * Get local widget css group slug.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return string
+	 */
+	public static function get_css_group() {
+		return static::$widget_css_group;
+	}
 
 	/**
 	 * Renders the event cost in the event.
@@ -92,26 +110,6 @@ class Widget_Advanced_List {
 		return $template->template( 'widgets/widget-events-list/event/date/recurring', $template->get_values() );
 	}
 
-	/**
-	 * Enqueue assets for PRO version of events list widget.
-	 *
-	 * @since 5.2.0
-	 *
-	 * @param boolean         $should_enqueue Whether assets are enqueued or not.
-	 * @param \Tribe__Context $context        Context we are using to build the view.
-	 * @param View_Interface  $view           Which view we are using the template on.
-	 */
-	public function enqueue_assets( $should_enqueue, $context, $view ) {
-		if ( ! $should_enqueue ) {
-			return;
-		}
-
-		tribe_asset_enqueue( 'tribe-events-pro-widgets-v2-events-list-skeleton' );
-
-		if ( tribe( TEC_Assets::class )->should_enqueue_full_styles() ) {
-			tribe_asset_enqueue( 'tribe-events-pro-widgets-v2-events-list-full' );
-		}
-	}
 
 	/**
 	 * Filter the default arguments for the list widget.
@@ -220,12 +218,13 @@ class Widget_Advanced_List {
 	 * @since 5.2.0
 	 *
 	 * @param array<string,mixed> $alterations The alterations to make to the context.
-	 * @param array<string,mixed> $arguments   Current set of arguments.
+ 	 * @param array<string,mixed> $arguments   Current set of arguments.
+	 * @param Widget_Abstract     $widget         The widget instance we are dealing with.
 	 *
 	 * @return array<string,mixed> $alterations The alterations to make to the context.
 	 */
-	public function filter_args_to_context( $alterations, $arguments ) {
-		/* @var \Tribe\Events\Pro\Views\V2\Widgets\Taxonomy_Filter $taxonomy_filters */
+	public function filter_args_to_context( $alterations, $arguments, $widget ) {
+		/* @var Taxonomy_Filter $taxonomy_filters */
 		$taxonomy_filters = tribe( 'pro.views.v2.widgets.taxonomy' );
 
 		$alterations['event_display']     = 'list';

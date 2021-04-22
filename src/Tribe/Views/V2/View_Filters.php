@@ -9,6 +9,7 @@
 namespace Tribe\Events\Pro\Views\V2;
 
 use Tribe\Events\Pro\Views\V2\Geo_Loc\Handler_Interface as Geo_Loc_Handler;
+use Tribe\Events\Views\V2\Manager as Views_Manager;
 use Tribe\Events\Views\V2\View;
 use Tribe\Events\Views\V2\View_Interface;
 use Tribe\Events\Views\V2\Manager;
@@ -21,6 +22,7 @@ use WP_REST_Request as Request;
 
 /**
  * Class View_Filters
+ *
  * @since   4.7.5
  * @package Tribe\Events\Pro\Views\V2
  */
@@ -57,12 +59,22 @@ class View_Filters {
 	 */
 	public function filter_repository_args( array $repository_args, Context $context = null ) {
 		$context = null !== $context ? $context : tribe_context();
+		/**
+		 * @var Views_Manager $manager
+		 */
+		$manager = tribe( Views_Manager::class );
 
 		$hide_subsequent_recurrences_default = tribe_is_truthy( tribe_get_option( 'hideSubsequentRecurrencesDefault', false ) );
-		$hide_subsequent_recurrences = (bool) $context->get( 'hide_subsequent_recurrences', false );
+		$hide_subsequent_recurrences         = (bool) $context->get( 'hide_subsequent_recurrences', false );
 
 		// If in Recurring "All" Page or the Day View then always show all the recurring events.
 		$view = $context->get( 'view' );
+
+		if ( 'default' === $view ) {
+			$default_view_class = $manager->get_default_view();
+			$view               = $manager->get_view_slug_by_class( $default_view_class );
+		}
+
 		if ( in_array( $view, [ 'all', 'month', 'week' ] ) ) {
 			$repository_args['hide_subsequent_recurrences'] = false;
 		} elseif ( $hide_subsequent_recurrences_default || $hide_subsequent_recurrences ) {
@@ -82,13 +94,14 @@ class View_Filters {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param array      $arguments Which arguments we are ignoring.
-	 * @param View|null  $view      Current view that we are filtering.
+	 * @param array     $arguments Which arguments we are ignoring.
+	 * @param View|null $view      Current view that we are filtering.
 	 *
 	 * @return array Array of params with the hide_subsequent_recurrences added.
 	 */
 	public function add_recurrence_hide_to_page_reset_ignored_params( array $arguments = [], View $view = null ) {
 		$arguments[] = 'hide_subsequent_recurrences';
+
 		return $arguments;
 	}
 
@@ -97,15 +110,15 @@ class View_Filters {
 	 *
 	 * @since  5.0.0
 	 *
-	 * @param  array   $params  Params received on the Request.
-	 * @param  Request $request Full WP Rest Request instance.
+	 * @param array   $params  Params received on the Request.
+	 * @param Request $request Full WP Rest Request instance.
 	 *
 	 * @return array            Params after view slug is setup.
 	 */
 	public function filter_rest_request_view_slug( array $params, Request $request ) {
 		$post_types_map = [
 			Organizer::POSTTYPE => 'organizer',
-			Venue::POSTTYPE => 'venue',
+			Venue::POSTTYPE     => 'venue',
 		];
 
 		$intersect_params = array_intersect( array_keys( $params ), array_keys( $post_types_map ) );
@@ -202,10 +215,10 @@ class View_Filters {
 	 * To avoid caching issues, where the cache provider would need to keep a mobile and non-mobile version of the
 	 * cached pages, we redirect with explicit View slug.
 	 *
+	 * @link  https://developer.wordpress.org/reference/functions/wp_is_mobile/
+	 * @see   wp_is_mobile()
 	 * @since 4.7.10
 	 *
-	 * @see   wp_is_mobile()
-	 * @link  https://developer.wordpress.org/reference/functions/wp_is_mobile/
 	 */
 	public function on_template_redirect() {
 		if (

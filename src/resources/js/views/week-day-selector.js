@@ -114,7 +114,7 @@ tribe.events.views.weekDaySelector = {};
 
 				obj.closeDay( $header, $content );
 			} );
-	}
+	};
 
 	/**
 	 * Handle click event on day button

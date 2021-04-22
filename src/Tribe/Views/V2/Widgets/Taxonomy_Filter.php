@@ -64,12 +64,12 @@ class Taxonomy_Filter {
 				'children' => [
 					'filters' => [
 						'type' => 'taxonomy-filters',
-						'name' => 'filters',
 					],
 					'operand' => [
 						'type'     => 'fieldset',
 						'classes'  => 'tribe-common-form-control-checkbox-radio-group',
 						'label'    => _x( 'Operand:', 'The label for the taxonomy and/or option in the List Widget.', 'tribe-events-calendar-pro' ),
+						'selected'  => static::DEFAULT_OPERAND,
 						'children' => [
 							[
 								'type'         => 'radio',
@@ -221,7 +221,9 @@ class Taxonomy_Filter {
 			return [];
 		}
 
-		$value = json_decode( $value, true );
+		if ( ! is_array( $value ) ) {
+			$value = json_decode( $value, true );
+		}
 
 		$list_items = [];
 		foreach ( $value as $tax_name => $terms ) {
@@ -270,37 +272,30 @@ class Taxonomy_Filter {
 	 * @return array<string,mixed> $args The arguments, ready to be set on the View repository instance.
 	 */
 	public function add_taxonomy_filters_repository_args( $args, $context, $widget_view ) {
-		$args['operand'] = $context->get( 'operand', static::DEFAULT_OPERAND );
-
+		/**
+		 * @todo remove dependency on Context, this variable should come from $args instead of context.
+		 */
+		$operand = $context->get( 'operand', static::DEFAULT_OPERAND );
 		if ( ! empty( $context->get( 'post_tag' ) ) ) {
 			$args['post_tag'] = $context->get( 'post_tag' );
 		}
 
-		// Sets the relationship by default.
-		$tax_query = [
-			'relation' => $args['operand'],
-		];
-
-		// If we are dealing with a AND query we build manually.
-		if ( static::OPERAND_AND === $args['operand'] ) {
-			foreach( [ 'post_tag', TEC::TAXONOMY ] as $taxonomy ) {
-				if ( empty( $args[ $taxonomy ] ) ) {
-					continue;
-				}
-
-				foreach ( (array) $args[ $taxonomy ] as $term ) {
-					$tax_query[] = [
-						'taxonomy' => $taxonomy,
-						'field' => 'id',
-						'terms' => [ $term ],
-					];
-				}
-				unset( $args[ $taxonomy ] );
+		$operation = static::OPERAND_AND === $operand ? 'term_and' : 'term_in';
+		foreach( [ 'post_tag', TEC::TAXONOMY ] as $taxonomy ) {
+			if ( empty( $args[ $taxonomy ] ) ) {
+				continue;
 			}
+			$widget_view->get_repository()->by( $operation, $taxonomy, $args[ $taxonomy ] );
+
+			unset( $args[ $taxonomy ] );
 		}
 
-		$args['tax_query'] = $tax_query;
-		unset( $args['operand'] );
+		// Makes sure tax query exists.
+		if ( empty( $args['tax_query'] ) ) {
+			$args['tax_query'] = [];
+		}
+
+		$args['tax_query']['relation'] = $operand;
 
 		return $args;
 	}

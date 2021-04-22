@@ -5,7 +5,7 @@ Tags: events, calendar, event, venue, organizer, dates, date, google maps, confe
 Donate link: https://evnt.is/29
 Requires at least: 4.9.14
 Tested up to: 5.7.0
-Stable tag: 5.3.0
+Stable tag: 5.5.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -208,6 +208,36 @@ Our Premium Plugins:
 
 == Changelog ==
 
+= [5.5.0] 2021-03-29 =
+
+* Feature - The updated `[tribe_events]` shortcode now supports our Filterbar plugin. [FBAR-36]
+* Feature - Add new parameters to the `[tribe_events]` shortcode to hide the datepicker and export button. [FBAR-36]
+* Fix - Fusion Core/Avada Widget implementation of The Events Calendar will no longer throw warnings on the frontend display. [ECP-538]
+* Fix - Correct handling of search params for widget admin dropdowns. [ECP-684]
+* Fix - When saving recurring events on blocks editor Featured and Sticky events are being propagated and saved correctly. [ECP-666]
+* Fix - Hide Recurrence setting now applies when Month or Week are the default selected view and `[tribe_events]` shortcode usage. [ECP-734]
+* Fix - "Brand" swiper to avoid conflicts. [TEC-3624]
+* Language - 16 new strings added, 75 updated, 0 fuzzied, and 0 obsoleted
+
+= [5.4.0.2] 2021-03-04 =
+
+* Fix - Prevent fatal error in Elementor integration caused by an extra comma. `src/Tribe/Integrations/Elementor/Widgets/Widget_Event_List.php@L94` [BTRIA-768]
+* Fix - Make sure we have not deprecated usage of `FILTER_SANITIZE_MAGIC_QUOTES` for PHP 7.4+.
+
+= [5.4.0.1] 2021-03-03 =
+
+* Fix - `[tribe_events_list]` Tags and Categories params are filtering results as originally intended. [ECP-726]
+
+= [5.4.0] 2021-03-02 =
+
+* Feature - Added Elementor integration via 4 new Elementor Widgets: Event Countdown, Event List, Event Single, and Event View!
+* Feature - Added support for changing the amount of events to display per page in within the `[tribe_events]` shortcode via the `events_per_page` argument.
+* Feature - Added support for changing the amount of events to display per day on the Month View when using the `[tribe_events]` shortcode via the `month_events_per_day` argument.
+* Feature - Added the ability to render display the `[tribe_events]` shortcode with a default search term pre-populated via the `keyword` argument.
+* Tweak - Added filters: `tribe_events_pro_elementor_registered_{$this->type}`, `tribe_events_pro_shortcodes_venue_widget_class`, `tribe_widget_hide_subsequent_recurring_events`, `tribe_events_widget_featured_venue_events_max_limit`, `tribe_events_views_v2_featured_venue_widget_args_to_context`, `tribe_events_widget_featured_venue_default_venue_id`
+* Tweak - Changed views: `v2/map/event-cards/event-card/event/distance`, `v2/widgets/widget-countdown`, `v2/widgets/widget-countdown/complete`, `v2/widgets/widget-countdown/event-title`, `v2/widgets/widget-countdown/timer`, `v2/widgets/widget-countdown/widget-title`, `v2/widgets/widget-events-list/event/venue`, `v2/widgets/widget-featured-venue`, `v2/widgets/widget-featured-venue/events-list`, `v2/widgets/widget-featured-venue/events-list/event`, `v2/widgets/widget-featured-venue/events-list/event/date-tag`, `v2/widgets/widget-featured-venue/events-list/event/date`, `v2/widgets/widget-featured-venue/events-list/event/date/featured`, `v2/widgets/widget-featured-venue/events-list/event/date/recurring`, `v2/widgets/widget-featured-venue/events-list/event/title`, `v2/widgets/widget-featured-venue/venue`, `v2/widgets/widget-featured-venue/venue/address`, `v2/widgets/widget-featured-venue/venue/name`, `v2/widgets/widget-featured-venue/venue/phone`, `v2/widgets/widget-featured-venue/venue/website`, `v2/widgets/widget-featured-venue/view-more`, `v2/widgets/widget-featured-venue/widget-title`
+* Language - 89 new strings added, 24 updated, 1 fuzzied, and 0 obsoleted
+
 = [5.3.0] 2021-02-24 =
 
 * Version - Events Calendar PRO 5.3.0 is only compatible with The Events Calendar 5.4.0 and higher
@@ -223,6 +253,7 @@ Our Premium Plugins:
 * Tweak - Add compatibility container to widgets to allow for a non-body target for compatibility classes.
 * Tweak - Move Administration views for Widget form fields, from `/src/admin-views/widgets/components` to `/src/admin-views/widgets/components/fields`. [ECP-486]
 * Tweak - Simplify `Views\V2\Widgets\Taxonomy_Filters` class to prevent complexity around the Taxonomy data and templates.
+* Language - 10 new strings added, 15 updated, 0 fuzzied, and 1 obsoleted
 
 = [5.2.2] 2021-01-28 =
 

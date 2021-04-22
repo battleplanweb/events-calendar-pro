@@ -71,7 +71,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '5.3.0';
+		const VERSION = '5.5.0';
 
 		/**
 		 * The Events Calendar Required Version
@@ -2083,7 +2083,6 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 			tribe_register_provider( 'Tribe__Events__Pro__Service_Providers__ORM' );
 			tribe_register_provider( 'Tribe__Events__Pro__Service_Providers__RBE' );
 			tribe_register_provider( Tribe\Events\Pro\Views\V2\Service_Provider::class );
-			tribe_register_provider( Tribe\Events\Pro\Views\V2\Widgets\Service_Provider::class );
 			tribe_register_provider( Tribe\Events\Pro\Models\Service_Provider::class );
 			tribe_register_provider( Tribe__Events__Pro__Service_Providers__Templates::class );
 

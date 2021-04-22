@@ -162,6 +162,9 @@ tribe.events.views.mapProviderGoogleMaps = {};
 				speed: 0,
 				resistanceRatio: 0,
 				allowTouchMove: false,
+				containerModifierClass: 'tribe-swiper-container-',
+				wrapperClass: 'tribe-swiper-wrapper',
+				slideClass: 'tribe-swiper-slide',
 				navigation: {
 					prevEl: $tooltipSlider.find( obj.selectors.eventTooltipPrevButton )[0],
 					nextEl: $tooltipSlider.find( obj.selectors.eventTooltipNextButton )[0],
@@ -531,7 +534,7 @@ tribe.events.views.mapProviderGoogleMaps = {};
 	};
 
 	/**
-	 * Denitialize tooltip
+	 * Deinitialize tooltip
 	 *
 	 * @since 4.7.8
 	 *

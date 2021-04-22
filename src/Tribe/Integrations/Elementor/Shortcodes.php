@@ -101,9 +101,15 @@ class Shortcodes {
 			return false;
 		}
 
+		$filter = FILTER_UNSAFE_RAW;
+		if ( defined( 'FILTER_SANITIZE_ADD_SLASHES' ) ) {
+			$filter = FILTER_SANITIZE_ADD_SLASHES;
+		} elseif ( defined( 'FILTER_SANITIZE_MAGIC_QUOTES' ) ) {
+			$filter = FILTER_SANITIZE_MAGIC_QUOTES;
+		}
 
 		// We do not use `tribe_get_request_var` here as we need the not decoded version, but still use some care.
-		$json_payload = filter_var( $_POST['actions'], FILTER_SANITIZE_MAGIC_QUOTES );
+		$json_payload = filter_var( $_POST['actions'], $filter );
 
 		/*
 		 * `preg_` functions are vulnerable in the `$pattern` argument, where the `/e` flags allows execution of

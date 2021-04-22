@@ -37,9 +37,14 @@ class Tribe__Events__Pro__Recurrence__Events_Saver {
 	/**
 	 * Do the actual work of saving a recurring series of events
 	 *
+	 * @since ?.?.?
+	 * @since 5.5.0 Included a conditional for the processing right away.
+	 *
+	 * @param bool $process If we will process a small batch of events right away or way for the async to kick in.
+	 *
 	 * @return bool
 	 */
-	public function save_events() {
+	public function save_events( $process = true ) {
 		$existing_instances = Tribe__Events__Pro__Recurrence__Children_Events::instance()->get_ids( $this->event_id );
 
 		$recurrences = Tribe__Events__Pro__Recurrence__Meta::get_recurrence_for_event( $this->event_id );
@@ -118,8 +123,10 @@ class Tribe__Events__Pro__Recurrence__Events_Saver {
 		$queue = new Tribe__Events__Pro__Recurrence__Queue( $this->event_id );
 		$queue->update( $to_create, $to_update, $to_delete, $exclusions );
 
-		// ...but don't wait around, process a small initial batch right away
-		Tribe__Events__Pro__Main::instance()->queue_processor->process_batch( $this->event_id );
+		if ( $process ) {
+			// ...but don't wait around, process a small initial batch right away
+			Tribe__Events__Pro__Main::instance()->queue_processor->process_batch( $this->event_id );
+		}
 
 		return true;
 	}

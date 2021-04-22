@@ -6,9 +6,11 @@
  * @since 4.5
  */
 class Tribe__Events__Pro__Editor__Recurrence__Provider {
+
 	public function hook() {
 		add_filter( 'rest_pre_echo_response', array( $this, 'trigger_recurrence_rules' ), 10, 3 );
 		add_filter( 'tribe_is_recurring_event', array( $this, 'is_recurring_event' ), 10, 2 );
+		add_action( 'save_post', [ Tribe__Events__Pro__Editor__Recurrence__Queue_Status::class, 'action_set_max_editor_save_race_condition_tries' ], 25, 2 );
 	}
 
 	/**
@@ -38,10 +40,11 @@ class Tribe__Events__Pro__Editor__Recurrence__Provider {
 			$request instanceof WP_REST_Request
 			&& get_post_type( $request->get_param( 'id' ) ) === Tribe__Events__Main::POSTTYPE
 			&& in_array( $request->get_method(), $valid_methods )
-			&& false === strpos(   $request->get_route(), '/autosaves' )
+			&& false === strpos( $request->get_route(), '/autosaves' )
 		) {
 			$this->to_classic_format( $request->get_param( 'id' ) );
 		}
+
 		return $result;
 	}
 
@@ -56,11 +59,11 @@ class Tribe__Events__Pro__Editor__Recurrence__Provider {
 	 */
 	public function to_classic_format( $event_id ) {
 		/** @var Tribe__Events__Pro__Editor__Meta $meta */
-		$meta       = tribe( 'events-pro.editor.meta' );
+		$meta = tribe( 'events-pro.editor.meta' );
 		/** @var Tribe__Events__Pro__Editor__Recurrence__Blocks_Meta $blocks_meta */
 		$blocks_meta = tribe( 'events-pro.editor.recurrence.blocks-meta' );
-		$rules      = json_decode( $meta->get_value( $event_id, $blocks_meta->get_rules_key() ), true );
-		$exclusions = json_decode( $meta->get_value( $event_id, $blocks_meta->get_exclusions_key() ), true );
+		$rules       = json_decode( $meta->get_value( $event_id, $blocks_meta->get_rules_key() ), true );
+		$exclusions  = json_decode( $meta->get_value( $event_id, $blocks_meta->get_exclusions_key() ), true );
 
 		// Don't do anything if the block does not have any data.
 		if ( is_null( $rules ) ) {
@@ -69,13 +72,13 @@ class Tribe__Events__Pro__Editor__Recurrence__Provider {
 
 		/** @var Tribe__Events__Pro__Editor__Recurrence__Blocks_Meta $blocks_meta */
 		$blocks_meta = tribe( 'events-pro.editor.recurrence.blocks-meta' );
-		$data = array(
+		$data        = array(
 			'EventStartDate' => get_post_meta( $event_id, '_EventStartDate', true ),
 			'EventEndDate'   => get_post_meta( $event_id, '_EventEndDate', true ),
 			'recurrence'     => array(
-				'rules'      => $this->parse_rules( $rules ),
-				'exclusions' => $this->parse_rules( $exclusions ),
-				'description'    => get_post_meta( $event_id, $blocks_meta->get_description_key(), true ),
+				'rules'       => $this->parse_rules( $rules ),
+				'exclusions'  => $this->parse_rules( $exclusions ),
+				'description' => get_post_meta( $event_id, $blocks_meta->get_description_key(), true ),
 			),
 		);
 		/**
@@ -83,6 +86,8 @@ class Tribe__Events__Pro__Editor__Recurrence__Provider {
 		 */
 		$meta_builder    = new Tribe__Events__Pro__Recurrence__Meta_Builder( $event_id, $data );
 		$recurrence_meta = $meta_builder->build_meta();
+
+		update_post_meta( $event_id, Tribe__Events__Pro__Editor__Recurrence__Queue_Status::$meta_editor_save_race_condition_tries, 0 );
 
 		/**
 		 * Filters the recurring event save operation.
@@ -112,7 +117,8 @@ class Tribe__Events__Pro__Editor__Recurrence__Provider {
 
 		$events_saver = new Tribe__Events__Pro__Recurrence__Events_Saver( $event_id, $updated );
 
-		return $events_saver->save_events();
+		// By passing false we prevent it from saving the first batch right away.
+		return $events_saver->save_events( false );
 	}
 
 	/**
@@ -132,7 +138,7 @@ class Tribe__Events__Pro__Editor__Recurrence__Provider {
 		foreach ( $rules as $rule ) {
 			$converter = new Tribe__Events__Pro__Editor__Recurrence__Classic( $rule );
 			$converter->parse();
-			$parsed[]  = $converter->get_parsed();
+			$parsed[] = $converter->get_parsed();
 		}
 
 		return $parsed;
@@ -156,7 +162,7 @@ class Tribe__Events__Pro__Editor__Recurrence__Provider {
 
 		/** @var Tribe__Events__Pro__Editor__Recurrence__Blocks_Meta $blocks_meta */
 		$blocks_meta = tribe( 'events-pro.editor.recurrence.blocks-meta' );
-		$rules = get_post_meta( $post_id, $blocks_meta->get_rules_key(), true );
+		$rules       = get_post_meta( $post_id, $blocks_meta->get_rules_key(), true );
 
 		return ! empty( $rules );
 	}

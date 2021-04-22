@@ -31,8 +31,9 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 		}
 
 		require_once tribe( 'events-pro.main' )->pluginPath . 'src/Tribe/Views/V2/functions/classes.php';
+		tribe_register_provider( Widgets\Service_Provider::class );
+		tribe_register_provider( Shortcodes\Service_Provider::class );
 
-		$this->container->singleton( Shortcodes\Manager::class, Shortcodes\Manager::class );
 		$this->register_geolocation_classes();
 
 		$this->register_hooks();

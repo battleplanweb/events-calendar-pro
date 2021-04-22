@@ -9,7 +9,6 @@
 
 namespace Tribe\Events\Pro\Views\V2\Widgets;
 
-use Tribe\Events\Views\V2\Assets;
 use \Tribe\Events\Views\V2\Widgets\Widget_Abstract;
 use Tribe__Context as Context;
 use Tribe__Date_Utils as Dates;
@@ -24,10 +23,15 @@ use Tribe__Date_Utils as Dates;
 class Widget_Countdown extends Widget_Abstract {
 	/**
 	 * {@inheritDoc}
+	 */
+	protected static $widget_in_use;
+
+	/**
+	 * {@inheritDoc}
 	 *
 	 * @var string
 	 */
-	protected $slug = 'tribe_events_countdown_widget';
+	protected static $widget_slug = 'event-countdown';
 
 	/**
 	 * {@inheritDoc}
@@ -41,14 +45,7 @@ class Widget_Countdown extends Widget_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $asset_slug = 'tribe-events-countdown-widget-v2';
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @var string
-	 */
-	protected $view_admin_slug = 'widgets/countdown';
+	protected static $widget_css_group = 'event-countdown-widget';
 
 	/**
 	 * {@inheritDoc}
@@ -76,36 +73,52 @@ class Widget_Countdown extends Widget_Abstract {
 		'show_seconds'              => true,
 		'complete'                  => '',
 		'jsonld_enable'             => true,
-		'is_countdown_widget'       => true,
-
-		// WP_Widget properties.
-		'id_base'                   => null,
-		'name'                      => null,
-		'admin_fields'              => [],
 	];
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setup_view( $arguments ) {
-		parent::setup_view( $arguments );
-
-		add_filter( 'tribe_customizer_should_print_widget_customizer_styles', '__return_true' );
-		add_filter( 'tribe_customizer_inline_stylesheets', [ $this, 'add_full_stylesheet_to_customizer' ], 12 );
+	public function get_validated_arguments_map() {
+		return array_merge(
+			$this->validate_arguments_map,
+			[
+				'type' => [ $this, 'validate_countdown_type' ],
+			]
+		);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function setup_arguments( array $instance = [] ) {
-		$arguments = parent::setup_arguments( $instance );
+	public static function get_default_widget_name() {
+		return esc_html_x(
+			'Events Countdown',
+			'The name of the Countdown Widget.',
+			'tribe-events-calendar-pro'
+		);
+	}
 
-		// Convert old "Featured" to "Next"
-		if ( empty( $arguments['type'] ) || 'future-event' === $arguments['type'] ) {
-			$arguments['type'] = 'next-event';
-		}
+	/**
+	 * {@inheritDoc}
+	 */
+	public static function get_default_widget_options() {
+		return [
+			'description' => esc_html_x(
+				'Displays the time remaining until a specified event.',
+				'The description of the Countdown Widget.',
+				'tribe-events-calendar-pro'
+			),
+		];
+	}
 
-		return $arguments;
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setup_view( $_deprecated ) {
+		parent::setup_view( $_deprecated );
+
+		add_filter( 'tribe_customizer_should_print_widget_customizer_styles', '__return_true' );
+		add_filter( 'tribe_customizer_inline_stylesheets', [ $this, 'add_full_stylesheet_to_customizer' ], 12 );
 	}
 
 	/**
@@ -121,7 +134,6 @@ class Widget_Countdown extends Widget_Abstract {
 		$updated_instance['complete']            = wp_strip_all_tags( $new_instance['complete'] );
 		$updated_instance['show_seconds']        = ! empty( $new_instance['show_seconds'] );
 		$updated_instance['jsonld_enable']       = ! empty( $new_instance['jsonld_enable'] );
-		$updated_instance['is_countdown_widget'] = true;
 
 		if ( 'future-event' === $updated_instance['type'] ) {
 			$updated_instance['type'] = 'next-event';
@@ -251,52 +263,12 @@ class Widget_Countdown extends Widget_Abstract {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function enqueue_assets( $context, $view ) {
-		parent::enqueue_assets( $context, $view );
-
-		// Ensure we also have all the other things from Tribe\Events\Views\V2\Assets we need.
-		tribe_asset_enqueue( 'tribe-events-pro-widgets-v2-countdown' );
-		tribe_asset_enqueue( 'tribe-events-pro-widgets-v2-countdown-skeleton' );
-
-		if ( tribe( Assets::class )->should_enqueue_full_styles() ) {
-			tribe_asset_enqueue( 'tribe-events-pro-widgets-v2-countdown-full' );
-		}
-
-		tribe_asset_enqueue( 'tribe-events-views-v2-manager' );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	protected function setup_default_arguments() {
-		$default_arguments = parent::setup_default_arguments();
-		$description       = _x(
-			'Displays the time remaining until a specified event.',
-			'The description of the Countdown Widget.',
-			'tribe-events-calendar-pro'
-		);
+		parent::setup_default_arguments();
 
-		$name              = _x(
-			'Events Countdown',
-			'The name of the Countdown Widget.',
-			'tribe-events-calendar-pro'
-		);
+		$this->default_arguments['complete'] = esc_attr__( 'Hooray!', 'tribe-events-calendar-pro' );
 
-		$new_arguments = [
-			'name'            => esc_html( $name ),
-			'description'     => esc_html( $description ),
-			'complete'        => esc_attr__( 'Hooray!', 'tribe-events-calendar-pro' ),
-			'id_base'         => $this->id_base,
-			'widget_options'  => [
-				'classname'   => $this->id_base,
-				'description' => esc_html( $description ),
-			],
-			'control_options' => [
-				'id_base' => $this->id_base,
-			],
-		];
-
-		return array_merge( $default_arguments, $new_arguments );
+		return $this->default_arguments;
 	}
 
 	/**
@@ -315,15 +287,7 @@ class Widget_Countdown extends Widget_Abstract {
 		// The widget only uses one event, but some things expect an array of event(s) here (like JSON_LD).
 		$alterations['events'] = (array) $alterations['event'];
 
-		/**
-		 * Applies a filter to the args to context.
-		 *
-		 * @since 5.3.0
-		 *
-		 * @param array<string,mixed> $alterations The alterations to make to the context.
-		 * @param array<string,mixed> $arguments   Current set of arguments.
-		 */
-		return apply_filters( 'tribe_events_views_v2_countdown_widget_args_to_context', $alterations, $arguments );
+		return $this->filter_args_to_context( $alterations );
 	}
 
 	/**
@@ -333,9 +297,9 @@ class Widget_Countdown extends Widget_Abstract {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param null|int|WP_Post $event  The event ID or post object or `null` to use the global one.
+	 * @param null|int|\WP_Post $event  The event ID or post object or `null` to use the global one.
 	 *
-	 * @return array|mixed|void|WP_Post|null See tribe_get_event() for details.
+	 * @return array|mixed|void|\WP_Post|null See tribe_get_event() for details.
 	 */
 	public function get_fallback_event( $event = null ) {
 		// If we have an event specified, use it.
@@ -353,5 +317,23 @@ class Widget_Countdown extends Widget_Abstract {
 
 		// If there are NO upcoming events, use the last event (will show as completed).
 		return tribe_events()->where( 'ends_before', tribe_context()->get( 'now', 'now' ) )->order( 'DESC' )->first();
+	}
+
+	/**
+	 * Validates the countdown type when setting up the widget.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $value Current value for the type of countdown.
+	 *
+	 * @return string
+	 */
+	public function validate_countdown_type( $value ) {
+		// Only modify when it's a 'future-event' which is the legacy value.
+		if ( 'future-event' !== $value ) {
+			return $value;
+		}
+
+		return 'next-event';
 	}
 }

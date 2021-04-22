@@ -9,7 +9,6 @@
 
 namespace Tribe\Events\Pro\Views\V2\Widgets;
 
-use Tribe\Events\Views\V2\Assets;
 use Tribe__Context as Context;
 use Tribe\Events\Views\V2\Widgets\Widget_Abstract;
 
@@ -21,13 +20,17 @@ use Tribe\Events\Views\V2\Widgets\Widget_Abstract;
  * @package Tribe\Events\Views\V2\Widgets
  */
 class Widget_Featured_Venue extends Widget_Abstract {
+	/**
+	 * {@inheritDoc}
+	 */
+	protected static $widget_in_use;
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * @var string
 	 */
-	protected $slug = 'tribe_events_featured_venue_widget';
+	protected static $widget_slug = 'featured-venue';
 
 	/**
 	 * {@inheritDoc}
@@ -41,14 +44,14 @@ class Widget_Featured_Venue extends Widget_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $asset_slug = 'tribe-events-venue-widget-v2';
+	protected static $widget_css_group = 'featured-venue-widget';
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * @var string
 	 */
-	protected $view_admin_slug = 'widgets/venue';
+	public $id_base = 'tribe-events-venue-widget';
 
 	/**
 	 * {@inheritDoc}
@@ -68,57 +71,32 @@ class Widget_Featured_Venue extends Widget_Abstract {
 		'count'             => 3,
 		'hide_if_empty'     => false,
 		'jsonld_enable'     => true,
-
-		// WP_Widget properties.
-		'id_base'           => 'tribe-events-venue-widget',
-		'name'              => null,
-		'widget_options'    => [
-			'classname'   => 'tribe-events-venue-widget',
-			'description' => null,
-		],
-		'control_options'   => [
-			'id_base' => 'tribe-events-venue-widget',
-		],
 	];
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setup_view( $arguments ) {
-		parent::setup_view( $arguments );
+	public static function get_default_widget_name() {
+		return esc_html_x( 'Events Featured Venue', 'The name of the Featured Venue.', 'tribe-events-calendar-pro' );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public static function get_default_widget_options() {
+		return [
+			'description' => esc_html_x( 'Displays a list of upcoming events at a specific venue.', 'The description of the Featured Venue Widget.', 'tribe-events-calendar-pro' ),
+		];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setup_view( $_deprecated ) {
+		parent::setup_view( $_deprecated );
 
 		add_filter( 'tribe_customizer_should_print_widget_customizer_styles', '__return_true' );
 		add_filter( 'tribe_customizer_inline_stylesheets', [ $this, 'add_full_stylesheet_to_customizer' ], 12, 2 );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function enqueue_assets( $context, $view ) {
-		parent::enqueue_assets( $context, $view );
-
-		// Ensure we also have all the other things from Tribe\Events\Views\V2\Assets we need.
-		tribe_asset_enqueue( 'tribe-events-pro-widgets-v2-featured-venue-skeleton' );
-
-		if ( tribe( Assets::class )->should_enqueue_full_styles() ) {
-			tribe_asset_enqueue( 'tribe-events-pro-widgets-v2-featured-venue-full' );
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	protected function setup_default_arguments() {
-		$default_arguments = parent::setup_default_arguments();
-
-		$default_arguments['description'] = esc_html_x( 'Displays a list of upcoming events at a specific venue.', 'The description of the Featured Venue Widget.', 'tribe-events-calendar-pro' );
-		// @todo update name once this widget is ready to replace the existing featured venue widget.
-		$default_arguments['name']                          = esc_html_x( 'Events Featured Venue', 'The name of the Featured Venue.', 'tribe-events-calendar-pro' );
-		$default_arguments['widget_options']['description'] = esc_html_x( 'Displays a list of upcoming events at a specific venue.', 'The description of the Featured Venue Widget.', 'tribe-events-calendar-pro' );
-		// Setup default title.
-		$default_arguments['title'] = '';
-
-		return $default_arguments;
 	}
 
 	/**
@@ -161,8 +139,11 @@ class Widget_Featured_Venue extends Widget_Abstract {
 			],
 			'count'         => [
 				'label'   => _x( 'Show:', 'The label for the amount of events to show in the Featured Venue Widget.', 'tribe-events-calendar-pro' ),
-				'type'    => 'dropdown',
-				'options' => $this->get_limit_options(),
+				'type'    => 'number',
+				'default' => $this->default_arguments['count'],
+				'min'     => 1,
+				'max'     => 10,
+				'step'    => 1,
 			],
 			'hide_if_empty' => [
 				'label' => _x( 'Hide this widget if there are no upcoming events.', 'The label for the option to hide the Featured Venue Widget if no upcoming events.', 'tribe-events-calendar-pro' ),
@@ -173,35 +154,6 @@ class Widget_Featured_Venue extends Widget_Abstract {
 				'type'  => 'checkbox',
 			],
 		];
-	}
-
-	/**
-	 * Get the options to use in a the limit dropdown.
-	 *
-	 * @since 5.3.0
-	 *
-	 * @return array<string,mixed> An array of options with the text and value included.
-	 */
-	public function get_limit_options() {
-		/**
-		 * Filter the max limit of events to display in the Featured Venue Widget.
-		 *
-		 * @since 5.3.0
-		 *
-		 * @param int The max limit of events to display in the Featured Venue Widget, default 10.
-		 */
-		$events_limit = apply_filters( 'tribe_events_widget_featured_venue_events_max_limit', 10 );
-
-		$options = [];
-
-		foreach ( range( 1, $events_limit ) as $i ) {
-			$options[] = [
-				'text'  => $i,
-				'value' => $i,
-			];
-		}
-
-		return $options;
 	}
 
 	/**
@@ -222,15 +174,7 @@ class Widget_Featured_Venue extends Widget_Abstract {
 		// Add posts per page.
 		$alterations['events_per_page'] = (int) isset( $arguments['count'] ) && $arguments['count'] > 0 ? (int) $arguments['count'] : 5;
 
-		/**
-		 * Applies a filter to the args to context.
-		 *
-		 * @since 5.3.0
-		 *
-		 * @param array<string,mixed> $alterations The alterations to make to the context.
-		 * @param array<string,mixed> $arguments   Current set of arguments.
-		 */
-		return apply_filters( 'tribe_events_views_v2_featured_venue_widget_args_to_context', $alterations, $arguments );
+		return $this->filter_args_to_context( $alterations );
 	}
 
 	/**
