@@ -221,7 +221,7 @@ class Tribe__Events__Pro__Editor__Meta extends Tribe__Editor__Meta {
 			return $show_meta;
 		}
 
-		// when it doesnt have blocks we return default
+		// when it doesn't have blocks we return default
 		if ( ! has_blocks( absint( $post_id ) ) ) {
 			return $show_meta;
 		}

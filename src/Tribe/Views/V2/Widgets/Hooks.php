@@ -20,13 +20,11 @@ namespace Tribe\Events\Pro\Views\V2\Widgets;
 use Tribe\Events\Pro\Views\V2\Views\Widgets\Countdown_View;
 use Tribe\Events\Pro\Views\V2\Views\Widgets\Venue_View;
 use Tribe\Events\Pro\Views\V2\Views\Widgets\Week_View;
-use \Tribe\Events\Pro\Views\V2\Widgets\Admin_Template as Admin_Template;
 use Tribe\Events\Pro\Views\V2\Widgets\Traits\Widget_Shortcode;
 use Tribe\Events\Views\V2\View_Interface;
 use Tribe\Events\Views\V2\Views\Widgets\Widget_View;
 use Tribe\Events\Views\V2\Widgets\Widget_Abstract;
 use Tribe\Events\Views\V2\Widgets\Widget_List;
-use Tribe__Utils__Array as Arr;
 use \Tribe\Events\Pro\Views\V2\Shortcodes\Tribe_Events as Tribe_Events_Shortcode;
 
 /**
@@ -102,7 +100,14 @@ class Hooks extends \tad_DI52_ServiceProvider {
 			[ $this, 'ajax_get_venues' ]
 		);
 
-		add_action( 'tribe_events_views_v2_before_make_view_for_rest', [ $this, 'maybe_toggle_hooks_for_rest' ], 15, 3 );
+		add_action(
+			'tribe_events_views_v2_before_make_view_for_rest',
+			[ $this, 'maybe_toggle_hooks_for_rest' ],
+			15,
+			3
+		);
+
+		add_action( 'tribe_plugins_loaded', [ $this, 'maybe_migrate_legacy_sidebars' ] );
 	}
 
 	/**
@@ -113,6 +118,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	protected function add_filters() {
 		add_filter( 'tribe_widgets', [ $this, 'filter_register_widget' ] );
 		add_filter( 'tribe_events_views', [ $this, 'filter_add_widget_views' ] );
+		add_filter( 'tribe_cache_last_occurrence_option_triggers', [ $this, 'filter_add_widget_caching_triggers' ], 15, 3 );
 
 		// Setup the Advanced List Widget by filtering the The Events Calendar List Widget.
 		add_filter( 'tribe_events_views_v2_view_repository_args', [ $this, 'filter_widget_recurrence_repository_args' ], 10, 2 );
@@ -126,15 +132,10 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		add_filter( 'tribe_customizer_inline_stylesheets', [ $this, 'filter_add_full_stylesheet_to_customizer' ], 12, 2 );
 
 		add_filter( 'tribe_events_pro_shortcodes_list_widget_class', [ $this, 'alter_list_widget_class' ], 10, 2 );
-		add_filter( 'tribe_events_pro_shortcodes_countdown_widget_class', [ $this, 'alter_countdown_widget_class' ], 10, 2 );
+		add_filter( 'tribe_events_pro_shortcodes_countdown_widget_class', [ $this, 'alter_shortcode_countdown_widget_class' ], 10, 2 );
 		add_filter( 'tribe_events_pro_shortcodes_venue_widget_class', [ $this, 'alter_venue_widget_class' ], 10, 2 );
-
-		/**
-		 * Deactivated until these are ready for user consumption.
-		 *
 		add_filter( 'tribe_events_pro_shortcodes_week_widget_class', [ $this, 'alter_week_widget_class' ], 10, 2 );
-		add_filter( 'tribe_events_pro_shortcodes_month_widget_class', [ $this, 'alter_month_widget_class' ], 10, 2 );
-		 */
+		add_filter( 'tribe_events_pro_shortcodes_month_widget_class', [ $this, 'alter_shortcode_month_widget_class' ], 10, 2 );
 
 		add_filter(
 			'tribe_events_pro_shortcode_compatibility_required',
@@ -157,12 +158,8 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		unset( $widgets['Tribe__Events__Pro__Advanced_List_Widget'] );
 		unset( $widgets['Tribe__Events__Pro__Countdown_Widget'] );
 		unset( $widgets['Tribe__Events__Pro__Venue_Widget'] );
-		/**
-		 * Deactivated until these are ready for user consumption.
-		 *
-		unset( $widgets['Tribe__Events__Pro__This_Week_Widget'] );
 		unset( $widgets['Tribe__Events__Pro__Mini_Calendar_Widget'] );
-		 */
+		unset( $widgets['Tribe__Events__Pro__This_Week_Widget'] );
 
 		return $widgets;
 	}
@@ -180,12 +177,8 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		$widgets[] = 'Tribe__Events__Pro__Advanced_List_Widget';
 		$widgets[] = 'Tribe__Events__Pro__Countdown_Widget';
 		$widgets[] = 'Tribe__Events__Pro__Venue_Widget';
-		/**
-		 * Deactivated until these are ready for user consumption.
-		 *
-		$widgets[] = 'Tribe__Events__Pro__This_Week_Widget';
 		$widgets[] = 'Tribe__Events__Pro__Mini_Calendar_Widget';
-		 */
+		$widgets[] = 'Tribe__Events__Pro__This_Week_Widget';
 
 		return $widgets;
 	}
@@ -204,12 +197,8 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	public function filter_register_widget( $widgets ) {
 		$widgets[ Widget_Countdown::get_widget_slug() ]      = Widget_Countdown::class;
 		$widgets[ Widget_Featured_Venue::get_widget_slug() ] = Widget_Featured_Venue::class;
-		/**
-		 * Deactivated until these are ready for user consumption.
-		 *
-		$widgets[ Widget_Week::get_widget_slug() ]           = Widget_Week::class;
 		$widgets[ Widget_Month::get_widget_slug() ]          = Widget_Month::class;
-		 */
+		$widgets[ Widget_Week::get_widget_slug() ]           = Widget_Week::class;
 
 		return $widgets;
 	}
@@ -260,8 +249,12 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @return string             $widget_class The modified (V2) widget class name we want to implement.
 	 */
-	public function alter_countdown_widget_class( $widget_class, $arguments ) {
+	public function alter_shortcode_countdown_widget_class( $widget_class, $arguments ) {
 		return Widget_Countdown::class;
+	}
+
+	public function alter_shortcode_calendar_widget_class( $widget_class, $arguments ) {
+		return Widget_Month::class;
 	}
 
 	/**
@@ -303,7 +296,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @return string             $widget_class The modified (V2) widget class name we want to implement.
 	 */
-	public function alter_month_widget_class( $widget_class, $arguments ) {
+	public function alter_shortcode_month_widget_class( $widget_class, $arguments ) {
 		return Widget_Month::class;
 	}
 
@@ -327,6 +320,21 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 */
 	public function ajax_get_venues() {
 		return $this->container->make( Ajax::class )->get_venues();
+	}
+
+	/**
+	 * Checks if we need to migrate the Widgets and Sidebars after an update.
+	 *
+	 * @since TBD
+	 *
+	 * @return void
+	 */
+	public function maybe_migrate_legacy_sidebars() {
+		// First migrate the sidebars.
+		$this->container->make( Compatibility::class )->migrate_legacy_sidebars();
+
+		// Now we can migrate the widgets.
+		$this->container->make( Compatibility::class )->migrate_legacy_widgets();
 	}
 
 	/**
@@ -568,6 +576,24 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		Widget_Shortcode::maybe_toggle_hooks_for_rest( $slug, $params, $request );
 	}
 
+	/**
+	 * Filters the caching triggers to add the widgets Week and Month.
+	 *
+	 * @since TBD
+	 *
+	 * @param array<string,bool> $triggers Which options will trigger this given action last occurrence.
+	 * @param string             $action   Which action this trigger will set.
+	 * @param array              $args     Which arguments from the updated option method.
+	 *
+	 * @return array
+	 */
+	public function filter_add_widget_caching_triggers( $triggers, $action, $args ) {
+		$triggers[ 'widget_' . Widget_Month::PREFIX . Widget_Month::get_widget_slug() ] = true;
+		$triggers[ 'widget_' . Widget_Week::PREFIX . Widget_Week::get_widget_slug() ]   = true;
+
+		return $triggers;
+	}
+
 	/**********************
 	 * Deprecated Methods *
 	 **********************/
@@ -579,11 +605,12 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since      5.2.0
 	 *
-	 * @param array<string,mixed> $args    The unmodified arguments.
+	 * @deprecated 5.3.0 Deprecated in favor of one function for all widgets.
+	 *
 	 * @param \Tribe__Context     $context The context.
+	 * @param array<string,mixed> $args    The unmodified arguments.
 	 *
 	 * @return array<string,mixed> The arguments, ready to be set on the View repository instance.
-	 * @deprecated 5.3.0 Deprecated in favor of one function for all widgets.
 	 */
 	public function filter_list_widget_repository_args( $args, $context ) {
 		_deprecated_function( __METHOD__, '5.3.0', 'filter_widget_recurrence_repository_args' );
@@ -596,12 +623,12 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since      5.2.0
 	 *
-	 * @param boolean         $should_enqueue Whether assets are enqueued or not.
+	 * @deprecated 5.5.0 Deprecated in favor of using Widget_List::is_in_use() on conditional for asset.
+	 *
 	 * @param \Tribe__Context $context        Context we are using to build the view.
 	 * @param View_Interface  $view           Which view we are using the template on.
 	 *
-	 * @deprecated 5.5.0 Deprecated in favor of using Widget_List::is_in_use() on conditional for asset.
-	 *
+	 * @param boolean         $should_enqueue Whether assets are enqueued or not.
 	 */
 	public function widget_events_list_after_enqueue_assets( $should_enqueue, $context, $view ) {
 		_deprecated_function( __METHOD__, '5.5.0', 'Widget_List::is_in_use()' );
@@ -612,15 +639,14 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since      5.2.0
 	 *
-	 * @param boolean         $should_enqueue Whether assets are enqueued or not.
+	 * @deprecated 5.5.0 Deprecated in favor of using Widget_Countdown::is_in_use() on conditional for asset.
+	 *
 	 * @param \Tribe__Context $context        Context we are using to build the view.
 	 * @param View_Interface  $view           Which view we are using the template on.
 	 *
-	 * @deprecated 5.5.0 Deprecated in favor of using Widget_Countdown::is_in_use() on conditional for asset.
-	 *
+	 * @param boolean         $should_enqueue Whether assets are enqueued or not.
 	 */
 	public function widget_events_countdown_after_enqueue_assets( $should_enqueue, $context, $view ) {
 		_deprecated_function( __METHOD__, '5.5.0', 'Widget_Countdown::is_in_use()' );
 	}
-
 }

@@ -114,7 +114,9 @@ class Widget_Events_View extends Widget_Abstract {
 			return tribe( Manager::class )->get_view_label_by_class( $value );
 		}, $views );
 
-		$view_selector = [ 'default' => '' ];
+		asort( $views );
+
+		$view_selector = [ '' => __( 'Default', 'tribe-events-calendar-pro' ) ];
 		$view_selector = array_merge( $view_selector, $views );
 
 		$this->add_control(
@@ -205,11 +207,12 @@ class Widget_Events_View extends Widget_Abstract {
 		$this->add_control(
 			'keyword',
 			[
-				'label' => __( 'Keyword', 'tribe-events-calendar-pro' ),
-				'description' => __( 'Display events with a specific search keyword.', 'tribe-events-calendar-pro' ),
-				'type' => Controls_Manager::TEXT,
+				'label'       => __( 'Keyword', 'tribe-events-calendar-pro' ),
+				'placeholder' => __( 'Enter a search keyword.', 'tribe-events-calendar-pro' ),
+				'description' => __( 'Use a search keyword to only show matching events.', 'tribe-events-calendar-pro' ),
+				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'default' => '',
+				'default'     => '',
 			]
 		);
 		$this->end_controls_tab();
@@ -225,7 +228,8 @@ class Widget_Events_View extends Widget_Abstract {
 			'date',
 			[
 				'label' => __( 'View Start Date', 'tribe-events-calendar-pro' ),
-				'description' => __( 'Date in YYYY-MM-DD or YYYY-MM format.', 'tribe-events-calendar-pro' ) . '<br><br>' . __( 'Note: the Day View only supports YYYY-MM-DD date formats as well as relative date formats like "yesterday", "today", "tomorrow", "+3 days", etc.', 'tribe-events-calendar-pro' ),
+				'placeholder' => __( 'Date in YYY-MM-DD or YYYY-MM format', 'tribe-events-calendar-pro' ),
+				'description' => __( 'Note: the Day View only supports YYYY-MM-DD date formats as well as relative date formats like "yesterday", "today", "tomorrow", "+3 days", etc.', 'tribe-events-calendar-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'label_block' => true,
 				'default' => '',

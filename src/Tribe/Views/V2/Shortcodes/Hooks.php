@@ -18,10 +18,7 @@
 namespace Tribe\Events\Pro\Views\V2\Shortcodes;
 
 use Tribe\Events\Pro\Views\V2\Assets as Pro_Assets;
-use Tribe\Events\Views\V2\View;
-use Tribe\Events\Views\V2\View_Interface;
 use Tribe\Shortcode\Manager;
-use Tribe__Context as Context;
 use Tribe__Events__Pro__Shortcodes__Register as Legacy_Shortcodes;
 use WP_REST_Request as Request;
 
@@ -87,12 +84,10 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @return array The modified shortcodes array.
 	 */
 	public function filter_tribe_shortcodes( $shortcodes ) {
-		$shortcodes['tribe_events'] = Tribe_Events::class;
-		$shortcodes['tribe_events_list'] = Shortcode_Tribe_Events_List::class;
-		/**
-		 * Removed until mini calendar widget is on V2.
+		$shortcodes['tribe_events']        = Tribe_Events::class;
+		$shortcodes['tribe_events_list']   = Shortcode_Tribe_Events_List::class;
+		$shortcodes['tribe_this_week']     = Shortcode_Tribe_Week::class;
 		$shortcodes['tribe_mini_calendar'] = Shortcode_Tribe_Mini_Calendar::class;
-		 */
 
 		return $shortcodes;
 	}
@@ -148,10 +143,8 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	public function action_disable_shortcode_v1() {
 		remove_shortcode( 'tribe_events' );
 		remove_shortcode( 'tribe_events_list' );
-		/**
-		 * Removed until mini calendar widget is on V2.
+		remove_shortcode( 'tribe_this_week' );
 		remove_shortcode( 'tribe_mini_calendar' );
-		 */
 
 		$legacy_shortcodes_instance = tribe( 'events-pro.main' )->shortcodes;
 

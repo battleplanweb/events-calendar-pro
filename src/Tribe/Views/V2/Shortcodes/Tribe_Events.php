@@ -18,8 +18,10 @@ use Tribe\Events\Views\V2\View;
 use Tribe\Events\Views\V2\View_Interface;
 use Tribe\Utils\Element_Classes;
 use Tribe__Context as Context;
+use Tribe__Date_Utils;
 use Tribe__Events__Main as TEC;
 use Tribe__Utils__Array as Arr;
+use Tribe__Date_Utils as Dates;
 
 /**
  * Class for Shortcode Tribe_Events.
@@ -48,45 +50,53 @@ class Tribe_Events extends Shortcode_Abstract {
 	 * {@inheritDoc}
 	 */
 	protected $default_arguments = [
-		'id'                   => null,
-		'view'                 => null,
-		'events_per_page'      => null,
+		'category'          => null,
+		'container-classes' => [],
+		'date'              => null,
+		'events_per_page'   => null,
+		'featured'          => null,
+		'filter-bar'        => false,
+		'hide_weekends'     => false,
+		'hide-datepicker'   => false,
+		'hide-export'       => false,
+		'id'                => null,
+		'is-widget'         => false,
+		'keyword'           => null,
+		'main-calendar'     => false,
+		'tag'               => null,
+		'tax-operand'       => 'OR',
+		'tribe-bar'         => true,
+		'view'              => null,
+
 		'month_events_per_day' => null,
-		'keyword'              => null,
+		'week_events_per_day'  => null,
+		'layout'               => 'vertical', // @todo Change to auto when we enable that option.
+		'week_offset'          => null,
 
 		/**
 		 * @todo @bordoni @lucatume @be Update this when shortcode URL management is fixed.
 		 */
 		'should_manage_url'    => false,
-
-		'date'              => null,
-		'tribe-bar'         => true,
-		'filter-bar'        => false,
-		'category'          => null,
-		'tag'               => null,
-		'featured'          => null,
-		'main-calendar'     => false,
-		'is-widget'         => false,
-		'hide-datepicker'   => false,
-		'hide-export'       => false,
-		'container-classes' => [],
-		'tax-operand'       => 'OR',
 	];
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected $validate_arguments_map = [
-		'should_manage_url' => 'tribe_is_truthy',
-		'tribe-bar'         => 'tribe_is_truthy',
-		'filter-bar'        => 'tribe_is_truthy',
-		'featured'          => 'tribe_null_or_truthy',
-		'container-classes' => [ self::class, 'validate_array_html_classes' ],
-		'main-calendar'     => 'tribe_is_truthy',
-		'is-widget'         => 'tribe_is_truthy',
-		'hide-datepicker'   => 'tribe_is_truthy',
-		'hide-export'       => 'tribe_is_truthy',
-		'tax-operand'       => 'strtoupper',
+		'container-classes'    => [ self::class, 'validate_array_html_classes' ],
+		'featured'             => 'tribe_null_or_truthy',
+		'filter-bar'           => 'tribe_is_truthy',
+		'hide-datepicker'      => 'tribe_is_truthy',
+		'hide-export'          => 'tribe_is_truthy',
+		'is-widget'            => 'tribe_is_truthy',
+		'main-calendar'        => 'tribe_is_truthy',
+		'month_events_per_day' => 'tribe_null_or_number',
+		'should_manage_url'    => 'tribe_is_truthy',
+		'tax-operand'          => 'strtoupper',
+		'tribe-bar'            => 'tribe_is_truthy',
+		'week_events_per_day'  => 'tribe_null_or_number',
+		'week_offset'          => 'tribe_null_or_number',
+		'hide_weekends'        => 'tribe_is_truthy',
 	];
 
 	/**
@@ -96,11 +106,15 @@ class Tribe_Events extends Shortcode_Abstract {
 		'cat'                   => 'category',
 		'cats'                  => 'category',
 		'tribe_events_category' => 'category',
+		'tribe_events_cat'      => 'category',
 		'categories'            => 'category',
 		'tags'                  => 'tag',
 		'event_tags'            => 'tag',
 		'event_tag'             => 'tag',
 		'post_tag'              => 'tag',
+		'post_tags'             => 'tag',
+		'start_date'            => 'date',
+		'week_layout'           => 'layout',
 	];
 
 	/**
@@ -115,31 +129,9 @@ class Tribe_Events extends Shortcode_Abstract {
 	 */
 	protected function toggle_view_hooks( $toggle ) {
 		if ( $toggle ) {
-			add_filter( 'tribe_events_views_v2_url_query_args', [ $this, 'filter_view_query_args' ], 15, 3 );
-			add_filter( 'tribe_events_views_v2_view_repository_args', [ $this, 'filter_view_repository_args' ], 10, 3 );
-			add_filter( 'tribe_events_views_v2_view_html_classes', [ $this, 'filter_view_html_classes' ], 10, 3 );
-			add_filter( 'tribe_events_views_v2_view_container_data', [ $this, 'filter_view_data' ], 10, 3 );
-			add_filter( 'tribe_events_views_v2_view_url_query_args', [ $this, 'filter_view_url_query_args' ], 10, 3 );
-			add_filter( 'tribe_events_views_v2_view_context', [ $this, 'filter_view_context' ], 10, 3 );
-			add_filter( 'tribe_events_views_v2_manager_default_view', [ $this, 'filter_default_url' ] );
-			add_filter( 'tribe_events_views_v2_view_url', [ $this, 'filter_view_url' ], 10, 3 );
-			add_filter( 'tribe_events_views_v2_view_next_url', [ $this, 'filter_view_url' ], 10, 3 );
-			add_filter( 'tribe_events_views_v2_view_prev_url', [ $this, 'filter_view_url' ], 10, 3 );
-
-			$this->add_template_mods();
+			$this->add_shortcode_hooks();
 		} else {
-			remove_filter( 'tribe_events_views_v2_url_query_args', [ $this, 'filter_view_query_args' ], 15 );
-			remove_filter( 'tribe_events_views_v2_view_repository_args', [ $this, 'filter_view_repository_args' ], 10 );
-			remove_filter( 'tribe_events_views_v2_view_html_classes', [ $this, 'filter_view_html_classes' ], 10 );
-			remove_filter( 'tribe_events_views_v2_view_container_data', [ $this, 'filter_view_data' ], 10 );
-			remove_filter( 'tribe_events_views_v2_view_url_query_args', [ $this, 'filter_view_url_query_args' ], 10 );
-			remove_filter( 'tribe_events_views_v2_view_context', [ $this, 'filter_view_context' ], 10 );
-			remove_filter( 'tribe_events_views_v2_manager_default_view', [ $this, 'filter_default_url' ] );
-			remove_filter( 'tribe_events_views_v2_view_url', [ $this, 'filter_view_url' ], 10 );
-			remove_filter( 'tribe_events_views_v2_view_next_url', [ $this, 'filter_view_url' ], 10 );
-			remove_filter( 'tribe_events_views_v2_view_prev_url', [ $this, 'filter_view_url' ], 10 );
-
-			$this->remove_template_mods();
+			$this->remove_shortcode_hooks();
 		}
 
 		/**
@@ -160,43 +152,101 @@ class Tribe_Events extends Shortcode_Abstract {
 	 *
 	 * @since 5.5.0
 	 */
-	protected function add_template_mods() {
+	protected function add_shortcode_hooks() {
+		add_filter( 'tribe_events_views_v2_url_query_args', [ $this, 'filter_view_query_args' ], 15, 3 );
+		add_filter( 'tribe_events_views_v2_view_repository_args', [ $this, 'filter_view_repository_args' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_view_html_classes', [ $this, 'filter_view_html_classes' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_view_container_data', [ $this, 'filter_view_data' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_view_url_query_args', [ $this, 'filter_view_url_query_args' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_view_context', [ $this, 'filter_view_context' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_manager_default_view', [ $this, 'filter_default_url' ] );
+		add_filter( 'tribe_events_views_v2_view_url', [ $this, 'filter_view_url' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_view_next_url', [ $this, 'filter_view_url' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_view_prev_url', [ $this, 'filter_view_url' ], 10, 3 );
+		add_filter( 'tribe_events_views_v2_view_week_breakpoints', [ $this, 'filter_week_view_breakpoints' ], 10, 2 );
+
 		// Removing tribe-bar when that argument is `false`.
-		if ( ! tribe_is_truthy( $this->get_argument( 'tribe-bar' ) ) || tribe_is_truthy( $this->get_argument( 'is-widget' ) ) ) {
+		if (
+			! tribe_is_truthy( $this->get_argument( 'tribe-bar' ) )
+			|| tribe_is_truthy( $this->get_argument( 'is-widget' ) )
+		) {
 			add_filter( 'tribe_template_html:events/v2/components/events-bar', '__return_false' );
 		}
 
 		// Removing export button when that argument is `true`.
-		if ( tribe_is_truthy( $this->get_argument( 'hide-export' ) ) || tribe_is_truthy( $this->get_argument( 'is-widget' ) ) ) {
+		if (
+			tribe_is_truthy( $this->get_argument( 'hide-export' ) )
+			|| tribe_is_truthy( $this->get_argument( 'is-widget' ) )
+		) {
 			add_filter( 'tribe_template_html:events/v2/components/ical-link', '__return_false' );
 		}
 
-		/* Month View */
-		// Removing datepicker when that argument is `true`.
-		if ( tribe_is_truthy( $this->get_argument( 'hide-datepicker' ) ) || tribe_is_truthy( $this->get_argument( 'is-widget' ) ) ) {
-			add_filter( "tribe_template_html:events/v2/month/top-bar/datepicker", '__return_false' );
-		}
-
 		/* Filter Bar */
-		if ( ! tribe_is_truthy( $this->get_argument( 'filter-bar' ) ) || ! tribe_is_truthy( $this->get_argument( 'tribe-bar' ) ) || tribe_is_truthy( $this->get_argument( 'is-widget' ) ) ) {
-			add_filter( 'tribe_events_filter_bar_views_v2_1_should_display_filters', '__return_false' );
+		if (
+			! tribe_is_truthy( $this->get_argument( 'filter-bar' ) )
+			|| ! tribe_is_truthy( $this->get_argument( 'tribe-bar' ) )
+			|| tribe_is_truthy( $this->get_argument( 'is-widget' ) )
+		) {
 			add_filter( 'tribe_events_filter_bar_views_v2_should_display_filters', '__return_false' );
 			add_filter( 'tribe_events_filter_bar_views_v2_1_should_display_filters', '__return_false' );
 			add_filter( 'tribe_events_filter_bar_views_v2_assets_should_enqueue_frontend', '__return_false' );
 			add_filter( 'tribe_events_views_v2_filter_bar_view_html_classes', '__return_false' );
 
 			if ( class_exists( 'Tribe\Events\Filterbar\Views\V2_1\Hooks' ) ) {
-				remove_filter( 'tribe_events_pro_shortcode_tribe_events_before_assets', [ tribe( 'filterbar.views.v2_1.hooks' ), 'action_include_assets' ] );
+				remove_filter(
+					'tribe_events_pro_shortcode_tribe_events_before_assets',
+					[ tribe( 'filterbar.views.v2_1.hooks' ), 'action_include_assets' ]
+				);
 			} else if ( class_exists( 'Tribe\Events\Filterbar\Views\V2\Hooks' ) ) {
-				remove_filter( 'tribe_events_pro_shortcode_tribe_events_before_assets', [ tribe( 'filterbar.views.v2.hooks' ), 'action_include_assets' ] );
+				remove_filter(
+					'tribe_events_pro_shortcode_tribe_events_before_assets',
+					[ tribe( 'filterbar.views.v2.hooks' ), 'action_include_assets' ]
+				);
 			}
 		}
 
-		/* Mobile "footer" nav */
-		if ( tribe_is_truthy( $this->get_argument( 'is-widget' ) ) ) {
-			add_filter( "tribe_template_html:events/v2/month/mobile-events/nav", '__return_false' );
+		/* Month widget only. */
+		if ( 'month' === $this->get_argument( 'view' ) && tribe_is_truthy( $this->get_argument( 'is-widget' ) ) ) {
+			/* Mobile "footer" nav */
+			add_filter( 'tribe_template_html:events/v2/month/mobile-events/nav', '__return_false' );
 		}
 
+		/* Week view & widget only. */
+		if ( 0 === stripos( $this->get_argument( 'view' ), 'week' ) ) {
+			// Allows for the "hide_weekends" attribute.
+			if ( tribe_is_truthy( $this->get_argument( 'hide_weekends' ) ) ) {
+				add_filter( 'tribe_get_option', [ $this, 'week_view_hide_weekends' ], 10, 2 );
+			}
+
+			add_filter( 'tribe_events_views_v2_week_events_per_day', [ $this, 'filter_week_events_per_day' ], 10, 2 );
+		}
+
+		// Removing datepicker when that argument is `true`.
+		if (
+			tribe_is_truthy( $this->get_argument( 'hide-datepicker' ) )
+			|| tribe_is_truthy( $this->get_argument( 'is-widget' ) )
+		) {
+			add_filter( "tribe_template_html:events/v2/month/top-bar/datepicker", '__return_false' );
+			add_filter( "tribe_template_html:events-pro/v2/week/top-bar/datepicker", '__return_false' );
+		}
+	}
+
+	/**
+	 * Hide weekends on shortcode.
+	 *
+	 * @since TBD
+	 *
+	 * @param mixed  $value      The value for the option.
+	 * @param string $optionName The name of the option.
+	 *
+	 * @return mixed The value for the option.
+	 */
+	public function week_view_hide_weekends( $value, $optionName ) {
+		if ( 'week_view_hide_weekends' !== $optionName ) {
+			return $value;
+		}
+
+		return true;
 	}
 
 	/**
@@ -206,14 +256,25 @@ class Tribe_Events extends Shortcode_Abstract {
 	 *
 	 * @since 5.5.0
 	 */
-	protected function remove_template_mods() {
+	protected function remove_shortcode_hooks() {
+		remove_filter( 'tribe_events_views_v2_url_query_args', [ $this, 'filter_view_query_args' ], 15 );
+		remove_filter( 'tribe_events_views_v2_view_repository_args', [ $this, 'filter_view_repository_args' ], 10 );
+		remove_filter( 'tribe_events_views_v2_view_html_classes', [ $this, 'filter_view_html_classes' ], 10 );
+		remove_filter( 'tribe_events_views_v2_view_container_data', [ $this, 'filter_view_data' ], 10 );
+		remove_filter( 'tribe_events_views_v2_view_url_query_args', [ $this, 'filter_view_url_query_args' ], 10 );
+		remove_filter( 'tribe_events_views_v2_view_context', [ $this, 'filter_view_context' ], 10 );
+		remove_filter( 'tribe_events_views_v2_manager_default_view', [ $this, 'filter_default_url' ] );
+		remove_filter( 'tribe_events_views_v2_view_url', [ $this, 'filter_view_url' ], 10 );
+		remove_filter( 'tribe_events_views_v2_view_next_url', [ $this, 'filter_view_url' ], 10 );
+		remove_filter( 'tribe_events_views_v2_view_prev_url', [ $this, 'filter_view_url' ], 10 );
+
 		remove_filter( 'tribe_template_html:events/v2/components/events-bar', '__return_false' ); // tribe-bar
 		remove_filter( 'tribe_template_html:events/v2/components/ical-link', '__return_false' ); // hide-export
 		remove_filter( 'tribe_template_html:events/v2/month/top-bar/datepicker', '__return_false' ); // hide-datepicker
+		remove_filter( "tribe_template_html:events-pro/v2/week/top-bar/datepicker", '__return_false' ); // hide-datepicker
 
 		// Filter Bar
-		remove_filter( 'tribe_events_filter_bar_views_v2_1_should_display_filters', '__return_false' ); // filter-bar
-		remove_filter( 'tribe_events_filter_bar_views_v2_should_display_filters', '__return_false' ); // filter-bar
+		remove_filter( 'tribe_events_filter_bar_views_v2_should_display_filters', '__return_false' );
 		remove_filter( 'tribe_events_filter_bar_views_v2_1_should_display_filters', '__return_false' );
 		remove_filter( 'tribe_events_filter_bar_views_v2_assets_should_enqueue_frontend', '__return_false' );
 		remove_filter( 'tribe_events_views_v2_filter_bar_view_html_classes', '__return_false' );
@@ -223,6 +284,11 @@ class Tribe_Events extends Shortcode_Abstract {
 		} else if ( class_exists( 'Tribe\Events\Filterbar\Views\V2\Hooks' ) ) {
 			add_filter( 'tribe_events_pro_shortcode_tribe_events_before_assets', [ tribe( 'filterbar.views.v2.hooks' ), 'action_include_assets' ] );
 		}
+
+		remove_filter( 'tribe_get_option', [ $this, 'week_view_hide_weekends' ] );
+		remove_filter( 'tribe_events_views_v2_view_week_breakpoints', [ $this, 'filter_week_view_breakpoints' ], 10 );
+
+		remove_filter( 'tribe_events_views_v2_week_events_per_day', [ $this, 'views_v2_week_events_per_day' ], 10 );
 	}
 
 	/**
@@ -395,8 +461,8 @@ class Tribe_Events extends Shortcode_Abstract {
 		$alter_context = $this->args_to_context( $arguments, $context );
 
 		// The View will consume this information on initial state.
-		$alter_context['shortcode']  = $shortcode_id;
-		$alter_context['id']         = $shortcode_id;
+		$alter_context['shortcode'] = $shortcode_id;
+		$alter_context['id']        = $shortcode_id;
 
 
 		$context = $context->alter( $alter_context );
@@ -422,7 +488,10 @@ class Tribe_Events extends Shortcode_Abstract {
 			return $arguments['id'];
 		}
 
-		ksort( $arguments );
+		// @todo: We hates it, my precious - find a better way.
+		if ( is_array( $arguments ) ) {
+			ksort( $arguments );
+		}
 
 		/*
 		 * Generate a string id based on the arguments used to setup the shortcode.
@@ -477,8 +546,17 @@ class Tribe_Events extends Shortcode_Abstract {
 	 * Hooked to `tribe_template_before_include@P15` and will unhook itself after the first template called.
 	 *
 	 * @since 5.5.0
+	 *
+	 * @param string           $file     Complete path to include the PHP File.
+	 * @param array            $name     Template name.
+	 * @param \Tribe__Template $template Current instance of the Tribe__Template.
 	 */
-	public function enqueue_assets_before_template() {
+	public function enqueue_assets_before_template( $file = null, $name = null, $template = null ) {
+		// Prevent other templates from triggering this.
+		if ( ! $template instanceof \Tribe\Events\Views\V2\Template ) {
+			return;
+		}
+
 		/**
 		 * Triggers an action to allow other plugins or extensions to load assets.
 		 *
@@ -522,7 +600,7 @@ class Tribe_Events extends Shortcode_Abstract {
 		$context = new Context();
 
 		/**
-		 * Please if you dont understand what these are doing, dont touch this.
+		 * Please if you don't understand what these are doing, don't touch this.
 		 */
 		add_filter( 'tribe_context_locations', [ $this, 'remove_request_based_context_locations' ], 1000, 2 );
 		$context->dangerously_repopulate_locations();
@@ -540,7 +618,15 @@ class Tribe_Events extends Shortcode_Abstract {
 		// Toggle the shortcode required modifications.
 		$this->toggle_view_hooks( true );
 
-		add_action( 'tribe_template_before_include', [ $this, 'enqueue_assets_before_template' ], 15 );
+		$shortcode_object = $this;
+
+		add_filter( 'tribe_events_views_v2_view_cached_html', static function ( $cached_html, $view ) use ( $shortcode_object ) {
+			$shortcode_object->enqueue_assets_before_template( null, null, $view->get_template() );
+
+			return $cached_html;
+		}, 15, 2 );
+
+		add_action( 'tribe_template_before_include', [ $this, 'enqueue_assets_before_template' ], 15, 3 );
 
 		// Setup the view instance.
 		$view = View::make( $view_slug, $context );
@@ -560,10 +646,15 @@ class Tribe_Events extends Shortcode_Abstract {
 		 * @param bool   $compatibility_required Is compatibility required for this shortcode.
 		 * @param static $shortcode              Shortcode instance that is being rendered.
 		 */
-		$compatibility_required = apply_filters( 'tribe_events_pro_shortcode_compatibility_required', $theme_compatibility->is_compatibility_required(), $this );
+		$compatibility_required = apply_filters(
+			'tribe_events_pro_shortcode_compatibility_required',
+			$theme_compatibility->is_compatibility_required(),
+			$this
+		);
 
 		if ( $compatibility_required ) {
-			$classes         = array_merge( [ 'tribe-compatibility-container' ], $theme_compatibility->get_body_classes() );
+			$container       = [ 'tribe-compatibility-container' ];
+			$classes         = array_merge( $container, $theme_compatibility->get_body_classes() );
 			$element_classes = new Element_Classes( $classes );
 			$html            .= '<div ' . $element_classes->get_attribute() . '>';
 		}
@@ -578,7 +669,7 @@ class Tribe_Events extends Shortcode_Abstract {
 		$this->toggle_view_hooks( false );
 
 		/**
-		 * Please if you dont understand what these are doing, dont touch this.
+		 * Please if you don't understand what these are doing, don't touch this.
 		 */
 		remove_filter( 'tribe_context_locations', [ $this, 'remove_request_based_context_locations' ], 1000 );
 		$context->dangerously_repopulate_locations();
@@ -669,8 +760,16 @@ class Tribe_Events extends Shortcode_Abstract {
 			$context_args['events_per_page'] = (int) $arguments['events_per_page'];
 		}
 
+		if ( tribe_is_truthy( $arguments['is-widget'] ) ) {
+			$context_args['is-widget'] = tribe_is_truthy( $arguments['is-widget'] );
+		}
+
 		if ( ! empty( $arguments['month_events_per_day'] ) ) {
 			$context_args['month_posts_per_page'] = (int) $arguments['month_events_per_day'];
+		}
+
+		if ( ! empty( $arguments['week_events_per_day'] ) ) {
+			$context_args['week_events_per_day'] = (int) $arguments['week_events_per_day'];
 		}
 
 		if ( ! empty( $arguments['keyword'] ) ) {
@@ -777,6 +876,29 @@ class Tribe_Events extends Shortcode_Abstract {
 		if ( empty( $arguments ) ) {
 			return $view_context;
 		}
+
+		/* Week view/widget only. */
+		if ( false !== stripos( $view_slug, 'week' ) ) {
+			$offset = $this->get_argument( 'week_offset' );
+			if ( tribe_is_truthy( $offset ) && empty( $view_context->get( 'eventDate' ) ) ) {
+				$start_date  = Dates::build_date_object( $this->get_argument( 'date', 'now' ) );
+				$is_negative = '-' === substr( $offset, 0, 1 );
+				// Set up for negative weeks.
+				$interval = ( $is_negative )
+					? substr( $offset, 1, 1 )
+					: $offset;
+
+				$di         = Dates::interval( "P{$interval}W" );
+				$di->invert = absint( $is_negative );
+
+				$start_date->add( $di );
+
+				$arguments['date'] = $start_date->format( Dates::DBDATEFORMAT );
+			}
+
+			$arguments['week_events_per_day'] = $this->get_argument( 'week_events_per_day' );
+		}
+
 
 		return $this->alter_context( $view_context, $arguments );
 	}
@@ -955,5 +1077,74 @@ class Tribe_Events extends Shortcode_Abstract {
 		$query['shortcode'] = $shortcode;
 
 		return $query;
+	}
+
+	/**
+	 * Filter the breakpoints for the week view widget based on layout.
+	 *
+	 * @since TBD
+	 *
+	 * @param array $breakpoints All breakpoints available.
+	 * @param View  $view        The current View instance being rendered.
+	 *
+	 * @return array Modified array of available breakpoints.
+	 */
+	public function filter_week_view_breakpoints( $breakpoints, $view ) {
+		$context   = $view->get_context();
+		$widget    = $context->get( 'is-widget', false );
+		$shortcode = $context->get( 'shortcode', false );
+
+		if ( false === $widget ) {
+			return $breakpoints;
+		}
+
+		if ( false === $shortcode ) {
+			return $breakpoints;
+		}
+
+		$shortcode_args = $this->get_database_arguments( $shortcode );
+		if ( ! $shortcode_args ) {
+			return $breakpoints;
+		}
+
+		if ( 'vertical' === $shortcode_args['layout'] ) {
+			// Remove all breakpoints to remain in "mobile view".
+			return [];
+		} elseif ( 'horizontal' === $shortcode_args['layout'] ) {
+			// Simplify breakpoints to remain in "desktop view".
+			unset( $breakpoints['xsmall'] );
+			$breakpoints['medium'] = 0;
+
+			return $breakpoints;
+		}
+
+		// Fallback and space for "auto".
+		return $breakpoints;
+	}
+
+	/**
+	 * Modify the Week events per day of a given view based on arguments from Shortcode.
+	 *
+	 * @since TBD
+	 *
+	 * @param int|string $events_per_day Number of events per day.
+	 * @param View       $view           Current view being rendered.
+	 *
+	 * @return mixed
+	 */
+	public function filter_week_events_per_day( $events_per_day, $view ) {
+		$context   = $view->get_context();
+		$shortcode = $context->get( 'shortcode', false );
+
+		if ( false === $shortcode ) {
+			return $events_per_day;
+		}
+
+		$shortcode_args = $this->get_database_arguments( $shortcode );
+		if ( ! $shortcode_args || ! isset( $shortcode_args['count'] ) ) {
+			return $events_per_day;
+		}
+
+		return $shortcode_args['count'];
 	}
 }

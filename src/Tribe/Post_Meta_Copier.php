@@ -52,6 +52,17 @@ class Tribe__Events__Pro__Post_Meta_Copier {
 
 			foreach ( $meta_values as $meta_value ) {
 				$meta_value = maybe_unserialize( $meta_value );
+				/**
+				 * Allows filtering the meta value before copying to a new recurring event.
+				 *
+				 * @since TBD
+				 *
+				 * @param mixed $meta_value The meta value being copied.
+				 * @param string $meta_key The meta key.
+				 * @param WP_Post $original_post The post object from which the meta is being copied.
+				 * @param WP_Post $destination_post The post object to which the meta is being copied.
+				 */
+				$meta_value = apply_filters( 'tribe_events_meta_copier_copy_meta_value', $meta_value, $meta_key, $original_post, $destination_post );
 				add_post_meta( $destination_post, $meta_key, $meta_value );
 			}
 		}

@@ -49,6 +49,9 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 		// Hook on the AJAX call Elementor will make during edits to support the archive shortcodes.
 		add_action( 'wp_ajax_elementor_ajax', [ $this, 'support_archive_shortcode' ] );
 
+		// Ensure that elementor data is not butchered as it is copied to recurring event children.
+		add_filter( 'tribe_events_meta_copier_copy_meta_value', [ $this, 'filter_protect_elementor_data' ], 10, 2 );
+
 		if ( ! tribe_events_views_v2_is_enabled() ) {
 			return;
 		}
@@ -57,6 +60,25 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 		add_action( 'elementor/elements/categories_registered', [ $this, 'action_register_elementor_category' ] );
 		add_action( 'elementor/controls/controls_registered', [ $this, 'action_register_elementor_controls' ] );
 		add_action( 'elementor/preview/enqueue_styles', [ $this, 'action_enqueue_resources' ] );
+	}
+
+	/**
+	 * Ensures that JSON being copied to recurring event instances retains its escaped slashes.
+	 *
+	 * @since TBD
+	 *
+	 * @param mixed $meta_value The meta value being protected.
+	 * @param string $meta_key The meta key.
+	 *
+	 * @return mixed|string
+	 */
+	public function filter_protect_elementor_data( $meta_value, $meta_key ) {
+		if ( '_elementor_data' !== $meta_key ) {
+			return $meta_value;
+		}
+
+		// We wp_slash() in order to protect the value from the wp_unslash() call within add_post_meta.
+		return wp_slash( $meta_value );
 	}
 
 	/**

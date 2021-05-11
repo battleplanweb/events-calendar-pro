@@ -8,12 +8,12 @@
 
 namespace Tribe\Events\Pro\Views\V2\Views;
 
+use Tribe\Events\Pro\Rewrite\Rewrite as Rewrite;
 use Tribe\Events\Views\V2\Messages;
+use Tribe\Events\Views\V2\Utils;
 use Tribe\Events\Views\V2\Views\List_View;
 use Tribe__Context as Context;
 use Tribe__Events__Main as TEC;
-use Tribe\Events\Pro\Rewrite\Rewrite as Rewrite;
-use Tribe\Events\Views\V2\Utils;
 
 /**
  * Class All_View
@@ -218,5 +218,21 @@ class All_View extends List_View {
 		];
 
 		return $breadcrumbs;
+	}
+
+	/**
+	 * Overrides the base method to ensure that, to show ALL occurrences
+	 * of a Recurring Event, the `hide_subsequent_recurrences` repository
+	 * argsument will always be false.
+	 *
+	 * @since TBD
+	 *
+	 * @return array<string,mixed> The filtered Repository arguments.
+	 */
+	public function get_repository_args() {
+		$repository_args                                = parent::get_repository_args();
+		$repository_args['hide_subsequent_recurrences'] = false;
+
+		return $repository_args;
 	}
 }

@@ -21,7 +21,7 @@
  */
 use \Tribe\Events\Pro\Views\V2\Widgets\Taxonomy_Filter;
 
-// Makes sure we dont have any notices from disabled not existing.
+// Makes sure we don't have any notices from disabled not existing.
 if ( empty( $disabled ) ) {
 	$disabled = tribe( Taxonomy_Filter::class )->get_disabled_terms_on_widget( $widget_obj );
 }

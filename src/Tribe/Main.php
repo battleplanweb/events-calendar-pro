@@ -71,7 +71,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '5.5.0';
+		const VERSION = '5.6.0';
 
 		/**
 		 * The Events Calendar Required Version
@@ -745,7 +745,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 							'week_view_hide_weekends' => array(
 								'type'            => 'checkbox_bool',
 								'label'           => __( 'Hide weekends on Week View', 'tribe-events-calendar-pro' ),
-								'tooltip'         => __( 'Check this to only show weekdays on Week View', 'tribe-events-calendar-pro' ),
+								'tooltip'         => __( 'Check this to only show weekdays on Week View. This also affects the Events by Week widget.', 'tribe-events-calendar-pro' ),
 								'default'         => false,
 								'validation_type' => 'boolean',
 							),

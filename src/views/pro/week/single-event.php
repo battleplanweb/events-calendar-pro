@@ -25,7 +25,7 @@
  * You can modify these templates as you wish, and add new data to them for use either in these templates or anywhere on these views.
  * The javascript templates themselves are explained further on.
  * This "data-tribejson" attribute contains a string of valid json that must have its double quotes escaped correctly so it can be used both on a data att and for use in jquery's json methods.
- * Scary? Dont worry, we've taken care of this encoding for you, find out how in the next section.
+ * Scary? Don't worry, we've taken care of this encoding for you, find out how in the next section.
  *
  * 2) The Template Tags ************************************************************
  *

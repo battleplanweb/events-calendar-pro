@@ -10,7 +10,6 @@
 namespace Tribe\Events\Pro\Views\V2\Widgets;
 
 use Tribe__Date_Utils as Dates;
-use Tribe__Events__Main as TEC_Main;
 
 /**
  * Class Ajax

@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the The Events Calendar PRO package.
 msgid ""
 msgstr ""
-"Project-Id-Version: The Events Calendar PRO 5.5.0\n"
+"Project-Id-Version: The Events Calendar PRO 5.6.0\n"
 "Report-Msgid-Bugs-To: http://m.tri.be/191x\n"
-"POT-Creation-Date: 2021-03-19 04:39:58+00:00\n"
+"POT-Creation-Date: 2021-04-28 16:11:04+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2021-03-19 04:39\n"
+"PO-Revision-Date: 2021-04-28 16:11\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 
@@ -21,10 +21,10 @@ msgid ""
 "To begin using Events Calendar PRO, please install the latest version of"
 msgstr ""
 
-#. #-#-#-#-#  tribe-events-calendar-pro.pot (The Events Calendar PRO 5.5.0)  #-#-#-#-#
+#. #-#-#-#-#  tribe-events-calendar-pro.pot (The Events Calendar PRO 5.6.0)  #-#-#-#-#
 #. Author of the plugin/theme
 #: events-calendar-pro.php:176 events-calendar-pro.php:177
-#: src/Tribe/Integrations/Elementor/Service_Provider.php:100
+#: src/Tribe/Integrations/Elementor/Service_Provider.php:122
 msgid "The Events Calendar"
 msgstr ""
 
@@ -74,16 +74,6 @@ msgstr ""
 #: src/views/v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/recurring.php:28
 #: src/views/v2/week/mobile-events/day/event/date/recurring.php:31
 #: src/views/v2/week/mobile-events/day/event/date/recurring.php:32
-#: src/views/v2/widget-week/grid-body/events-day/event/date/recurring.php:27
-#: src/views/v2/widget-week/grid-body/events-day/event/date/recurring.php:28
-#: src/views/v2/widget-week/grid-body/events-day/event/tooltip/date/recurring.php:31
-#: src/views/v2/widget-week/grid-body/events-day/event/tooltip/date/recurring.php:32
-#: src/views/v2/widget-week/grid-body/multiday-events-day/multiday-event/bar/recurring.php:27
-#: src/views/v2/widget-week/grid-body/multiday-events-day/multiday-event/bar/recurring.php:28
-#: src/views/v2/widget-week/grid-body/multiday-events-day/multiday-event/hidden/link/recurring.php:27
-#: src/views/v2/widget-week/grid-body/multiday-events-day/multiday-event/hidden/link/recurring.php:28
-#: src/views/v2/widget-week/mobile-events/day/event/date/recurring.php:31
-#: src/views/v2/widget-week/mobile-events/day/event/date/recurring.php:32
 msgid "Recurring"
 msgstr ""
 
@@ -199,7 +189,7 @@ msgid "No"
 msgstr ""
 
 #: src/Tribe/APM_Filters/Title_Filter.php:12
-#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:84
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:83
 msgid "Search"
 msgstr ""
 
@@ -280,7 +270,7 @@ msgid "Events Countdown"
 msgstr ""
 
 #: src/Tribe/Countdown_Widget.php:56 src/Tribe/Countdown_Widget.php:116
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:270
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:268
 msgid "Hooray!"
 msgstr ""
 
@@ -488,36 +478,40 @@ msgstr ""
 msgid "Specify Event"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:64
-msgid "Select a specific event by ID."
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:66
+msgid "Select a specific upcoming event by ID"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:68
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:67
 msgid "Use the current page's event ID"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:69
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:68
 msgid "Manually enter event ID"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:75
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:74
 msgid "Event ID"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:85
-msgid "Find upcoming events via search."
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:84
+msgid "Search for a specific upcoming event"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:91
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:90
 msgid "Event Slug"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:92
-msgid "Find upcoming events via a url-formatted event name."
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:91
+msgid "Enter a URL-formatted event name"
+msgstr ""
+
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:97
+msgid "Advanced event filtering"
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:98
-msgid "Advanced event filtering"
+msgid "Select an upcoming event using date-based rules and meta information."
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:114
@@ -526,6 +520,11 @@ msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:121
 msgid "Starts"
+msgstr ""
+
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:125
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:239
+msgid "Select Date"
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:126
@@ -573,8 +572,8 @@ msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:147
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:261
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:251
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:280
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:250
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:279
 msgid "Custom"
 msgstr ""
 
@@ -624,7 +623,7 @@ msgstr ""
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:406
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:429
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:452
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:182
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:179
 msgid "Include"
 msgstr ""
 
@@ -633,7 +632,7 @@ msgstr ""
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:410
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:433
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:456
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:186
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:183
 msgid "Exclude"
 msgstr ""
 
@@ -650,12 +649,12 @@ msgid "Only Multi-day Events"
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:400
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:177
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:174
 msgid "Featured Events"
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:414
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:190
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:187
 msgid "Only Featured Events"
 msgstr ""
 
@@ -677,7 +676,7 @@ msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:469
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_List.php:233
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:202
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:199
 msgid "Category"
 msgstr ""
 
@@ -696,7 +695,7 @@ msgstr ""
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Countdown.php:73
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_List.php:76
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:296
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:105
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:100
 msgid "Content"
 msgstr ""
 
@@ -717,11 +716,11 @@ msgid "Maximum Events"
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_List.php:85
-msgid "The maximum number of events that this widget should show."
+msgid "The maximum number of events this widget should show."
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_List.php:99
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:225
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:223
 msgid "View Options"
 msgstr ""
 
@@ -780,7 +779,7 @@ msgid "Phone"
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_List.php:226
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:170
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:167
 msgid "Event Options"
 msgstr ""
 
@@ -912,73 +911,78 @@ msgstr ""
 msgid "Events View"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:128
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:119
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:249
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:278
+msgid "Default"
+msgstr ""
+
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:125
 msgid "Events Bar"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:131
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:145
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:128
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:142
 msgid "Show"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:132
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:146
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:129
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:143
 msgid "Hide"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:142
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:139
 msgid "Filter Bar"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:156
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:153
 msgid "View"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:213
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:210
 msgid "Keyword"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:214
-msgid "Display events with a specific search keyword."
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:211
+msgid "Enter a search keyword."
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:232
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:212
+msgid "Use a search keyword to only show matching events."
+msgstr ""
+
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:230
 msgid "View Start Date"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:233
-msgid "Date in YYYY-MM-DD or YYYY-MM format."
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:231
+msgid "Date in YYY-MM-DD or YYYY-MM format"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:233
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:232
 msgid ""
 "Note: the Day View only supports YYYY-MM-DD date formats as well as relative "
 "date formats like \"yesterday\", \"today\", \"tomorrow\", \"+3 days\", etc."
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:243
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:242
 msgid "Events Per Page"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:244
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:243
 msgid "The number of events to display per page."
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:250
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:279
-msgid "Default"
-msgstr ""
-
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:259
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:288
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:258
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:287
 msgid "Event Count"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:272
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:271
 msgid "Month View Events Per Day"
 msgstr ""
 
-#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:273
+#: src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php:272
 msgid ""
 "The number of events to display per page day in month view. Defaults to the "
 "value set in Events > Settings."
@@ -1046,7 +1050,9 @@ msgid "Hide weekends on Week View"
 msgstr ""
 
 #: src/Tribe/Main.php:748
-msgid "Check this to only show weekdays on Week View"
+msgid ""
+"Check this to only show weekdays on Week View. This also affects the Events "
+"by Week widget."
 msgstr ""
 
 #: src/Tribe/Main.php:760
@@ -2534,108 +2540,108 @@ msgctxt "Placeholder label for taxonomy filter dropdown."
 msgid "Select a Taxonomy Term"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:142
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:141
 msgctxt "The title for the meta data section of the List Widget."
 msgid "Display:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:146
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:145
 msgctxt "The label for the option to enable cost display in the List Widget."
 msgid "Price"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:150
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:149
 msgctxt "The label for the option to enable venue display in the List Widget."
 msgid "Venue"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:154
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:153
 msgctxt "The label for the option to enable street display in the List Widget."
 msgid "Street"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:158
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:157
 msgctxt "The label for the option to enable city display in the List Widget."
 msgid "City"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:162
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:161
 msgctxt "The label for the option to enable region display in the List Widget."
 msgid "State (US) Or Province (Int)"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:166
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:165
 msgctxt ""
 "The label for the option to enable zip/postal code display in the List "
 "Widget."
 msgid "Postal Code"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:170
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:169
 msgctxt ""
 "The label for the option to enable country display in the List Widget."
 msgid "Country"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:174
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:173
 msgctxt "The label for the option to enable phone display in the List Widget."
 msgid "Phone"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:178
+#: src/Tribe/Views/V2/Widgets/Widget_Advanced_List.php:177
 msgctxt ""
 "The label for the option to enable organizer display in the List Widget."
 msgid "Organizer"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:95
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:93
 msgctxt "The name of the Countdown Widget."
 msgid "Events Countdown"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:107
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:105
 msgctxt "The description of the Countdown Widget."
 msgid "Displays the time remaining until a specified event."
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:153
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:151
 msgctxt "The label for the title field of the Countdown Widget."
 msgid "Title:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:162
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:160
 msgctxt "The label for the type field of the Countdown Widget."
 msgid "Countdown to:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:170
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:168
 msgctxt "Label for the \"countdown to a single event\" option."
 msgid "Next upcoming event"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:179
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:177
 msgctxt "Label for the \"countdown to a single event\" option."
 msgid "Specific event"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:197
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:195
 msgctxt "The label for the event field of the Countdown Widget."
 msgid "Event:"
 msgstr ""
 
 #. Translators: 1: single event term
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:204
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:131
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:202
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:130
 msgid "Select an %1$s"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:221
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:219
 msgctxt ""
 "The label for the field to change the displayed text on countdown completion."
 msgid "Countdown Completed Text"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:226
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:224
 msgctxt ""
 "A note about what this shows when \"Next Event\" is the countdown type."
 msgid ""
@@ -2643,124 +2649,140 @@ msgid ""
 "no events to show."
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:234
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:232
 msgctxt "The label for the option to show seconds in the countdown widget."
 msgid "Show seconds?"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:242
+#: src/Tribe/Views/V2/Widgets/Widget_Countdown.php:240
 msgctxt "The label for the option to enable JSON-LD in the List Widget."
 msgid "Generate JSON-LD data"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:81
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:80
 msgctxt "The name of the Featured Venue."
 msgid "Events Featured Venue"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:89
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:88
 msgctxt "The description of the Featured Venue Widget."
 msgid "Displays a list of upcoming events at a specific venue."
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:125
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:124
 msgctxt "The label for the field of the title of the Featured Venue Widget."
 msgid "Title:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:130
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:129
 msgctxt "The label for the venue field of the Featured Venue Widget."
 msgid "Venue:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:135
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:134
 msgctxt "The label to choose the venue to show in the Featured Venue Widget."
 msgid "Choose a venue."
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:142
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:141
 msgctxt ""
 "The label for the amount of events to show in the Featured Venue Widget."
 msgid "Show:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:150
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:149
 msgctxt ""
 "The label for the option to hide the Featured Venue Widget if no upcoming "
 "events."
 msgid "Hide this widget if there are no upcoming events."
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:154
+#: src/Tribe/Views/V2/Widgets/Widget_Featured_Venue.php:153
 msgctxt ""
 "The label for the option to enable JSON-LD in the Featured Venue Widget."
 msgid "Generate JSON-LD data"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Month.php:86
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:101
 msgctxt "The name of the Month Widget."
-msgid "Events Calendar"
+msgid "%1$s Calendar"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Month.php:101
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:116
 msgctxt "Description of the Events Calendar Widget."
 msgid "The %1$s calendar mini calendar widget"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Month.php:268
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:344
+msgctxt "The default title of the Month Widget."
+msgid "Events Calendar"
+msgstr ""
+
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:372
 msgctxt "The label for the title field of the Month Widget."
 msgid "Title:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Month.php:276
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:378
+msgctxt "The title of the Month Widget."
+msgid "%1$s Calendar"
+msgstr ""
+
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:388
 msgctxt "tribe-events-calendar-pro"
 msgid "Number of events to list below the widget calendar:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Month.php:292
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:404
 msgctxt "The label for the option to enable JSON-LD in the Month Widget."
 msgid "Generate JSON-LD data"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:82
-msgctxt "The name of the This Week Widget."
-msgid "%1$s This Week"
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:98
+msgctxt "The name of the Events By Week Widget."
+msgid "%1$s By Week"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:96
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:101
-msgctxt "Description of the This Week Widget."
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:112
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:118
+msgctxt "Description of the Events By Week Widget."
 msgid "Display %1$s by day for the week."
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:137
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:211
 msgctxt "The label for the title field of the Week Widget."
 msgid "Title:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:145
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:219
 msgctxt "The label for the layout field of the Week Widget."
 msgid "Layout:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:154
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:240
 msgctxt "The text for the vertical layout option."
-msgid "Vertical Layout"
+msgid "Vertical"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:162
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:248
 msgctxt "The text for the horizontal layout option."
-msgid "Horizontal Layout"
+msgid "Horizontal"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:172
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:258
 msgctxt "tribe-events-calendar-pro"
 msgid "Number of events to show per day:"
 msgstr ""
 
-#: src/Tribe/Views/V2/Widgets/Widget_Week.php:189
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:295
 msgctxt "The label for the option to enable JSON-LD in the Week View Widget."
 msgid "Generate JSON-LD data"
+msgstr ""
+
+#. translators: %s: date of the first day of the week, like "April 01"
+#: src/Tribe/Views/V2/Widgets/Widget_Week.php:428
+msgctxt "The \"week of\" header"
+msgid "Week of %s"
 msgstr ""
 
 #: src/admin-views/custom-fields/gutenberg.php:3
@@ -3519,61 +3541,61 @@ msgstr ""
 msgid "Show only the first upcoming instance of recurring %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:256
-#: src/functions/template-tags/general.php:271
-#: src/functions/template-tags/general.php:286
-#: src/functions/template-tags/general.php:301
-#: src/functions/template-tags/general.php:316
-#: src/functions/template-tags/general.php:331
-#: src/functions/template-tags/general.php:346
-#: src/functions/template-tags/general.php:361
-#: src/functions/template-tags/general.php:376
+#: src/functions/template-tags/general.php:259
+#: src/functions/template-tags/general.php:274
+#: src/functions/template-tags/general.php:289
+#: src/functions/template-tags/general.php:304
+#: src/functions/template-tags/general.php:319
+#: src/functions/template-tags/general.php:334
+#: src/functions/template-tags/general.php:349
+#: src/functions/template-tags/general.php:364
+#: src/functions/template-tags/general.php:379
 msgid "No default set"
 msgstr ""
 
-#: src/functions/template-tags/general.php:258
+#: src/functions/template-tags/general.php:261
 msgid "The current default organizer is: %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:273
+#: src/functions/template-tags/general.php:276
 msgid "The current default venue is: %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:288
+#: src/functions/template-tags/general.php:291
 msgid "The current default address is: %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:303
+#: src/functions/template-tags/general.php:306
 msgid "The current default city is: %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:318
-#: src/functions/template-tags/general.php:333
+#: src/functions/template-tags/general.php:321
+#: src/functions/template-tags/general.php:336
 msgid "The current default state/province is: %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:348
+#: src/functions/template-tags/general.php:351
 msgid "The current default postal code/zip code is: %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:363
+#: src/functions/template-tags/general.php:366
 msgid "The current default country is: %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:378
+#: src/functions/template-tags/general.php:381
 msgid "The current default phone is: %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:573
-#: src/functions/template-tags/general.php:596
+#: src/functions/template-tags/general.php:576
+#: src/functions/template-tags/general.php:599
 msgid "Date out of range."
 msgstr ""
 
-#: src/functions/template-tags/general.php:712
+#: src/functions/template-tags/general.php:715
 msgid "Recurring %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:715
+#: src/functions/template-tags/general.php:718
 msgid "(See all)"
 msgstr ""
 
@@ -3642,7 +3664,6 @@ msgstr ""
 #: src/views/pro/week/loop-grid-allday.php:18
 #: src/views/v2/map/event-cards/event-card/event/date-time.php:32
 #: src/views/v2/week/mobile-events/day/type-separator.php:22
-#: src/views/v2/widget-week/mobile-events/day/type-separator.php:22
 msgid "All Day"
 msgstr ""
 
@@ -3746,18 +3767,6 @@ msgstr ""
 #: src/views/v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/featured.php:28
 #: src/views/v2/week/mobile-events/day/event/date/featured.php:27
 #: src/views/v2/week/mobile-events/day/event/date/featured.php:28
-#: src/views/v2/widget-week/grid-body/events-day/event/date/featured.php:27
-#: src/views/v2/widget-week/grid-body/events-day/event/date/featured.php:28
-#: src/views/v2/widget-week/grid-body/events-day/event/title/featured.php:27
-#: src/views/v2/widget-week/grid-body/events-day/event/title/featured.php:28
-#: src/views/v2/widget-week/grid-body/events-day/event/tooltip/date/featured.php:27
-#: src/views/v2/widget-week/grid-body/events-day/event/tooltip/date/featured.php:28
-#: src/views/v2/widget-week/grid-body/multiday-events-day/multiday-event/bar/featured.php:27
-#: src/views/v2/widget-week/grid-body/multiday-events-day/multiday-event/bar/featured.php:28
-#: src/views/v2/widget-week/grid-body/multiday-events-day/multiday-event/hidden/link/featured.php:27
-#: src/views/v2/widget-week/grid-body/multiday-events-day/multiday-event/hidden/link/featured.php:28
-#: src/views/v2/widget-week/mobile-events/day/event/date/featured.php:27
-#: src/views/v2/widget-week/mobile-events/day/event/date/featured.php:28
 #: src/views/v2/widgets/widget-featured-venue/events-list/event/date/featured.php:25
 #: src/views/v2/widgets/widget-featured-venue/events-list/event/date/featured.php:26
 #: src/views/v2/widgets/widget-featured-venue/events-list/event/date/featured.php:31
@@ -3767,7 +3776,6 @@ msgstr ""
 #: src/views/v2/map/event-cards/event-card/event/venue.php:24
 #: src/views/v2/map/event-cards/event-card/tooltip/venue.php:24
 #: src/views/v2/week/mobile-events/day/event/venue.php:20
-#: src/views/v2/widget-week/mobile-events/day/event/venue.php:20
 msgctxt "Address separator"
 msgid ", "
 msgstr ""
@@ -3779,8 +3787,6 @@ msgstr ""
 #: src/views/v2/map/event-cards/event-card/tooltip/navigation.php:36
 #: src/views/v2/week/mobile-events/nav/next-disabled.php:23
 #: src/views/v2/week/mobile-events/nav/next.php:27
-#: src/views/v2/widget-week/mobile-events/nav/next-disabled.php:23
-#: src/views/v2/widget-week/mobile-events/nav/next.php:27
 msgid "Next"
 msgstr ""
 
@@ -3850,15 +3856,12 @@ msgstr ""
 #: src/views/v2/photo/nav/today.php:23 src/views/v2/photo/nav/today.php:24
 #: src/views/v2/week/mobile-events/nav/today.php:23
 #: src/views/v2/week/mobile-events/nav/today.php:24
-#: src/views/v2/widget-week/mobile-events/nav/today.php:23
-#: src/views/v2/widget-week/mobile-events/nav/today.php:24
 msgid "Click to select today's date"
 msgstr ""
 
 #: src/views/v2/map/event-cards/nav/today.php:26
 #: src/views/v2/photo/nav/today.php:26
 #: src/views/v2/week/mobile-events/nav/today.php:26
-#: src/views/v2/widget-week/mobile-events/nav/today.php:26
 msgid "Today"
 msgstr ""
 
@@ -3883,20 +3886,16 @@ msgstr ""
 #: src/views/v2/photo/top-bar/datepicker.php:35
 #: src/views/v2/week/top-bar/datepicker.php:35
 #: src/views/v2/week/top-bar/datepicker.php:36
-#: src/views/v2/widget-week/top-bar/datepicker.php:35
-#: src/views/v2/widget-week/top-bar/datepicker.php:36
 msgid "Click to toggle datepicker"
 msgstr ""
 
 #: src/views/v2/map/top-bar/datepicker.php:77
 #: src/views/v2/photo/top-bar/datepicker.php:77
 #: src/views/v2/week/top-bar/datepicker.php:64
-#: src/views/v2/widget-week/top-bar/datepicker.php:64
 msgid "Select date."
 msgstr ""
 
-#: src/views/v2/map.php:49 src/views/v2/photo.php:49 src/views/v2/week.php:53
-#: src/views/v2/widget-week.php:53
+#: src/views/v2/map.php:49 src/views/v2/photo.php:49 src/views/v2/week.php:54
 msgid "Loading..."
 msgstr ""
 
@@ -3907,7 +3906,6 @@ msgstr ""
 
 #. translators: events (plural)
 #: src/views/v2/week/day-selector/days/day.php:34
-#: src/views/v2/widget-week/day-selector/days/day.php:34
 msgid "Has %s"
 msgstr ""
 
@@ -3922,17 +3920,6 @@ msgstr ""
 #: src/views/v2/week/top-bar/nav/next-disabled.php:20
 #: src/views/v2/week/top-bar/nav/next.php:22
 #: src/views/v2/week/top-bar/nav/next.php:23
-#: src/views/v2/widget-week/day-selector/nav/next.php:22
-#: src/views/v2/widget-week/day-selector/nav/next.php:23
-#: src/views/v2/widget-week/day-selector/nav/next.php:26
-#: src/views/v2/widget-week/mobile-events/nav/next-disabled.php:19
-#: src/views/v2/widget-week/mobile-events/nav/next-disabled.php:20
-#: src/views/v2/widget-week/mobile-events/nav/next.php:24
-#: src/views/v2/widget-week/mobile-events/nav/next.php:25
-#: src/views/v2/widget-week/top-bar/nav/next-disabled.php:19
-#: src/views/v2/widget-week/top-bar/nav/next-disabled.php:20
-#: src/views/v2/widget-week/top-bar/nav/next.php:22
-#: src/views/v2/widget-week/top-bar/nav/next.php:23
 msgid "Next week"
 msgstr ""
 
@@ -3947,47 +3934,37 @@ msgstr ""
 #: src/views/v2/week/top-bar/nav/prev-disabled.php:20
 #: src/views/v2/week/top-bar/nav/prev.php:22
 #: src/views/v2/week/top-bar/nav/prev.php:23
-#: src/views/v2/widget-week/day-selector/nav/prev.php:22
-#: src/views/v2/widget-week/day-selector/nav/prev.php:23
-#: src/views/v2/widget-week/day-selector/nav/prev.php:27
-#: src/views/v2/widget-week/mobile-events/nav/prev-disabled.php:20
-#: src/views/v2/widget-week/mobile-events/nav/prev-disabled.php:21
-#: src/views/v2/widget-week/mobile-events/nav/prev.php:24
-#: src/views/v2/widget-week/mobile-events/nav/prev.php:25
-#: src/views/v2/widget-week/top-bar/nav/prev-disabled.php:19
-#: src/views/v2/widget-week/top-bar/nav/prev-disabled.php:20
-#: src/views/v2/widget-week/top-bar/nav/prev.php:22
-#: src/views/v2/widget-week/top-bar/nav/prev.php:23
 msgid "Previous week"
 msgstr ""
 
-#: src/views/v2/week/grid-body/multiday-events-day/more-events.php:19
-#: src/views/v2/widget-week/grid-body/multiday-events-day/more-events.php:19
+#: src/views/v2/week/grid-body/events-day/more-events.php:35
+#: src/views/v2/week/mobile-events/day/more-events.php:35
+msgid "+ %d More"
+msgid_plural "+ %d More"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/views/v2/week/grid-body/multiday-events-day/more-events.php:22
 msgid "+1 more"
-msgid_plural "+ %s more"
+msgid_plural "+%s more"
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: events (plural)
 #: src/views/v2/week/grid-body/multiday-events-row-header/multiday-events-row-header-toggle.php:30
-#: src/views/v2/widget-week/grid-body/multiday-events-row-header/multiday-events-row-header-toggle.php:30
 msgid "Toggle multiday %s"
 msgstr ""
 
 #: src/views/v2/week/grid-header.php:27
-#: src/views/v2/widget-week/grid-header.php:22
 msgid "Week of %s"
 msgstr ""
 
 #: src/views/v2/week/mobile-events/day/type-separator.php:23
-#: src/views/v2/widget-week/mobile-events/day/type-separator.php:23
 msgid "Ongoing"
 msgstr ""
 
 #: src/views/v2/week/mobile-events/nav/prev-disabled.php:24
 #: src/views/v2/week/mobile-events/nav/prev.php:28
-#: src/views/v2/widget-week/mobile-events/nav/prev-disabled.php:24
-#: src/views/v2/widget-week/mobile-events/nav/prev.php:28
 msgid "Previous"
 msgstr ""
 

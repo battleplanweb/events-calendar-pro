@@ -32,21 +32,22 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 			return;
 		}
 
+		$this->register_compatibility();
+
 		$this->register_hooks();
 		$this->register_assets();
+
 	}
 
-
 	/**
-	 * Registers the provider handling all assets for widgets v2.
+	 * Registers the provider handling for compatibility hooks.
 	 *
-	 * @since 5.5.0
+	 * @since TBD
 	 */
-	protected function register_assets() {
-		$assets = new Assets( $this->container );
-		$assets->register();
-
-		$this->container->singleton( Assets::class, $assets );
+	protected function register_compatibility() {
+		$compatibility = new Compatibility();
+		$this->container->singleton( Compatibility::class, $compatibility );
+		$this->container->singleton( 'events-pro.views.v2.widgets.compatibility', $compatibility );
 	}
 
 	/**
@@ -63,6 +64,19 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 		$this->container->singleton( 'pro.views.v2.widgets.hooks', $hooks );
 
 		$this->container->singleton( 'pro.views.v2.widgets.taxonomy', Taxonomy_Filter::class );
+	}
+
+
+	/**
+	 * Registers the provider handling all assets for widgets v2.
+	 *
+	 * @since 5.5.0
+	 */
+	protected function register_assets() {
+		$assets = new Assets( $this->container );
+		$assets->register();
+
+		$this->container->singleton( Assets::class, $assets );
 	}
 
 }

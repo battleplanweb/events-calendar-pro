@@ -147,7 +147,7 @@ class Week_View extends By_Day_View {
 			? $this->build_stack_toggle_controls( $stack )
 			: '';
 		$template_vars['messages']                 = $this->get_messages( $events );
-		$template_vars['hide_weekends']            = $this->hide_weekends;
+		$template_vars['hide_weekends']            = $this->hide_weekends || $this->context->get( 'hide_weekends' );
 		$template_vars['time_format']              = get_option( 'time_format', 'g:i a' );
 
 		return $template_vars;
@@ -200,6 +200,8 @@ class Week_View extends By_Day_View {
 				'found_events'   => count( $event_ids ),
 				'event_times'    => $this->parse_event_times( $event_ids ),
 				'message_mobile' => $message_mobile,
+				'more_events'    => max( count( $event_ids ) - $this->get_events_per_day(), 0 ),
+				'day_url'        => tribe_events_get_url( [ 'eventDisplay' => 'day', 'eventDate' => $date_string ] ),
 			];
 		}
 
@@ -264,7 +266,13 @@ class Week_View extends By_Day_View {
 			$event_times[ $time ]['events'][] = $event;
 		}
 
-		return $all_day + $ongoing + $event_times;
+		$event_times = $all_day + $ongoing + $event_times;
+
+		// Trim down number of events on mobile to match settings.
+		$events_per_day = $this->get_events_per_day();
+		$events_per_day = 0 > $events_per_day ? null : $events_per_day;
+
+		return array_slice( $event_times, 0, $events_per_day );
 	}
 
 	/**
@@ -295,6 +303,8 @@ class Week_View extends By_Day_View {
 				'weekday'      => $day_date->format_i18n( 'D' ),
 				'daynum'       => $day_date->format( 'j' ),
 				'found_events' => count( $event_ids ),
+				'more_events'  => max( count( $event_ids ) - $this->get_events_per_day(), 0 ),
+				'day_url'      => tribe_events_get_url( [ 'eventDisplay' => 'day', 'eventDate' => $day_date->format( 'Y-m-d' ) ] ),
 			];
 		}
 
@@ -310,7 +320,14 @@ class Week_View extends By_Day_View {
 	 */
 	public function __construct( Messages $messages, Stack $stack ) {
 		parent::__construct( $messages, $stack );
-		$this->hide_weekends = tribe_is_truthy( tribe_get_option( 'week_view_hide_weekends', false ) );
+		/**
+		 *  Allows filtering of the week_view_hide_weekends option.
+		 *
+		 * @since TBD
+		 *
+		 * @param boolean $hide_weekends whether to hide weekend on the view or not.
+		 */
+		$this->hide_weekends = apply_filters( 'tribe_week_view_hide_weekends', tribe_is_truthy( tribe_get_option( 'week_view_hide_weekends', false ) ) );
 	}
 
 	/**
@@ -338,7 +355,7 @@ class Week_View extends By_Day_View {
 			$date_object = Dates::build_date_object( $day_date );
 			$counter     = 0;
 
-			foreach ( $elements as &$element ) {
+			foreach ( $elements as $index => &$element ) {
 				$counter ++;
 
 				if ( ! is_numeric( $element ) ) {
@@ -378,17 +395,19 @@ class Week_View extends By_Day_View {
 	 * @return array Each day events, in the shape `[ <Y-m-> => [ ...$events ] ]`.
 	 */
 	protected function get_events( $user_date = null ) {
-		$days = parent::get_grid_days( $user_date );
+		$days           = parent::get_grid_days( $user_date );
+		$days           = $this->maybe_remove_weekends( $days );
 
-		$days = $this->maybe_remove_weekends( $days );
 
 		// Filter out multi-day and all-day events and cast each event to an decorated WP_Post event object.
 		foreach ( $days as $day => &$day_events ) {
 			$day_events = array_reduce( $day_events, function ( array $day_events, $event_id ) {
-				$event = tribe_get_event( $event_id );
+				$event          = tribe_get_event( $event_id );
+				$events_per_day = $this->get_events_per_day();
+				$events_per_day = 0 > $events_per_day ? null : $events_per_day;
 
 				if ( ! $event instanceof \WP_Post || $event->multiday > 1 || $event->all_day ) {
-					return $day_events;
+					return array_slice( $day_events, 0, $events_per_day );
 				}
 
 				$prev_event = end( $day_events );
@@ -396,7 +415,7 @@ class Week_View extends By_Day_View {
 
 				$day_events[] = $event;
 
-				return $day_events;
+				return array_slice( $day_events, 0, $events_per_day );
 			}, [] );
 		}
 
@@ -543,7 +562,7 @@ class Week_View extends By_Day_View {
 		 *
 		 * @since 4.7.8
 		 *
-		 * @param array $event_classes         An array of all the classes that will be assinged to this event when
+		 * @param array $event_classes         An array of all the classes that will be assigned to this event when
 		 *                                     rendering it in the context of the week view day stack.
 		 * @param \WP_Post      $event         The event the classes are being calculated for.
 		 * @param \WP_Post|null $prev          The event preceding this one in the day stack or `null` if this is the
@@ -783,7 +802,7 @@ class Week_View extends By_Day_View {
 			if ( $location ) {
 				$this->messages->insert(
 					Messages::TYPE_NOTICE,
-					Messages::for_key( 'week_no_results_found_w_location', trim( $location ) )
+					Messages::for_key( 'week_no_results_found_w_location', esc_html( trim( $location ) ) )
 				);
 
 				return;
@@ -792,7 +811,7 @@ class Week_View extends By_Day_View {
 			if ( $keyword ) {
 				$this->messages->insert(
 					Messages::TYPE_NOTICE,
-					Messages::for_key( 'week_no_results_found_w_keyword', trim( $keyword ) )
+					Messages::for_key( 'week_no_results_found_w_keyword', esc_html( trim( $keyword ) ) )
 				);
 
 				return;
@@ -898,5 +917,26 @@ class Week_View extends By_Day_View {
 		$formatted_grid_times = array_combine( $h_i_times, array_map( $localize_time, $h_i_times ) );
 
 		return $formatted_grid_times;
+	}
+
+	/**
+	 * Overrides the base implementation to use a Week view custom number of events per day.
+	 *
+	 * @since TBD
+	 *
+	 * @return int The Week view number of events per day.
+	 */
+	protected function get_events_per_day() {
+		$events_per_day = $this->context->get( 'week_events_per_day', -1 );
+
+		/**
+		 * Filters the number of events per day to fetch in the Week view.
+		 *
+		 * @since TBD
+		 *
+		 * @param int $events_per_day The default number of events that will be fetched for each day.
+		 * @param Week_View $this The current Week View instance.
+		 */
+		return apply_filters( 'tribe_events_views_v2_week_events_per_day', $events_per_day, $this );
 	}
 }

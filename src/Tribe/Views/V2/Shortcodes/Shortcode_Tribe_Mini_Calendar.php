@@ -61,6 +61,7 @@ class Shortcode_Tribe_Mini_Calendar extends Shortcode_Abstract {
 		'featured_events_only'  => 'featured',
 		'events_per_page'       => 'per-page',
 		'limit'                 => 'per-page',
+		'count'                 => 'per-page',
 		'no_upcoming_events'    => 'no-upcoming-events',
 	];
 
@@ -84,11 +85,18 @@ class Shortcode_Tribe_Mini_Calendar extends Shortcode_Abstract {
 		return $map;
 	}
 
+	/**
+	 * Populate the arguments that are passed to the widget
+	 *
+	 * @since TBD
+	 *
+	 * @return array<string, mixed> An array of arguments.
+	 */
 	protected function get_arguments_for_widget() {
 		$arguments   = $this->get_arguments();
 		$widget_args = [
 			'title'                => $arguments['title'],
-			'limit'                => $arguments['per-page'],
+			'count'                => $arguments['per-page'],
 			'no_upcoming_events'   => $arguments['no-upcoming-events'],
 			'featured_events_only' => $arguments['featured'],
 			'jsonld_enable'        => $arguments['jsonld'],

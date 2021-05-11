@@ -73,13 +73,13 @@ class Taxonomy_Filter {
 						'children' => [
 							[
 								'type'         => 'radio',
-								'label'        => 'Match all',
-								'button_value' => static::OPERAND_AND,
+								'label'        => 'Match any',
+								'button_value' => static::OPERAND_OR,
 							],
 							[
 								'type'         => 'radio',
-								'label'        => 'Match any',
-								'button_value' => static::OPERAND_OR,
+								'label'        => 'Match all',
+								'button_value' => static::OPERAND_AND,
 							],
 						],
 					],
@@ -112,14 +112,58 @@ class Taxonomy_Filter {
 			$filters = json_decode( $filters, true );
 		}
 
+		if ( empty( $filters ) ) {
+			return [];
+		}
+
 		// Remove empty elements from each sub-array, then from the top-level one.
-		$filters = array_filter( array_map( 'array_filter', (array) $filters ) );
+		$filters = array_filter( array_map(
+			static function ( $filter ) {
+				// Empty values will still be a string.
+				return array_filter( (array) $filter );
+			},
+			(array) $filters )
+		);
 
 		if ( static::OPERAND_OR === strtoupper( $operand ) ) {
 			return $filters;
 		}
 
 		return $filters;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @since TBD
+	 *
+	 * @param array  $args    The arguments for the shortcode
+	 * @param array  $filters The taxonomy filters.
+	 * @param string $operand The taxonomy operand.
+	 *
+	 * @return array $args The modified args with taxonomy arguments added.
+	 */
+	public function set_shortcode_taxonomy_params( $args, $filters, $operand = self::DEFAULT_OPERAND ) {
+		// If no filters, bail.
+		if ( empty( $filters ) ) {
+			return $args;
+		}
+
+		$filters = $this->set_taxonomy_args( $filters, $operand );
+
+		// If no filters, bail.
+		if ( empty( $filters ) ) {
+			return $args;
+		}
+
+		foreach( $filters as $tax => $ids ) {
+			$args[ $tax ] = implode( ', ', $ids );
+		}
+
+		// Note of warning - widget settings typically use "operand" and shortcodes use "tax-operand"!
+		$args['tax-operand'] = $operand;
+
+		return $args;
 	}
 
 	/**
@@ -217,15 +261,17 @@ class Taxonomy_Filter {
 	 * @return array<string,string> $list_items The array of taxonomy items.
 	 */
 	public function format_tax_value_for_list( $value ) {
-		if ( empty( $value ) ) {
-			return [];
-		}
-
 		if ( ! is_array( $value ) ) {
 			$value = json_decode( $value, true );
 		}
 
+		// Moved this after json_decode - because a json_encoded null is a string "null" and empty() won't catch that.
+		if ( empty( $value ) ) {
+			return [];
+		}
+
 		$list_items = [];
+
 		foreach ( $value as $tax_name => $terms ) {
 			if ( empty( $terms ) ) {
 				continue;

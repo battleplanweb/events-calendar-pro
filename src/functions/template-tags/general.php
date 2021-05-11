@@ -32,7 +32,7 @@ if ( class_exists( 'Tribe__Events__Pro__Main' ) ) {
 	 *
 	 * Test to see if event is recurring.
 	 *
-	 * @param int $postId (optional)
+	 * @param int $post_id (optional)
 	 *
 	 * @return bool true if event is a recurring event.
 	 */
@@ -107,7 +107,7 @@ if ( class_exists( 'Tribe__Events__Pro__Main' ) ) {
 	 * Get the textual version of event recurrence
 	 * e.g Repeats daily for three days
 	 *
-	 * @param int $postId (optional)
+	 * @param int $post_id (optional)
 	 *
 	 * @return string Summary of recurrence.
 	 */
@@ -172,7 +172,7 @@ if ( class_exists( 'Tribe__Events__Pro__Main' ) ) {
 	}
 
 	// show user front-end settings only if ECP is active
-	function tribe_recurring_instances_toggle( $postId = null ) {
+	function tribe_recurring_instances_toggle( $post_id = null ) {
 			$hide_recurrence = ( ! empty( $_REQUEST['tribeHideRecurrence'] ) && $_REQUEST['tribeHideRecurrence'] == '1' ) || ( empty( $_REQUEST['tribeHideRecurrence'] ) && empty( $_REQUEST['action'] ) && tribe_get_option( 'hideSubsequentRecurrencesDefault', false ) ) ? '1' : false;
 		if ( ! tribe_is_week() && ! tribe_is_month() ) {
 			echo '<span class="tribe-events-user-recurrence-toggle">';
@@ -188,21 +188,23 @@ if ( class_exists( 'Tribe__Events__Pro__Main' ) ) {
 	 *
 	 * Get an array of custom fields
 	 *
-	 * @param int $postId (optional)
+	 * @param int $post_id (optional)
 	 *
 	 * @return array $data of custom fields
 	 * @todo move logic to Tribe__Events__Pro__Custom_Meta class
 	 */
-	function tribe_get_custom_fields( $postId = null ) {
-		$postId = Tribe__Events__Main::postIdHelper( $postId );
-		$data = array();
+	function tribe_get_custom_fields( $post_id = null ) {
+		$post_id      = Tribe__Events__Main::postIdHelper( $post_id );
+		$data         = array();
 		$customFields = tribe_get_option( 'custom-fields', false );
+
 		if ( is_array( $customFields ) ) {
 			foreach ( $customFields as $field ) {
-				$meta = str_replace( '|', ', ', get_post_meta( $postId, $field['name'], true ) );
+				$meta = str_replace( '|', ', ', get_post_meta( $post_id, $field['name'], true ) );
 				if ( $field['type'] == 'url' && ! empty( $meta ) ) {
 					$url_label = $meta;
-					$parseUrl = parse_url( $meta );
+					$parseUrl  = parse_url( $meta );
+
 					if ( empty( $parseUrl['scheme'] ) ) {
 						$meta = "http://$meta";
 					}
@@ -223,9 +225,10 @@ if ( class_exists( 'Tribe__Events__Pro__Main' ) ) {
 					 *
 					 * @param string the link label/text.
 					 */
-					$label  = apply_filters( 'tribe_get_event_website_link_label', $url_label );
+					$label  = apply_filters( 'tribe_get_event_website_link_label', $url_label, $post_id );
 
-					$meta   = sprintf( '<a href="%s" target="%s">%s</a>',
+					$meta   = sprintf(
+						'<a href="%s" target="%s">%s</a>',
 						esc_url( $meta ),
 						esc_attr( $target ),
 						esc_html( $label )
@@ -885,4 +888,3 @@ if ( ! function_exists( 'tribe_get_mobile_default_view' ) ) {
 		return apply_filters( 'tribe_events_mobile_default_view', $default_view );
 	}
 }//end if
-

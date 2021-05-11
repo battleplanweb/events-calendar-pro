@@ -3,9 +3,9 @@
 Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp, GeoffBel, geoffgraham, jentheo, leahkoerper, lucatume, neillmcshea, patriciahillebrandt, paulskim, vicskf, zbtirrell, juanfra
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, modern tribe, tribe, widget, pro
 Donate link: https://evnt.is/29
-Requires at least: 4.9.14
-Tested up to: 5.7.0
-Stable tag: 5.5.0
+Requires at least: 4.9.16
+Stable tag: 5.6.0
+Tested up to: 5.7.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -207,6 +207,31 @@ Our Premium Plugins:
 * <a href="https://evnt.is/fa" target="_blank">The Events Calendar: Filter Bar</a>
 
 == Changelog ==
+
+= [5.6.0] 2021-04-29 =
+
+* Version - Events Calendar PRO 5.6.0 is only compatible with The Events Calendar 5.6.0 and higher.
+* Feature - Update the Events Calendar widget with a new template and styles. [ECP-531]
+* Feature - Update the Events by Week widget with a new template and styles. [ECP-532]
+* Fix - Widgets will properly expire caching for Week and Month view usage [ECP-826] [ECP-824]
+* Fix - Ensure assets are enqueued when rendering cached views in shortcodes. [ECP-770]
+* Fix - Switch widget and recurrence to using The Events Calendar Select2 to avoid conflicts with other plugins [TEC-3748]
+* Fix - Elementor changes now propagate across all recurring events and retain formatting. [ECP-469]
+* Fix - Shortcode styles now properly load when using Twenty Seventeen theme. [ECP-816]
+* Fix - Improve escaping for messages when no results were found using search (Thanks Steve Pollak)
+* Tweak - Added filters: `tribe_events_meta_copier_copy_meta_value`, `tribe_customizer_should_print_shortcode_customizer_styles`, `tribe_events_views_v2_week_events_per_day`, `tribe_events_pro_views_v2_widgets_compatibility_id_migration_map`, `tribe_events_pro_events_by_week_widget_hide_weekends`, `tribe_events_pro_events_by_week_widget_title_date_format`
+* Tweak - Removed filters: `tribe_events_pro_shortcode_compatibility_required`
+* Tweak - Added actions: `tribe_events_pro_shortcode_month_widget_add_hooks`, `tribe_events_pro_shortcode_month_widget_remove_hooks`
+* Tweak - Changed views: `pro/week/single-event`, `v2/map`, `v2/week`, `v2/week/grid-body`, `v2/week/grid-body/events-day`, `v2/week/grid-body/events-day/more-events`, `v2/week/grid-body/multiday-events-day/more-events`, `v2/week/mobile-events/day`, `v2/week/mobile-events/day/more-events`, `v2/widgets/shortcodes/components/after`, `v2/widgets/shortcodes/components/before`, `v2/widgets/shortcodes/components/icons/caret-left`, `v2/widgets/shortcodes/components/icons/caret-right`, `v2/widgets/shortcodes/components/top-bar`, `v2/widgets/shortcodes/components/top-bar/nav`, `v2/widgets/shortcodes/components/top-bar/nav/next-disabled`, `v2/widgets/shortcodes/components/top-bar/nav/next`, `v2/widgets/shortcodes/components/top-bar/nav/prev-disabled`, `v2/widgets/shortcodes/components/top-bar/nav/prev`, `v2/widgets/shortcodes/components/top-bar/week-nav`, `v2/widgets/shortcodes/components/view-more`, `v2/widgets/shortcodes/components/week-top-bar`, `v2/widgets/shortcodes/events-month`, `v2/widgets/shortcodes/events-week`, `v2/widgets/widget-countdown/complete`, `v2/widgets/widget-countdown/widget-title`, `v2/widgets/widget-events-list/event/cost`, `v2/widgets/widget-events-list/event/organizers`, `v2/widgets/widget-events-list/event/venue`
+* Language - 12 new strings added, 99 updated, 7 fuzzied, and 6 obsoleted
+
+= [5.5.0.2] 2021-04-05 =
+
+* Fix - Correct `tribe_get_event_website_link_label` filter in template-tags to match params of all other usages.
+
+= [5.5.0.1] 2021-03-31 =
+
+* Fix - Widget countdown fetching events too early in the code causing problems with Event Tickets caching. [ECP-757]
 
 = [5.5.0] 2021-03-29 =
 

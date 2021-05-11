@@ -374,7 +374,7 @@ class Venue_View extends View {
 	 * @param array $breadcrumbs The breadcrumbs array.
 	 * @param array $view        The instance of the view being rendered.
 	 *
-	 * @return array The filtered breadcrums
+	 * @return array The filtered breadcrumbs
 	 *
 	 * @see \Tribe\Events\Views\V2\View::get_breadcrumbs() for where this code is applying.
 	 */
