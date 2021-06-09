@@ -2,7 +2,7 @@
 /**
  * Compatibility for Month View Widget and Week View Widget.
  *
- * @since   TBD
+ * @since   5.6.0
  *
  * @package Tribe\Events\Pro\Views\V2\Widgets
  */
@@ -12,7 +12,7 @@ namespace Tribe\Events\Pro\Views\V2\Widgets;
 /**
  * Class Compatibility
  *
- * @since   TBD
+ * @since   5.6.0
  *
  * @package Tribe\Events\Pro\Views\V2\Widgets
  */
@@ -21,7 +21,7 @@ class Compatibility {
 	 * The default primary shortcode widget id base string.
 	 * In the format 'legacy' => 'updated'
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @var array<string,string>
 	 */
@@ -33,7 +33,7 @@ class Compatibility {
 	/**
 	 * Get the migration map for Widget IDs.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return array<string,string>
 	 */
@@ -41,7 +41,7 @@ class Compatibility {
 		/**
 		 * Filter the migration map for Widget IDs.
 		 *
-		 * @since TBD
+		 * @since 5.6.0
 		 *
 		 * @param array<string,string> $id_migration_map Map to migrate the Widget IDs.
 		 */
@@ -51,7 +51,7 @@ class Compatibility {
 	/**
 	 * Merge the Event List and Advanced List Widget Options.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -63,7 +63,7 @@ class Compatibility {
 	/**
 	 * Converts between legacy and new in the database.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param string $new_id_base    The new widget ID base.
 	 * @param string $legacy_id_base The old widget ID base.
@@ -104,7 +104,7 @@ class Compatibility {
 	/**
 	 * Using the `sidebars_widgets` value from the options table we migrate the widget IDs than update the option with the new IDs.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return boolean
 	 */
@@ -127,7 +127,7 @@ class Compatibility {
 	/**
 	 * Given a set of sidebar widgets, update the widget ids based on the map of legacy and update widgets.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param array $sidebars Sidebars to be migrated.
 	 *

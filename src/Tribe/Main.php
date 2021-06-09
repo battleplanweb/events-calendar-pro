@@ -71,7 +71,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '5.6.0';
+		const VERSION = '5.7.0';
 
 		/**
 		 * The Events Calendar Required Version
@@ -1339,6 +1339,9 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 				tribe_asset_enqueue( 'tribe-events-calendar-script' );
 				$data_tec = tribe( 'tec.assets' )->get_js_calendar_script_data();
 				wp_localize_script( 'tribe-events-calendar-script', 'tribe_js_config', $data_tec );
+
+				$dynamic_data = tribe('tec.assets' )->get_js_dynamic_data();
+				wp_localize_script('tribe-events-dynamic', 'tribe_dynamic_help_text', $dynamic_data );
 
 				// Be sure we enqueue PRO when needed with the proper localization
 				tribe_asset_enqueue( 'tribe-events-pro' );

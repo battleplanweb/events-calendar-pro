@@ -135,7 +135,7 @@ class Taxonomy_Filter {
 	/**
 	 * Undocumented function
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param array  $args    The arguments for the shortcode
 	 * @param array  $filters The taxonomy filters.

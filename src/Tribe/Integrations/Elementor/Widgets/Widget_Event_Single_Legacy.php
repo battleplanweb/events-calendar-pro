@@ -66,9 +66,11 @@ class Widget_Event_Single_Legacy extends Widget_Abstract {
 
 		$selector = $this->get_unique_selector();
 
+		add_filter( 'tribe_events_virtual_should_show_control_markers', '__return_true' );
 		add_filter( 'tribe_events_views_v2_bootstrap_should_display_single', '__return_true' );
 		$html = '<div class="single-tribe_events">' . $bootstrap->get_view_html() . '</div>';
 		remove_filter( 'tribe_events_views_v2_bootstrap_should_display_single', '__return_true' );
+		remove_filter( 'tribe_events_virtual_should_show_control_markers', '__return_true' );
 
 		$wp_query = $backup_query;
 

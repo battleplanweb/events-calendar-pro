@@ -36,6 +36,8 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 			$this->container->singleton( Widgets\Widget_Events_View::class, Widgets\Widget_Events_View::class );
 		}
 
+		$this->container->singleton( Templates::class, Templates::class );
+
 		// Register the hooks related to this integration.
 		$this->register_hooks();
 	}
@@ -65,7 +67,7 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 	/**
 	 * Ensures that JSON being copied to recurring event instances retains its escaped slashes.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param mixed $meta_value The meta value being protected.
 	 * @param string $meta_key The meta key.

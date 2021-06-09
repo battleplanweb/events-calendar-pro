@@ -240,7 +240,7 @@ class Widget_Events_View extends Widget_Abstract {
 			'events_per_page_setting',
 			[
 				'label'       => __( 'Events Per Page', 'tribe-events-calendar-pro' ),
-				'description' => __( 'The number of events to display per page.', 'tribe-events-calendar-pro' ),
+				'description' => __( 'The number of events to display per page in List, Map, Photo, and Summary View.', 'tribe-events-calendar-pro' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'separator'   => 'before',

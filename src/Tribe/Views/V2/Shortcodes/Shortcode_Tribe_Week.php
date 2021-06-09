@@ -10,7 +10,7 @@ use Tribe__Events__Main as TEC;
 /**
  * Class Shortcode_Tribe_Week.
  *
- * @since   TBD
+ * @since   5.6.0
  *
  * @package Tribe\Events\Pro\Views\V2\Shortcodes
  */
@@ -73,7 +73,7 @@ class Shortcode_Tribe_Week extends Shortcode_Abstract {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return array List of validated arguments mapping.
 	 */
@@ -94,7 +94,7 @@ class Shortcode_Tribe_Week extends Shortcode_Abstract {
 	 * Populate the arguments that are passed to the widget.
 	 * Note: after $this->get_arguments(), the keys will be the aliased_arguments *values*
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return array<string, mixed> An array of arguments.
 	 */

@@ -9,7 +9,7 @@
  *
  * @link    https://event.is/1aiy
  *
- * @version TBD
+ * @version 5.6.0
  *
  * @var Template     $this              Instance of template engine used to render this view.
  * @var Widget_Week $widget            Instance of the widget that invoked this view.

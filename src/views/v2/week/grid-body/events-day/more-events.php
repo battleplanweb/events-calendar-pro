@@ -9,7 +9,7 @@
  *
  * @link http://evnt.is/1aiy
  *
- * @version TBD
+ * @version 5.6.0
  *
  * @var int $more_events The number of events that's not showing in the day cell or in the multi-day stack.
  * @var string $more_url A string with the URL for more events on that day

@@ -234,7 +234,7 @@ class Tribe_Events extends Shortcode_Abstract {
 	/**
 	 * Hide weekends on shortcode.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param mixed  $value      The value for the option.
 	 * @param string $optionName The name of the option.
@@ -1082,7 +1082,7 @@ class Tribe_Events extends Shortcode_Abstract {
 	/**
 	 * Filter the breakpoints for the week view widget based on layout.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param array $breakpoints All breakpoints available.
 	 * @param View  $view        The current View instance being rendered.
@@ -1125,7 +1125,7 @@ class Tribe_Events extends Shortcode_Abstract {
 	/**
 	 * Modify the Week events per day of a given view based on arguments from Shortcode.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param int|string $events_per_day Number of events per day.
 	 * @param View       $view           Current view being rendered.

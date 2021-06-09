@@ -66,7 +66,7 @@ class Widget_Month extends Widget_Abstract {
 	/**
 	 * Holds any calendar messages to output in the widget.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @var string
 	 */
@@ -182,7 +182,7 @@ class Widget_Month extends Widget_Abstract {
 	/**
 	 * Add this widget's css group to the VE list of widget groups to load icon styles for.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param array<string> $widgets The list of widgets
 	 *
@@ -257,7 +257,7 @@ class Widget_Month extends Widget_Abstract {
 	/**
 	 * Pads "today" in days list with events up to the limit.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param string           $html     The final HTML.
 	 * @param string           $file     Complete path to include the PHP File.
@@ -289,7 +289,7 @@ class Widget_Month extends Widget_Abstract {
 	/**
 	 * Gets the events for "today", used in filter_month_day() to add to the list if needed.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param \Tribe__Template $template       Current instance of the Tribe__Template.
 	 * @param int              $events_per_day The number of events to display per day.
@@ -469,7 +469,7 @@ class Widget_Month extends Widget_Abstract {
 	/**
 	 * Filters a given HTML to remove managed links attribute.
 	 *
-	 * @since  TBD
+	 * @since  5.6.0
 	 *
 	 * @param string           $html     The final HTML.
 	 * @param string           $file     Complete path to include the PHP File.

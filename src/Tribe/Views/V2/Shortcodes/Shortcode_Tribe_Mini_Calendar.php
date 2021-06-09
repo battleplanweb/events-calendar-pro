@@ -88,7 +88,7 @@ class Shortcode_Tribe_Mini_Calendar extends Shortcode_Abstract {
 	/**
 	 * Populate the arguments that are passed to the widget
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return array<string, mixed> An array of arguments.
 	 */

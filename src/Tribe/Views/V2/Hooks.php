@@ -28,6 +28,7 @@ use Tribe\Events\Pro\Views\V2\Views\Partials\Hide_Recurring_Events_Toggle;
 use Tribe\Events\Pro\Views\V2\Views\Partials\List_Event_Recurring_Icon;
 use Tribe\Events\Pro\Views\V2\Views\Partials\Location_Search_Field;
 use Tribe\Events\Pro\Views\V2\Views\Partials\Month_Calendar_Event_Recurring_Icon;
+use Tribe\Events\Pro\Views\V2\Views\Partials\Month_Calendar_Event_Multiday_Recurring_Icon;
 use Tribe\Events\Pro\Views\V2\Views\Partials\Month_Calendar_Event_Tooltip_Recurring_Icon;
 use Tribe\Events\Pro\Views\V2\Views\Partials\Month_Mobile_Event_Recurring_Icon;
 use Tribe\Events\Pro\Views\V2\Views\Photo_View;
@@ -76,6 +77,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		add_action( 'tribe_template_after_include:events/v2/list/event/date/meta', [ $this, 'action_include_list_event_recurring_icon' ], 10, 3 );
 		add_action( 'tribe_template_after_include:events/v2/month/calendar-body/day/calendar-events/calendar-event/date/meta', [ $this, 'action_include_month_calendar_event_recurring_icon' ], 10, 3 );
 		add_action( 'tribe_template_after_include:events/v2/month/calendar-body/day/calendar-events/calendar-event/tooltip/date/meta', [ $this, 'action_include_month_calendar_event_tooltip_recurring_icon' ], 10, 3 );
+		add_action( 'tribe_template_after_include:events/v2/month/calendar-body/day/multiday-events/multiday-event/bar/title', [ $this, 'action_include_month_calendar_event_multiday_recurring_icon' ], 10, 3 );
 		add_action( 'tribe_template_after_include:events/v2/month/mobile-events/mobile-day/mobile-event/date/meta', [ $this, 'action_include_month_mobile_event_recurring_icon' ], 10, 3 );
 		add_action( 'tribe_events_views_v2_view_messages_before_render', [ $this, 'before_view_messages_render' ], 10, 3 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'action_disable_assets_v1' ], 0 );
@@ -115,6 +117,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		add_filter( 'tribe_events_views_v2_map_view_html_classes', [ $this, 'filter_add_events_pro_view_html_class' ] );
 		add_filter( 'tribe_events_views_v2_organizer_view_html_classes', [ $this, 'filter_add_events_pro_view_html_class' ] );
 		add_filter( 'tribe_events_views_v2_photo_view_html_classes', [ $this, 'filter_add_events_pro_view_html_class' ] );
+		add_filter( 'tribe_events_views_v2_summary_view_html_classes', [ $this, 'filter_add_events_pro_view_html_class' ] );
 		add_filter( 'tribe_events_views_v2_venue_view_html_classes', [ $this, 'filter_add_events_pro_view_html_class' ] );
 		add_filter( 'tribe_events_views_v2_week_view_html_classes', [ $this, 'filter_add_events_pro_view_html_class' ] );
 		add_filter( 'tribe_events_views_v2_widget-week_view_html_classes', [ $this, 'filter_add_events_pro_view_html_class' ] );
@@ -293,6 +296,19 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 */
 	public function action_include_month_calendar_event_tooltip_recurring_icon( $file, $name, $template ) {
 		$this->container->make( Month_Calendar_Event_Tooltip_Recurring_Icon::class )->render( $template );
+	}
+
+	/**
+	 * Fires to include the recurring icon on the month view calendar multiday (and all-day) event bar.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param string $file      Complete path to include the PHP File.
+	 * @param array  $name      Template name.
+	 * @param self   $template  Current instance of the Tribe__Template.
+	 */
+	public function action_include_month_calendar_event_multiday_recurring_icon( $file, $name, $template ) {
+		$this->container->make( Month_Calendar_Event_Multiday_Recurring_Icon::class )->render( $template );
 	}
 
 	/**

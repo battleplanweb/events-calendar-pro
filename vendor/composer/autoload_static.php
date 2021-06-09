@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1e828ad25daced2aa96f0943c5a46734
+class ComposerStaticInit37aadb9233d9b756168540d295c9498a
 {
     public static $prefixLengthsPsr4 = array (
         'T' => 
@@ -72,10 +72,12 @@ class ComposerStaticInit1e828ad25daced2aa96f0943c5a46734
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Partials\\Hide_Recurring_Events_Toggle' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Partials/Hide_Recurring_Events_Toggle.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Partials\\List_Event_Recurring_Icon' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Partials/List_Event_Recurring_Icon.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Partials\\Location_Search_Field' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Partials/Location_Search_Field.php',
+        'Tribe\\Events\\Pro\\Views\\V2\\Views\\Partials\\Month_Calendar_Event_Multiday_Recurring_Icon' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Partials/Month_Calendar_Event_Multiday_Recurring_Icon.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Partials\\Month_Calendar_Event_Recurring_Icon' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Partials/Month_Calendar_Event_Recurring_Icon.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Partials\\Month_Calendar_Event_Tooltip_Recurring_Icon' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Partials/Month_Calendar_Event_Tooltip_Recurring_Icon.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Partials\\Month_Mobile_Event_Recurring_Icon' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Partials/Month_Mobile_Event_Recurring_Icon.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Photo_View' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Photo_View.php',
+        'Tribe\\Events\\Pro\\Views\\V2\\Views\\Summary_View' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Summary_View.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Venue_View' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Venue_View.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Week_View' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Week_View.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Views\\Widgets\\Countdown_View' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Views/Widgets/Countdown_View.php',
@@ -99,9 +101,9 @@ class ComposerStaticInit1e828ad25daced2aa96f0943c5a46734
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1e828ad25daced2aa96f0943c5a46734::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1e828ad25daced2aa96f0943c5a46734::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1e828ad25daced2aa96f0943c5a46734::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit37aadb9233d9b756168540d295c9498a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit37aadb9233d9b756168540d295c9498a::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit37aadb9233d9b756168540d295c9498a::$classMap;
 
         }, null, ClassLoader::class);
     }

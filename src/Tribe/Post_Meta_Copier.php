@@ -44,8 +44,8 @@ class Tribe__Events__Pro__Post_Meta_Copier {
 			return;
 		}
 
-		$meta_blacklist  = $this->get_meta_key_blacklist();
-		$this->meta_keys = array_diff( $post_meta_keys, $meta_blacklist );
+		$meta_block_list = $this->get_meta_key_block_list();
+		$this->meta_keys = array_diff( $post_meta_keys, $meta_block_list );
 
 		foreach ( $this->meta_keys as $meta_key ) {
 			$meta_values = get_post_custom_values( $meta_key, $original_post );
@@ -55,7 +55,7 @@ class Tribe__Events__Pro__Post_Meta_Copier {
 				/**
 				 * Allows filtering the meta value before copying to a new recurring event.
 				 *
-				 * @since TBD
+				 * @since 5.6.0
 				 *
 				 * @param mixed $meta_value The meta value being copied.
 				 * @param string $meta_key The meta key.
@@ -73,8 +73,8 @@ class Tribe__Events__Pro__Post_Meta_Copier {
 	 */
 	private function clear_destination_meta() {
 		$post_meta_keys = get_post_custom_keys( $this->destination_id );
-		$blacklist      = $this->get_meta_key_blacklist();
-		$post_meta_keys = array_diff( $post_meta_keys, $blacklist );
+		$block_list     = $this->get_meta_key_block_list();
+		$post_meta_keys = array_diff( $post_meta_keys, $block_list );
 
 		foreach ( $post_meta_keys as $key ) {
 			delete_post_meta( $this->destination_id, $key );
@@ -85,7 +85,7 @@ class Tribe__Events__Pro__Post_Meta_Copier {
 	 * Get a list of keys associated with certain post meta we don't want to copy from the parent.
 	 * Time- and date-related post meta is the main type of thing we don't want to copy.
 	 */
-	private function get_meta_key_blacklist() {
+	private function get_meta_key_block_list() {
 		$list = array(
 			'_edit_lock',
 			'_edit_last',
@@ -105,7 +105,7 @@ class Tribe__Events__Pro__Post_Meta_Copier {
 		$child_start_time = tribe_get_start_date( $this->destination_id, false, Tribe__Date_Utils::DBTIMEFORMAT );
 		$child_end_time   = tribe_get_end_date( $this->destination_id, false, Tribe__Date_Utils::DBTIMEFORMAT );
 
-		// If the parent/child start/end times do not match then let's blacklist '_EventAllDay' to avoid marking
+		// If the parent/child start/end times do not match then let's add '_EventAllDay' to the block list to avoid marking
 		// child events with a distinct start/end time of their own as being all day events
 		if (
 			$parent_start_time !== $child_start_time
@@ -121,17 +121,42 @@ class Tribe__Events__Pro__Post_Meta_Copier {
 		 *
 		 * @param array $list A list of meta keys that should be copied to the child events.
 		 */
-		$list = apply_filters( 'tribe_events_meta_copier_blacklist', $list );
+		$list = apply_filters_deprecated(
+			'tribe_events_meta_copier_blacklist',
+			[ $list ],
+			'5.7.0',
+			'tribe_events_meta_copier_safe_list'
+		);
 
 		/**
 		 * Allows filtering the list of meta keys that should be copied over to children events.
 		 *
 		 * @todo review location and usage of this hook
-		 *       - hook name suggests it is a whitelist
-		 *       - actual usage of the resulting array is as a blacklist
+		 *       - hook name suggests it is a list of safe meta keys
+		 *       - actual usage of the resulting array is as a list of blocked meta keys
+		 *
+		 * @deprecated 5.7.0
 		 *
 		 * @param array $list A list of meta keys that should be copied to the child events.
 		 */
-		return apply_filters( 'tribe_events_meta_copier_whitelist', $list );
+		$list = apply_filters_deprecated(
+			'tribe_events_meta_copier_whitelist',
+			[ $list ],
+			'5.7.0',
+			'tribe_events_meta_copier_safe_list'
+		);
+
+		/**
+		 * Allows filtering the list of meta keys that should be copied over to children events.
+		 *
+		 * @todo review location and usage of this hook
+		 *       - hook name suggests it is a list of safe meta keys
+		 *       - actual usage of the resulting array is as a list of blocked meta keys
+		 *
+		 * @since 5.7.0
+		 *
+		 * @param array $list A list of meta keys that should be copied to the child events.
+		 */
+		return apply_filters( 'tribe_events_meta_copier_block_list', $list );
 	}
 }

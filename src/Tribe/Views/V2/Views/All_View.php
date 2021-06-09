@@ -225,7 +225,7 @@ class All_View extends List_View {
 	 * of a Recurring Event, the `hide_subsequent_recurrences` repository
 	 * argsument will always be false.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return array<string,mixed> The filtered Repository arguments.
 	 */

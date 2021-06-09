@@ -170,7 +170,7 @@ class Widget_Week extends Widget_Abstract {
 	/**
 	 * Add this widget's css group to the VE list of widget groups to load icon styles for.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param array<string> $widgets The list of widgets
 	 *
@@ -368,7 +368,7 @@ class Widget_Week extends Widget_Abstract {
 	/**
 	 * Filters the top bar to add the widget header.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param string $html     The final HTML.
 	 * @param string $file     Complete path to include the PHP File.
@@ -394,7 +394,7 @@ class Widget_Week extends Widget_Abstract {
 		 * Allows filtering the "hide weekends" application to the widget - so we can hide them on main views
 		 * and show them on widgets. Or the reverse.
 		 *
-		 * @since TBD
+		 * @since 5.6.0
 		 *
 		 * @param boolean $hide_weekends Whether to hide weekends on week view widget.
 		 */
@@ -417,7 +417,7 @@ class Widget_Week extends Widget_Abstract {
 		/**
 		 * Allows filtering the date format for the widgets title.
 		 *
-		 * @since TBD
+		 * @since 5.6.0
 		 *
 		 * @param mixed $date_format The format to use for the date in the widget title.
 		 */
@@ -445,7 +445,7 @@ class Widget_Week extends Widget_Abstract {
 	/**
 	 * Adding a view more link to the bottom of the widget.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param string        $file     Complete path to include the PHP File.
 	 * @param array         $name     Template name.
@@ -490,7 +490,7 @@ class Widget_Week extends Widget_Abstract {
 	/**
 	 * Filters a given HTML to remove managed links attribute.
 	 *
-	 * @since  TBD
+	 * @since  5.6.0
 	 *
 	 * @param string           $html     The final HTML.
 	 * @param string           $file     Complete path to include the PHP File.

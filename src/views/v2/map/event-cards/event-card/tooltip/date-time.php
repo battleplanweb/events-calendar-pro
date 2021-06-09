@@ -31,4 +31,5 @@ $event_date_attr = $event->dates->start->format( Dates::DBDATEFORMAT );
 	>
 		<?php echo $event->schedule_details->value(); ?>
 	</time>
+	<?php $this->template( 'map/event-cards/event-card/tooltip/date-time/recurring', [ 'event' => $event ] ); ?>
 </div>

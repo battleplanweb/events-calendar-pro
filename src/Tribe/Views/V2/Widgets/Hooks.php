@@ -325,7 +325,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	/**
 	 * Checks if we need to migrate the Widgets and Sidebars after an update.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -579,7 +579,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	/**
 	 * Filters the caching triggers to add the widgets Week and Month.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @param array<string,bool> $triggers Which options will trigger this given action last occurrence.
 	 * @param string             $action   Which action this trigger will set.

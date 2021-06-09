@@ -4,8 +4,8 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, modern tribe, tribe, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 4.9.16
-Stable tag: 5.6.0
-Tested up to: 5.7.1
+Stable tag: 5.7.0
+Tested up to: 5.7.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -207,6 +207,22 @@ Our Premium Plugins:
 * <a href="https://evnt.is/fa" target="_blank">The Events Calendar: Filter Bar</a>
 
 == Changelog ==
+
+= [5.7.0] 2021-05-27 =
+
+* Feature - Introducing the new Summary View! [ECP-799]
+* Fix - Correctly show, hide and update the "every n" text for Daily, Weekly, Monthly and Yearly recurrence rules. [ECP-599]
+* Fix - Show the recurring icon on Map View tooltips [ECP-807]
+* Fix - Output JavaScript variables required for events pages when the JavaScript is minified [ECP-737]
+* Tweak - Replace the steps used to detect if `Yoast Premium` was active [ECP-21]
+* Tweak - Deprecate `tribe_events_meta_copier_blacklist`  for `tribe_events_meta_copier_block_list` [ECP-846]
+* Tweak - Deprecate `tribe_events_meta_copier_whitelist`  for `tribe_events_meta_copier_block_list` [ECP-846]
+* Tweak - Update helper text for the Events Per Page setting in the Events View Elementor widget. [ECP-820]
+* Tweak - Added Elementor Event Widget support for rendering the hybrid and virtual event indicators from the Virtual Events add-on. [ECP-834]
+* Tweak - Added filters: `tribe_events_pro_editor_recurrence_saver_queue_max_tries`, `tribe_events_pro_elementor_registered_{$this->type}`, `tribe_events_meta_copier_copy_meta_value`, `tribe_events_meta_copier_block_list`, `tribe_events_pro_shortcodes_countdown_widget_class`, `tribe_events_pro_shortcodes_venue_widget_class`, `tribe_customizer_should_print_shortcode_customizer_styles`, `tribe_events_views_v2_summary_second_date_in_range`, `tribe_events_views_v2_week_events_per_day`, `tribe_events_pro_views_v2_widgets_compatibility_id_migration_map`, `tribe_widget_hide_subsequent_recurring_events`, `tribe_events_widget_featured_venue_default_venue_id`, `tribe_events_pro_events_by_week_widget_hide_weekends`, `tribe_events_pro_events_by_week_widget_title_date_format`
+* Tweak - Removed filters: `tribe_events_meta_copier_blacklist`, `tribe_events_meta_copier_whitelist`
+* Tweak - Added actions: `tribe_events_pro_shortcode_month_widget_add_hooks`, `tribe_events_pro_shortcode_month_widget_remove_hooks`
+* Language - 9 new strings added, 73 updated, 0 fuzzied, and 1 obsoleted
 
 = [5.6.0] 2021-04-29 =
 

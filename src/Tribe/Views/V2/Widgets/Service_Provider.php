@@ -42,7 +42,7 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 	/**
 	 * Registers the provider handling for compatibility hooks.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 */
 	protected function register_compatibility() {
 		$compatibility = new Compatibility();

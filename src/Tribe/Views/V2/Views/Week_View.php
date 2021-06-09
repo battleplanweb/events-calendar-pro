@@ -323,7 +323,7 @@ class Week_View extends By_Day_View {
 		/**
 		 *  Allows filtering of the week_view_hide_weekends option.
 		 *
-		 * @since TBD
+		 * @since 5.6.0
 		 *
 		 * @param boolean $hide_weekends whether to hide weekend on the view or not.
 		 */
@@ -922,7 +922,7 @@ class Week_View extends By_Day_View {
 	/**
 	 * Overrides the base implementation to use a Week view custom number of events per day.
 	 *
-	 * @since TBD
+	 * @since 5.6.0
 	 *
 	 * @return int The Week view number of events per day.
 	 */
@@ -932,7 +932,7 @@ class Week_View extends By_Day_View {
 		/**
 		 * Filters the number of events per day to fetch in the Week view.
 		 *
-		 * @since TBD
+		 * @since 5.6.0
 		 *
 		 * @param int $events_per_day The default number of events that will be fetched for each day.
 		 * @param Week_View $this The current Week View instance.
