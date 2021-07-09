@@ -11,7 +11,6 @@ namespace Tribe\Events\Pro\Views\V2\Widgets;
 
 use \Tribe\Events\Views\V2\Widgets\Widget_Abstract;
 use Tribe__Context as Context;
-use Tribe__Date_Utils as Dates;
 
 /**
  * Class for the Countdown Widget.
@@ -281,12 +280,6 @@ class Widget_Countdown extends Widget_Abstract {
 		$alterations['show_seconds']      = tribe_is_truthy( $arguments['show_seconds'] );
 		$alterations['complete']          = wp_strip_all_tags( $arguments['complete'] );
 
-		// Use set event or the next upcoming one.
-		$alterations['event'] = $this->get_fallback_event( $arguments['event'] );
-
-		// The widget only uses one event, but some things expect an array of event(s) here (like JSON_LD).
-		$alterations['events'] = (array) $alterations['event'];
-
 		return $this->filter_args_to_context( $alterations );
 	}
 
@@ -314,9 +307,43 @@ class Widget_Countdown extends Widget_Abstract {
 			return $future_event;
 		}
 
-
 		// If there are NO upcoming events, use the last event (will show as completed).
 		return tribe_events()->where( 'ends_before', tribe_context()->get( 'now', 'now' ) )->order( 'DESC' )->first();
+	}
+
+	/**
+	 * Returns the rendered View HTML code.
+	 *
+	 * @since 5.5.0.1
+	 *
+	 * @return string Rendered View HTML code.
+	 */
+	public function get_html() {
+		$arguments = $this->get_arguments();
+		$widget_obj = $this;
+		$callback = static function ( $template_vars, $view ) use ( $arguments, $widget_obj ) {
+			// Use set event or the next upcoming one.
+			$template_vars['event'] = $widget_obj->get_fallback_event( $arguments['event'] );
+
+			// The widget only uses one event, but some things expect an array of event(s) here (like JSON_LD).
+			$template_vars['events'] = (array) $template_vars['event'];
+
+			list(
+				$template_vars['count_to_date'],
+				$template_vars['count_to_stamp'],
+				$template_vars['event_done']
+			) = $view->calculate_countdown( $template_vars['event'] );
+
+			return $template_vars;
+		};
+
+		add_filter( 'tribe_events_views_v2_view_template_vars', $callback, 10, 2 );
+
+		$html = parent::get_html();
+
+		remove_filter( 'tribe_events_views_v2_view_template_vars', $callback, 10 );
+
+		return $html;
 	}
 
 	/**

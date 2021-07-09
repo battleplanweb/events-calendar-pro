@@ -9,10 +9,10 @@
 
 namespace Tribe\Events\Pro\Views\V2\Widgets\Traits;
 
+use Tribe\Events\Pro\Views\V2\Shortcodes\Tribe_Events;
 use Tribe\Events\Views\V2\Theme_Compatibility;
 use Tribe\Events\Views\V2\Views\Widgets\Widget_View;
 use \Tribe__Template as Template;
-use Tribe__Date_Utils as Dates;
 use Tribe\Events\Views\V2\Widgets\Widget_Abstract;
 use Tribe__Utils__Array as Arr;
 
@@ -54,6 +54,8 @@ trait Widget_Shortcode {
 	 */
 	public function get_shortcode_args() {
 		$args = [
+			'id'                => $this->id,
+			'view'              => $this->view_slug,
 			'is-widget'         => true,
 			'container-classes' => 'tribe-events-widget tribe-events-widget-' . static::get_widget_slug(),
 			'should_manage_url' => false,
@@ -119,11 +121,8 @@ trait Widget_Shortcode {
 			'tribe-events-widget-shortcode',
 			'tribe-events-widget-shortcode-' . static::get_widget_slug(),
 		];
-		/**
-		 * @var Theme_Compatibility $theme_compatibility
-		 */
-		$theme_compatibility   = tribe( Theme_Compatibility::class );
-		$compatibility_classes = $theme_compatibility->get_container_classes();
+
+		$compatibility_classes = Theme_Compatibility::get_container_classes();
 		$container_classes     = array_merge( $compatibility_classes, $container_classes );
 
 
@@ -201,7 +200,7 @@ trait Widget_Shortcode {
 			return;
 		}
 
-		$widget_option = explode( '-', $widget_id_raw );
+		$widget_option = array_filter( explode( '-', $widget_id_raw ) );
 		$widget_index  = (int) array_pop( $widget_option );
 		$widget_wp_id  = implode( '-', $widget_option );
 
@@ -210,13 +209,9 @@ trait Widget_Shortcode {
 			return;
 		}
 
-		if ( empty( $option[ $widget_index ] ) ) {
-			return;
-		}
-
 		$widget_id = str_replace( \Tribe\Widget\Widget_Abstract::PREFIX, '', $widget_wp_id );
 		/**
-		 * @var \Tribe\Widget\Manager $widgets_manager ;
+		 * @var \Tribe\Widget\Manager $widgets_manager.
 		 */
 		$widgets_manager = tribe( \Tribe\Widget\Manager::class );
 		if ( ! $widgets_manager->is_widget_registered( $widget_id ) ) {
@@ -225,10 +220,27 @@ trait Widget_Shortcode {
 
 		$widgets      = $widgets_manager->get_registered_widgets();
 		$widget_class = $widgets[ $widget_id ];
-		$widget_args  = $option[ $widget_index ];
+
+		// If not a widget running a shortcode.
+		if ( ! empty( $option[ $widget_index ] ) ) {
+			$widget_args  = $option[ $widget_index ];
+		} else {
+			// It's a shortcode running a widget running a shortcode.
+
+			/**
+			 * @var Tribe\Events\Pro\Views\V2\Shortcodes\Tribe_Events $shortcode.
+			 */
+			$shortcode = new Tribe_Events;
+			$widget_args        = $shortcode->get_database_arguments( $widget_id_raw );
+		}
+
+		// Safety net.
+		if ( empty( $widget_args ) ) {
+			return;
+		}
 
 		/**
-		 * @var Widget_Abstract $widget
+		 * @var Widget_Abstract $widget.
 		 */
 		$widget = new $widget_class;
 		$widget->setup( [], $widget_args );

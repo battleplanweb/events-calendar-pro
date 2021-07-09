@@ -51,7 +51,7 @@ class Tribe__Events__Pro__Integrations__Manager {
 	 * @return bool
 	 */
 	private function load_wpseo_integration() {
-		if ( ! class_exists( 'WPSEO_Premium' ) ) {
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			return false;
 		}
 

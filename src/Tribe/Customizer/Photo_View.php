@@ -30,7 +30,7 @@ final class Tribe__Events__Pro__Customizer__Photo_View extends Tribe__Customizer
 	 * @return string
 	 */
 	public function get_css_template( $template ) {
-		$customizer = Tribe__Customizer::instance();
+		$customizer = tribe( 'customizer' );
 
 		if ( $customizer->has_option( $this->ID, 'bg_color' ) ) {
 			$template .= '
@@ -85,7 +85,7 @@ final class Tribe__Events__Pro__Customizer__Photo_View extends Tribe__Customizer
 	 * @return void
 	 */
 	public function register_settings( WP_Customize_Section $section, WP_Customize_Manager $manager ) {
-		$customizer = Tribe__Customizer::instance();
+		$customizer = tribe( 'customizer' );
 
 		$manager->add_setting(
 			$customizer->get_setting_name( 'bg_color', $section ),

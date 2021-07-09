@@ -211,7 +211,7 @@ tribe.events.views.weekDaySelector = {};
 	 * @return {void}
 	 */
 	obj.init = function( event, index, $container, data ) {
-		if ( 'week' !== data.slug ) {
+		if ( 'week' !== data.slug && 'widget-week' !== data.slug ) {
 			return;
 		}
 

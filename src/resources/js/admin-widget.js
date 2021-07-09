@@ -202,7 +202,7 @@
 
 		$select.on( 'open', function () {
 			$( '.select2-drop' ).css( 'z-index', 10000000 );
-		} ).select2( args );
+		} ).select2TEC( args );
 	};
 
 	tribeWidget.conditional = function( conditional, $widget ) {
@@ -237,22 +237,57 @@
 		} );
 	};
 
-	tribeWidget.showFilters = function( e, $widget ) {
-		var $filters = $( '.calendar-widget-filters-container' );
+	tribeWidget.showFilters = function( $widget ) {
+		var $filter = $widget.find( '.calendar-widget-filters-container' );
+		var $filterInput = $filter.find( '.calendar-widget-added-filters' );
 
-		$filters.each(
-			function( index, filter ) {
-				var $filter = $( filter );
-				var $filter_input = $filter.find( '.calendar-widget-added-filters' );
+		if (
+			$filterInput.length && 
+			$filterInput.val() && 
+			$filterInput.val().length && 
+			null !== $filterInput.val() && 
+			'null' !== $filterInput.val()
+		) {
+			$filter.addClass( 'calendar-widget-filters-container--show' );
+		}
+	};
 
-				if ( $filter_input && $filter_input.val() && $filter_input.val().length ) {
-					$filter.addClass( 'calendar-widget-filters-container--show' );
-				}
+	tribeWidget.hideFilters = function( $widget ) {
+		var $filter = $widget.find( '.calendar-widget-filters-container' );
+		var $filterInput = $filter.find( '.calendar-widget-added-filters' );
+
+		// If the input is missing, hide and bail.
+		if ( ! $filterInput.length ) {
+			$filter.removeClass( 'calendar-widget-filters-container--show' );
+			return;
+		}
+
+		var val = $filterInput.val();
+
+		// If we don't have a value or it's empty, hide and bail.
+		if ( ! val || ! val.length ) {
+			$filter.removeClass( 'calendar-widget-filters-container--show' );
+			return;
+		}
+
+		val = JSON.parse( val );
+
+		// Iterate through the taxonomies, if any have values, bail and don't hide.
+		var remove = Object.keys( val ).reduce( function( acc, curr ) {
+			if ( val[ curr ].length || null === val[ curr ].length ) {
+				return false;
 			}
-		);
-	}
+			return acc;
+		}, true );
 
-	tribeWidget.setup = function ( e, $widget ) {
+		if ( ! remove ) {
+			return;
+		}
+
+		$filter.removeClass( 'calendar-widget-filters-container--show' );
+	};
+
+	tribeWidget.setup = function( e, $widget ) {
 		// If it's not set we try to figure it out from the Event
 		if ( 'undefined' === typeof $widget ) {
 			var $target = $( e.target ),
@@ -295,7 +330,7 @@
 			tribeWidget.conditional(  this, $widget );
 		} );
 
-		tribeWidget.showFilters( e, $widget );
+		tribeWidget.showFilters( $widget );
 
 		// Only happens on Widgets Admin page
 		if ( !$( 'body' ).hasClass( 'wp-customizer' ) ) {
@@ -322,13 +357,14 @@
 		// This ensures that we set up the widgets that are already in place correctly
 		$( '.widget[id*="tribe-"]' ).each( tribeWidget.setup );
 	} );
+
 	$( document )
 		.on( {
 			// On the Widget Actions, try to re-configure.
 			'widget-added widget-updated': function ( e, widget ) {
 				var $widget = $( widget );
 				tribeWidget.setup( e, $widget );
-				tribeWidget.showFilters( e, $widget );
+				tribeWidget.showFilters( $widget );
 				$widget.find( '[data-depends]' ).trigger( 'setup.dependency' ).trigger( 'verify.dependency' );
 			}
 		} )
@@ -405,11 +441,9 @@
 
 			$list.append( $li );
 
-			tribeWidget.calendar_toggle( $widget );
-
 			disabled.push( term_obj.id );
 			$select.data( 'disabled', disabled );
-			tribeWidget.showFilters( e, $widget );
+			tribeWidget.showFilters( $widget );
 
 			// After all that remove the Opt
 			$select.val( '' );
@@ -419,8 +453,6 @@
 			var $link = $( this ),
 				$widget = $link.parents( '.widget[id*="tribe-"]' ),
 				$select = $widget.find( '.calendar-widget-add-filter' ).not( '.select2-container' ),
-				$filters = $widget.find( '.calendar-widget-filters-container' ),
-				$list = $widget.find( '.calendar-widget-filter-list' ),
 				$field = $widget.find( '.calendar-widget-added-filters' ),
 				values = $field.val() ? JSON.parse( $field.val() ) : {},
 				termId = $link.data( 'term' ),
@@ -428,7 +460,7 @@
 				disabled = $select.data( 'disabled' ) ? $select.data( 'disabled' ) : [];
 
 			if ( values[ taxonomy ] ) {
-				values[ taxonomy ] = _.without( values[ taxonomy ], termId.toString() );
+				values[ taxonomy ] = _.without( values[ taxonomy ], termId.toString(), null );
 			}
 
 			// Updates the HTML field
@@ -442,7 +474,7 @@
 			// support the customizer by triggering a false change on an element so the updated hidden field gets saved
 			$widget.find( 'input[name^="widget-tribe-"]' ).trigger( 'change' );
 
-			tribeWidget.calendar_toggle( $widget );
+			tribeWidget.hideFilters( $widget );
 		} )
 		.on( 'click', '.so-close', function( e ) {
 			// Close select2 when we close a panel dialog

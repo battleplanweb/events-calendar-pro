@@ -86,6 +86,7 @@ class Tribe__Events__Pro__Shortcodes__This_Week extends Tribe__Events__Pro__Shor
 		ob_start();
 		// We use $this->arguments for both the args and the instance vars here
 		the_widget( 'Tribe__Events__Pro__This_Week_Widget', $this->arguments, $this->arguments );
+
 		$this->output = ob_get_clean();
 	}
 

@@ -86,7 +86,7 @@ do_action( 'tribe_events_pro_recurrence_before_metabox' );
 						<select
 							id="recurrence_rule_--_interval"
 							name="recurrence[rules][][custom][interval]"
-							class="tribe-dropdown tribe-recurrence-rule-interval"
+							class="tribe-dropdown tribe-recurrence-rule-interval tribe-dependency"
 							data-options="<?php echo esc_attr( json_encode( $interval_options ) ); ?>"
 							data-freeform
 							data-int
@@ -167,7 +167,7 @@ do_action( 'tribe_events_pro_recurrence_before_metabox' );
 						<select
 							name="recurrence[rules][][custom][same-time]"
 							id="recurrence_rule_--_same_time"
-							class="tribe-dropdown tribe-same-time-select"
+							class="tribe-dropdown tribe-same-time-select tribe-dependency"
 							data-hide-search
 							data-field="same-time"
 						>

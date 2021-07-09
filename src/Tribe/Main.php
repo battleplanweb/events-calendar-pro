@@ -71,7 +71,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '5.5.0';
+		const VERSION = '5.8.0';
 
 		/**
 		 * The Events Calendar Required Version
@@ -745,7 +745,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 							'week_view_hide_weekends' => array(
 								'type'            => 'checkbox_bool',
 								'label'           => __( 'Hide weekends on Week View', 'tribe-events-calendar-pro' ),
-								'tooltip'         => __( 'Check this to only show weekdays on Week View', 'tribe-events-calendar-pro' ),
+								'tooltip'         => __( 'Check this to only show weekdays on Week View. This also affects the Events by Week widget.', 'tribe-events-calendar-pro' ),
 								'default'         => false,
 								'validation_type' => 'boolean',
 							),
@@ -1339,6 +1339,9 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 				tribe_asset_enqueue( 'tribe-events-calendar-script' );
 				$data_tec = tribe( 'tec.assets' )->get_js_calendar_script_data();
 				wp_localize_script( 'tribe-events-calendar-script', 'tribe_js_config', $data_tec );
+
+				$dynamic_data = tribe('tec.assets' )->get_js_dynamic_data();
+				wp_localize_script('tribe-events-dynamic', 'tribe_dynamic_help_text', $dynamic_data );
 
 				// Be sure we enqueue PRO when needed with the proper localization
 				tribe_asset_enqueue( 'tribe-events-pro' );

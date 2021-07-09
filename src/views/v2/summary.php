@@ -1,37 +1,34 @@
 <?php
 /**
- * View: Week View
+ * View: Summary View
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events-pro/v2/week.php
+ * [your-theme]/tribe/events-pro/v2/summary.php
  *
  * See more documentation about our views templating system.
  *
- * @link https://evnt.is/1aiy
+ * @link http://evnt.is/1aiy
  *
- * @version  5.1.6
+ * @version 5.7.0
  *
+ * @var array    $events               The array containing the events.
+ * @var array    $events_by_date       An array containing the events indexed by date.
+ * @var array    $month_transition     An array of dates that should trigger a month separator
  * @var string   $rest_url             The REST URL.
  * @var string   $rest_method          The HTTP method, either `POST` or `GET`, the View will use to make requests.
  * @var string   $rest_nonce           The REST nonce.
- * @var int      $should_manage_url    int containing if it should manage the URL.
- * @var array    $events               An array of the week events, in sequence.
- * @var array    $mobile_days          An array of the week events, formatted to the requirements of the mobile version of the View.
+ * @var int      $should_manage_url    Int containing if it should manage the URL.
  * @var bool     $disable_event_search Boolean on whether to disable the event search.
  * @var string[] $container_classes    Classes used for the container of the view.
- * @var bool     $hide_weekends        Boolean on whether to hide weekends.
  * @var array    $container_data       An additional set of container `data` attributes.
  * @var string   $breakpoint_pointer   String we use as pointer to the current view we are setting up with breakpoints.
  */
 
+use Tribe__Date_Utils as Dates;
+
 $header_classes = [ 'tribe-events-header' ];
 if ( empty( $disable_event_search ) ) {
 	$header_classes[] = 'tribe-events-header--has-event-search';
-}
-
-$grid_classes = [ 'tribe-events-pro-week-grid', 'tribe-common-a11y-hidden' ];
-if ( $hide_weekends ) {
-	$grid_classes[] = 'tribe-events-pro-week-grid--hide-weekends';
 }
 ?>
 <div
@@ -49,8 +46,7 @@ if ( $hide_weekends ) {
 	<?php endif; ?>
 >
 	<div class="tribe-common-l-container tribe-events-l-container">
-
-		<?php $this->template( 'components/loader', [ 'text' => __( 'Loading...', 'tribe-events-calendar-pro' ) ] ); ?>
+		<?php $this->template( 'components/loader', [ 'text' => __( 'Loading...', 'the-events-calendar' ) ] ); ?>
 
 		<?php $this->template( 'components/json-ld-data' ); ?>
 
@@ -65,31 +61,35 @@ if ( $hide_weekends ) {
 
 			<?php $this->template( 'components/events-bar' ); ?>
 
-			<?php $this->template( 'widget-week/top-bar' ); ?>
+			<?php $this->template( 'summary/top-bar' ); ?>
 		</header>
 
 		<?php $this->template( 'components/filter-bar' ); ?>
 
-		<?php $this->template( 'widget-week/day-selector' ); ?>
+		<div class="tribe-events-pro-summary">
 
-		<?php $this->template( 'widget-week/mobile-events', [ 'days' => $mobile_days ] ); ?>
-
-		<div
-			<?php tribe_classes( $grid_classes ); ?>
-			role="grid"
-			aria-labelledby="tribe-events-pro-week-header"
-			aria-readonly="true"
-		>
-
-			<?php $this->template( 'widget-week/grid-header' ); ?>
-
-			<?php $this->template( 'widget-week/grid-body' ); ?>
+			<?php foreach ( $events_by_date as $group_date => $events_data ) : ?>
+				<?php
+					if ( empty( $events_data ) ) {
+						continue;
+					}
+					$event = current( $events_data );
+					$this->setup_postdata( $event );
+					$group_date = Dates::build_date_object( $group_date );
+				?>
+				<?php $this->template( 'summary/month-separator', [ 'events' => $events, 'event' => $event, 'group_date' => $group_date, 'month_transition' => $month_transition ] ); ?>
+				<?php $this->template( 'summary/date-separator', [ 'events' => $events, 'event' => $event, 'group_date' => $group_date ] ); ?>
+				<?php $this->template( 'summary/date-group', [ 'events_for_date' => $events_data, 'group_date' => $group_date ] ); ?>
+			<?php endforeach; ?>
 
 		</div>
+
+		<?php $this->template( 'summary/nav' ); ?>
 
 		<?php $this->template( 'components/ical-link' ); ?>
 
 		<?php $this->template( 'components/after' ); ?>
+
 	</div>
 </div>
 

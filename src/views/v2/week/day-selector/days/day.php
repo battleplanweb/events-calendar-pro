@@ -45,7 +45,6 @@ $label = sprintf( __( 'Has %s', 'tribe-events-calendar-pro' ), tribe_get_event_l
 		<?php if ( ! empty( $day['found_events'] ) ) : ?>
 			<em
 				class="tribe-events-pro-week-day-selector__events-icon"
-				aria-label="<?php echo esc_attr( $label ); ?>"
 				title="<?php echo esc_attr( $label ); ?>"
 			>
 			</em>

@@ -82,7 +82,7 @@ class Widget_Event_List extends Widget_Abstract {
 			'limit',
 			[
 				'label'        => __( 'Maximum Events', 'tribe-events-calendar-pro' ),
-				'description'  => __( 'The maximum number of events that this widget should show.', 'tribe-events-calendar-pro' ),
+				'description'  => __( 'The maximum number of events this widget should show.', 'tribe-events-calendar-pro' ),
 				'type'         => Controls_Manager::TEXT,
 				'label_block'  => true,
 				'default'      => '',

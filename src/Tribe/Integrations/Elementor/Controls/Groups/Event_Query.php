@@ -61,10 +61,9 @@ class Event_Query extends Group_Control_Base {
 
 		$fields['id_selection'] = [
 			'label'       => __( 'Specify Event', 'tribe-events-calendar-pro' ),
-			'description' => __( 'Select a specific event by ID.', 'tribe-events-calendar-pro' ),
 			'type'        => Controls_Manager::SELECT,
 			'options'     => [
-				''        => '',
+				''        => __( 'Select a specific upcoming event by ID', 'tribe-events-calendar-pro' ),
 				'current' => __( "Use the current page's event ID", 'tribe-events-calendar-pro' ),
 				'custom'  => __( 'Manually enter event ID', 'tribe-events-calendar-pro' ),
 			],
@@ -82,22 +81,23 @@ class Event_Query extends Group_Control_Base {
 
 		$fields['search'] = [
 			'label'       => __( 'Search', 'tribe-events-calendar-pro' ),
-			'description' => __( 'Find upcoming events via search.', 'tribe-events-calendar-pro' ),
+			'placeholder' => __( 'Search for a specific upcoming event', 'tribe-events-calendar-pro' ),
 			'type'        => Controls_Manager::TEXT,
 			'label_block' => true,
 		];
 
 		$fields['slug'] = [
 			'label'       => __( 'Event Slug', 'tribe-events-calendar-pro' ),
-			'description' => __( 'Find upcoming events via a url-formatted event name.', 'tribe-events-calendar-pro' ),
+			'placeholder' => __( 'Enter a URL-formatted event name', 'tribe-events-calendar-pro' ),
 			'type'        => Controls_Manager::TEXT,
 			'label_block' => true,
 		];
 
 		$fields['tab_heading'] = [
-			'label'       => __( 'Advanced event filtering', 'tribe-events-calendar-pro' ),
-			'type'        => Controls_Manager::HEADING,
-			'separator'   => 'before',
+			'label'     => __( 'Advanced event filtering', 'tribe-events-calendar-pro' ),
+			'raw'       => '<div class="elementor-control-field-description">' . __( 'Select an upcoming event using date-based rules and meta information.', 'tribe-events-calendar-pro' ) . '</div>',
+			'type'      => Controls_Manager::RAW_HTML,
+			'separator' => 'before',
 		];
 
 		$fields['query_tabs'] = [
@@ -122,7 +122,7 @@ class Event_Query extends Group_Control_Base {
 			'type'         => Controls_Manager::SELECT,
 			'label_block'  => false,
 			'options'      => [
-				''            => '',
+				''            => __( 'Select Date', 'tribe-events-calendar-pro' ),
 				'after'       => __( 'After', 'tribe-events-calendar-pro' ),
 				'before'      => __( 'Before', 'tribe-events-calendar-pro' ),
 				'between'     => __( 'Between', 'tribe-events-calendar-pro' ),
@@ -236,7 +236,7 @@ class Event_Query extends Group_Control_Base {
 			'label_block'  => false,
 			'separator'    => 'before',
 			'options'      => [
-				''             => '',
+				''             => __( 'Select Date', 'tribe-events-calendar-pro' ),
 				'after'        => __( 'After', 'tribe-events-calendar-pro' ),
 				'before'       => __( 'Before', 'tribe-events-calendar-pro' ),
 				'between'      => __( 'Between', 'tribe-events-calendar-pro' ),

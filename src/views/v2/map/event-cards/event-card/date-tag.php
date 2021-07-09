@@ -30,7 +30,7 @@ $display_date = empty( $is_past ) && ! empty( $request_date )
 	? max( $event->dates->start_display, $request_date )
 	: $event->dates->start_display;
 
-$event_month     = $display_date->format( 'M' );
+$event_month     = $display_date->format_i18n( 'M' );
 $event_day_num   = $display_date->format( 'j' );
 $event_date_attr = $display_date->format( Date::DBDATEFORMAT );
 ?>

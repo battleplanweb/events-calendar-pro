@@ -15,6 +15,7 @@
  *                                 `[ <Y-m-d> => [ 'events' => [ ...$multiday_events], 'more_events' => <int> ] ]`.
  * @var bool  $has_multiday_events Boolean whether the week has multiday events or not.
  * @var array $events              An array of each day non multi-day events, if any, in the shape `[ <Y-m-d> => [ ...$events ] ]`.
+ * @var array $days                An array of days with additional data.
  */
 ?>
 <div class="tribe-events-pro-week-grid__body" role="rowgroup">
@@ -34,7 +35,7 @@
 					<?php foreach ( $multiday_events as $day => list( $day_multiday_events, $more_events ) ) : ?>
 						<?php $this->template(
 							'week/grid-body/multiday-events-day',
-							[ 'day' => $day, 'events' => $day_multiday_events, 'more_events' => $more_events ]
+							[ 'day' => $day, 'events' => $day_multiday_events ]
 						); ?>
 					<?php endforeach; ?>
 
@@ -52,7 +53,14 @@
 					<?php $this->template( 'week/grid-body/events-row-header' ); ?>
 
 					<?php foreach ( $events as $day => $day_events ) : ?>
-						<?php $this->template( 'week/grid-body/events-day', [ 'events' => $day_events ] ); ?>
+						<?php $this->template(
+							'week/grid-body/events-day',
+							[
+								'events'      => $day_events,
+								'more_events' => ! empty( $days[ $day ]['more_events'] ) ? $days[ $day ]['more_events'] : false,
+								'more_url'    => ! empty( $days[ $day ]['day_url'] ) ? $days[ $day ]['day_url'] : false,
+							]
+						); ?>
 					<?php endforeach; ?>
 
 				</div>

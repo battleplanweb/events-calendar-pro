@@ -12,6 +12,7 @@ use Tribe\Events\Pro\Views\V2\Geo_Loc\Geocoding_Handler;
 use Tribe\Events\Pro\Views\V2\Geo_Loc\Handler_Interface as Geo_Loc_Handler;
 use Tribe\Events\Pro\Views\V2\Geo_Loc\Services\Google_Maps;
 use Tribe\Events\Pro\Views\V2\Geo_Loc\Services\Service_Interface as Geo_Loc_API_Service;
+use Tribe\Events\Pro\Views\V2\Views\Summary_View;
 
 /**
  * Class Service_Provider
@@ -30,9 +31,14 @@ class Service_Provider extends \tad_DI52_ServiceProvider {
 			return;
 		}
 
+		if ( function_exists( 'tribe_register_view' ) ) {
+			tribe_register_view( 'summary', __( 'Summary', 'tribe-events-calendar-pro' ), Summary_View::class, 50 );
+		}
+
 		require_once tribe( 'events-pro.main' )->pluginPath . 'src/Tribe/Views/V2/functions/classes.php';
 		tribe_register_provider( Widgets\Service_Provider::class );
 		tribe_register_provider( Shortcodes\Service_Provider::class );
+		tribe_register_provider( Customizer\Service_Provider::class );
 
 		$this->register_geolocation_classes();
 

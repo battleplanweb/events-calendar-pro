@@ -24,7 +24,6 @@ if ( empty( $event->recurring ) ) {
 ?>
 <em
 	class="tribe-events-pro-week-grid__event-datetime-recurring-icon"
-	aria-label="<?php esc_attr_e( 'Recurring', 'tribe-events-calendar-pro' ); ?>"
 	title="<?php esc_attr_e( 'Recurring', 'tribe-events-calendar-pro' ); ?>"
 >
 	<?php $this->template( 'components/icons/recurring', [ 'classes' => [ 'tribe-events-pro-week-grid__event-datetime-recurring-icon-svg' ] ] ); ?>
