@@ -11,17 +11,10 @@
  *
  * @version 5.6.0
  *
-<<<<<<< HEAD
  * @var string $prev_url     The URL to the previous page, if any, or an empty string.
  * @var string $next_url     The URL to the next page, if any, or an empty string.
  * @var string $request_date The displayed date (month).
  */
-=======
- * @var string $prev_url The URL to the previous page, if any, or an empty string.
- * @var string $next_url The URL to the next page, if any, or an empty string.
- */
-$foo = '';
->>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 ?>
 <nav class="tribe-events-c-top-bar__nav">
 	<ul class="tribe-events-c-top-bar__nav-list">

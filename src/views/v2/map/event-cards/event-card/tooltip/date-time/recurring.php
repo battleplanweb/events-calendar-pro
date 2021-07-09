@@ -22,16 +22,9 @@ if ( empty( $event->recurring ) ) {
 ?>
 <em
 	class="tribe-events-pro-map__event-tooltip-datetime-recurring-icon"
-<<<<<<< HEAD
 	title="<?php esc_attr_e( 'Recurring', 'tribe-events-calendar-pro' ) ?>"
 >
 	<?php
 	$this->template( 'components/icons/recurring', [ 'classes' => [ 'tribe-events-pro-map__event-tooltip-datetime-recurring-icon-svg' ] ] );
 	?>
-=======
-	aria-label="<?php esc_attr_e( 'Recurring', 'tribe-events-calendar-pro' ) ?>"
-	title="<?php esc_attr_e( 'Recurring', 'tribe-events-calendar-pro' ) ?>"
->
-	<?php $this->template( 'components/icons/recurring', [ 'classes' => [ 'tribe-events-pro-map__event-tooltip-datetime-recurring-icon-svg' ] ] ); ?>
->>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 </em>
