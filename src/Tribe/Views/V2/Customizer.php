@@ -43,9 +43,13 @@ class Customizer {
 	 *
 	 * @return string The filtered CSS template.
 	 */
+<<<<<<< HEAD
 	public function filter_global_elements_css_template( $css_template, $section ) {
 		$customizer = tribe( 'customizer' );
 
+=======
+	public function filter_global_elements_css_template( $css_template, $section, $customizer ) {
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 		// These allow us to continue to _not_ target the shortcode.
 		$apply_to_shortcode = apply_filters( 'tribe_customizer_should_print_shortcode_customizer_styles', false );
 		$tribe_events = $apply_to_shortcode ? '.tribe-events' : '.tribe-events:not( .tribe-events-view--shortcode )';

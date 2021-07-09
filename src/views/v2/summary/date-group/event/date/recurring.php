@@ -28,6 +28,10 @@ if ( empty( $event->recurring ) ) {
 >
 	<em
 		class="tribe-events-pro-summary__event-datetime-recurring-icon"
+<<<<<<< HEAD
+=======
+		aria-label="<?php esc_attr_e( 'Recurring', 'tribe-events-calendar-pro' ); ?>"
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 		title="<?php esc_attr_e( 'Recurring', 'tribe-events-calendar-pro' ); ?>"
 	>
 		<?php $this->template( 'components/icons/recurring', [ 'classes' => [ 'tribe-events-pro-summary__event-datetime-recurring-icon-svg' ] ] ); ?>

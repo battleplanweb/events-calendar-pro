@@ -4,7 +4,11 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, modern tribe, tribe, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 4.9.16
+<<<<<<< HEAD
 Stable tag: 5.8.0
+=======
+Stable tag: 5.7.0
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 Tested up to: 5.7.2
 Requires PHP: 5.6
 License: GPLv2 or later
@@ -208,6 +212,7 @@ Our Premium Plugins:
 
 == Changelog ==
 
+<<<<<<< HEAD
 = [5.8.0] 2021-07-01 =
 
 * Version - Events Calendar PRO 5.8.0 is only compatible with The Events Calendar 5.8.0 and higher.
@@ -221,6 +226,8 @@ Our Premium Plugins:
 * Tweak - Remove incorrect aria-label from icons, pass icon label where needed. [TEC-3396]
 * Language - 0 new strings added, 9 updated, 0 fuzzied, and 0 obsoleted
 
+=======
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 = [5.7.0] 2021-05-27 =
 
 * Feature - Introducing the new Summary View! [ECP-799]

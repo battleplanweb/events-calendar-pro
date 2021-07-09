@@ -654,7 +654,11 @@ class Tribe_Events extends Shortcode_Abstract {
 
 		if ( $compatibility_required ) {
 			$container       = [ 'tribe-compatibility-container' ];
+<<<<<<< HEAD
 			$classes         = array_merge( $container, $theme_compatibility::get_compatibility_classes() );
+=======
+			$classes         = array_merge( $container, $theme_compatibility->get_body_classes() );
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 			$element_classes = new Element_Classes( $classes );
 			$html            .= '<div ' . $element_classes->get_attribute() . '>';
 		}

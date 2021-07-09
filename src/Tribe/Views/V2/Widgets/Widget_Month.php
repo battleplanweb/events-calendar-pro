@@ -14,6 +14,10 @@ use Tribe\Events\Views\V2\Widgets\Widget_Abstract;
 use Tribe__Context as Context;
 use Tribe__Date_Utils as Dates;
 use Tribe\Events\Views\V2\Template as View_Template;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 
 /**
  * Class for the Month Widget.

@@ -2,6 +2,7 @@
 # This file is distributed under the same license as the The Events Calendar PRO package.
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: The Events Calendar PRO 5.8.0\n"
 "Report-Msgid-Bugs-To: http://m.tri.be/191x\n"
 "POT-Creation-Date: 2021-06-30 20:59:42+00:00\n"
@@ -9,6 +10,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2021-06-30 20:59\n"
+=======
+"Project-Id-Version: The Events Calendar PRO 5.7.0\n"
+"Report-Msgid-Bugs-To: http://m.tri.be/191x\n"
+"POT-Creation-Date: 2021-05-26 06:13:54+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2021-05-26 06:13\n"
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 "Last-Translator: \n"
 "Language-Team: \n"
 
@@ -21,7 +31,11 @@ msgid ""
 "To begin using Events Calendar PRO, please install the latest version of"
 msgstr ""
 
+<<<<<<< HEAD
 #. #-#-#-#-#  tribe-events-calendar-pro.pot (The Events Calendar PRO 5.8.0)  #-#-#-#-#
+=======
+#. #-#-#-#-#  tribe-events-calendar-pro.pot (The Events Calendar PRO 5.7.0)  #-#-#-#-#
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 #. Author of the plugin/theme
 #: events-calendar-pro.php:176 events-calendar-pro.php:177
 #: src/Tribe/Integrations/Elementor/Service_Provider.php:124
@@ -53,18 +67,36 @@ msgstr ""
 #: src/views/v2/day/event/recurring.php:31
 #: src/views/v2/list/event/recurring.php:31
 #: src/views/v2/map/event-cards/event-card/event/date-time/recurring.php:25
+<<<<<<< HEAD
 #: src/views/v2/map/event-cards/event-card/tooltip/date-time/recurring.php:25
 #: src/views/v2/month/calendar-event/multiday/recurring.php:32
+=======
+#: src/views/v2/map/event-cards/event-card/event/date-time/recurring.php:26
+#: src/views/v2/map/event-cards/event-card/tooltip/date-time/recurring.php:25
+#: src/views/v2/map/event-cards/event-card/tooltip/date-time/recurring.php:26
+#: src/views/v2/month/calendar-event/multiday/recurring.php:32
+#: src/views/v2/month/calendar-event/multiday/recurring.php:33
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 #: src/views/v2/month/calendar-event/recurring.php:31
 #: src/views/v2/month/calendar-event/tooltip/recurring.php:31
 #: src/views/v2/month/mobile-event/recurring.php:31
 #: src/views/v2/photo/event/date-time/recurring.php:31
+<<<<<<< HEAD
 #: src/views/v2/summary/date-group/event/date/recurring.php:31
+=======
+#: src/views/v2/photo/event/date-time/recurring.php:32
+#: src/views/v2/summary/date-group/event/date/recurring.php:31
+#: src/views/v2/summary/date-group/event/date/recurring.php:32
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 #: src/views/v2/week/grid-body/events-day/event/date/recurring.php:27
 #: src/views/v2/week/grid-body/events-day/event/tooltip/date/recurring.php:31
 #: src/views/v2/week/grid-body/multiday-events-day/multiday-event/bar/recurring.php:27
 #: src/views/v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/recurring.php:27
 #: src/views/v2/week/mobile-events/day/event/date/recurring.php:31
+<<<<<<< HEAD
+=======
+#: src/views/v2/week/mobile-events/day/event/date/recurring.php:32
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgid "Recurring"
 msgstr ""
 
@@ -487,6 +519,7 @@ msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:84
 msgid "Search for a specific upcoming event"
+<<<<<<< HEAD
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:90
@@ -499,6 +532,24 @@ msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:97
 msgid "Advanced event filtering"
+=======
+msgstr ""
+
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:90
+msgid "Event Slug"
+msgstr ""
+
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:91
+msgid "Enter a URL-formatted event name"
+msgstr ""
+
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:97
+msgid "Advanced event filtering"
+msgstr ""
+
+#: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:98
+msgid "Select an upcoming event using date-based rules and meta information."
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgstr ""
 
 #: src/Tribe/Integrations/Elementor/Controls/Groups/Event_Query.php:98
@@ -2715,37 +2766,65 @@ msgctxt ""
 msgid "Generate JSON-LD data"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/Tribe/Views/V2/Widgets/Widget_Month.php:100
+=======
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:101
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgctxt "The name of the Month Widget."
 msgid "%1$s Calendar"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/Tribe/Views/V2/Widgets/Widget_Month.php:115
+=======
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:116
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgctxt "Description of the Events Calendar Widget."
 msgid "The %1$s calendar mini calendar widget"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/Tribe/Views/V2/Widgets/Widget_Month.php:343
+=======
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:344
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgctxt "The default title of the Month Widget."
 msgid "Events Calendar"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/Tribe/Views/V2/Widgets/Widget_Month.php:371
+=======
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:372
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgctxt "The label for the title field of the Month Widget."
 msgid "Title:"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/Tribe/Views/V2/Widgets/Widget_Month.php:377
+=======
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:378
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgctxt "The title of the Month Widget."
 msgid "%1$s Calendar"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/Tribe/Views/V2/Widgets/Widget_Month.php:387
+=======
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:388
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgctxt "tribe-events-calendar-pro"
 msgid "Number of events to list below the widget calendar:"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/Tribe/Views/V2/Widgets/Widget_Month.php:403
+=======
+#: src/Tribe/Views/V2/Widgets/Widget_Month.php:404
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 msgctxt "The label for the option to enable JSON-LD in the Month Widget."
 msgid "Generate JSON-LD data"
 msgstr ""
@@ -3763,15 +3842,27 @@ msgstr ""
 #: src/views/v2/map/event-cards/event-card/event/date-time/featured.php:32
 #: src/views/v2/map/event-cards/event-card/tooltip/date-time/featured.php:27
 #: src/views/v2/photo/event/date-time/featured.php:27
+<<<<<<< HEAD
 #: src/views/v2/photo/event/date-time/featured.php:32
 #: src/views/v2/summary/date-group/event/title/featured.php:29
 #: src/views/v2/summary/date-group/event/title/featured.php:34
+=======
+#: src/views/v2/photo/event/date-time/featured.php:28
+#: src/views/v2/photo/event/date-time/featured.php:33
+#: src/views/v2/summary/date-group/event/title/featured.php:29
+#: src/views/v2/summary/date-group/event/title/featured.php:30
+#: src/views/v2/summary/date-group/event/title/featured.php:35
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 #: src/views/v2/week/grid-body/events-day/event/date/featured.php:27
 #: src/views/v2/week/grid-body/events-day/event/title/featured.php:27
 #: src/views/v2/week/grid-body/events-day/event/tooltip/date/featured.php:27
 #: src/views/v2/week/grid-body/multiday-events-day/multiday-event/bar/featured.php:27
 #: src/views/v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/featured.php:27
 #: src/views/v2/week/mobile-events/day/event/date/featured.php:27
+<<<<<<< HEAD
+=======
+#: src/views/v2/week/mobile-events/day/event/date/featured.php:28
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
 #: src/views/v2/widgets/widget-featured-venue/events-list/event/date/featured.php:25
 #: src/views/v2/widgets/widget-featured-venue/events-list/event/date/featured.php:30
 msgid "Featured"

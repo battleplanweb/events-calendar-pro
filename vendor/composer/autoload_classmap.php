@@ -28,9 +28,12 @@ return array(
     'Tribe\\Events\\Pro\\Service_Providers\\Customizer' => $baseDir . '/src/Tribe/Service_Providers/Customizer.php',
     'Tribe\\Events\\Pro\\Views\\V2\\Assets' => $baseDir . '/src/Tribe/Views/V2/Assets.php',
     'Tribe\\Events\\Pro\\Views\\V2\\Customizer' => $baseDir . '/src/Tribe/Views/V2/Customizer.php',
+<<<<<<< HEAD
     'Tribe\\Events\\Pro\\Views\\V2\\Customizer\\Hooks' => $baseDir . '/src/Tribe/Views/V2/Customizer/Hooks.php',
     'Tribe\\Events\\Pro\\Views\\V2\\Customizer\\Section\\Events_Bar' => $baseDir . '/src/Tribe/Views/V2/Customizer/Section/Events_Bar.php',
     'Tribe\\Events\\Pro\\Views\\V2\\Customizer\\Service_Provider' => $baseDir . '/src/Tribe/Views/V2/Customizer/Service_Provider.php',
+=======
+>>>>>>> 50e3c239f5219caec3910224d311bf5ca02ff548
     'Tribe\\Events\\Pro\\Views\\V2\\Geo_Loc\\Base_Handler' => $baseDir . '/src/Tribe/Views/V2/Geo_Loc/Base_Handler.php',
     'Tribe\\Events\\Pro\\Views\\V2\\Geo_Loc\\Geocoding_Handler' => $baseDir . '/src/Tribe/Views/V2/Geo_Loc/Geocoding_Handler.php',
     'Tribe\\Events\\Pro\\Views\\V2\\Geo_Loc\\Handler_Interface' => $baseDir . '/src/Tribe/Views/V2/Geo_Loc/Handler_Interface.php',
